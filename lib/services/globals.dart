@@ -1,0 +1,9 @@
+const rootUrl = "http://localhost:8080/api/v1/";
+const adminUrl = "http://localhost:8080/api/v1/admin";
+const commonUrl = "http://localhost:8080/api/v1/resources";
+const loginUrl = "http://localhost:8080/api/auth/signin";
+Map<String, String> headers = {"Content-Type": "application/json"};
+const finishedOnBoardingConst = 'finishedOnBoarding';
+const userDetailsKey = 'userDetailsKey';
+const allUsersUrl = "http://localhost:8080/api/v1/admin/users";
+const allPartnersUrl = "http://localhost:8080/api/v1/admin/partners";
