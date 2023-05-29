@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
+import 'package:gaindesat_ddp_client/models/category_model.dart';
 import 'package:gaindesat_ddp_client/models/full_user.dart';
 import 'package:gaindesat_ddp_client/models/partner.dart';
+import 'package:gaindesat_ddp_client/services/admin/category_services.dart';
 import 'package:gaindesat_ddp_client/services/admin/partner_services.dart';
 import '../../../services/admin/user_services.dart';
 import '../../../services/helper.dart';
@@ -17,23 +19,44 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   final GlobalKey<FormState> _key = GlobalKey();
   final AutovalidateMode _validate = AutovalidateMode.disabled;
-  late Future<List<FullUser>> futureUsers;
-  late Future<List<ReducePartner>> test;
+
+  late final Future<List<FullUser>> futureUsers;
+  late final Future<List<ReduceCategory>> futureCategories;
+  late final Future<List<ReducePartner>> futurePartners;
+
+  ReducePartner? partnerValue;
+  ReduceCategory? categoryValue;
+
   String? username, email, password, confirmPassword, fullName;
+
+  bool status = true;
   bool _showForm = false;
   bool _obscureText = true;
+
+  final MaterialStateProperty<Icon?> thumbIcon =
+  MaterialStateProperty.resolveWith<Icon?>(
+        (Set<MaterialState> states) {
+      if (states.contains(MaterialState.selected)) {
+        return const Icon(Icons.check);
+      }
+      return const Icon(Icons.close);
+    },
+  );
 
   void _toggleFormShown() {
     setState(() {
       _showForm = !_showForm;
     });
   }
+
   @override
   void initState() {
     super.initState();
     futureUsers = UserService().fetchUsers();
-    test = PartnerService().fetchPartners();
+    futurePartners = PartnerService().fetchPartners();
+    futureCategories = CategoryService().fetchCategories();
   }
+
   void _toggle() {
     setState(() {
       _obscureText = !_obscureText;
@@ -51,17 +74,18 @@ class _UserScreenState extends State<UserScreen> {
               Text(
                 'Users Management',
                 style: TextStyle(
+                  color: Colors.white
                 ),
                 textAlign: TextAlign.center,
               )
             ],
           ),
-          backgroundColor: const Color.fromRGBO(0, 132, 121, 100),
+          backgroundColor: Colors.teal,
           centerTitle: true,
           iconTheme: IconThemeData(
               color: isDarkMode(context)
-                  ? Colors.grey.shade50
-                  : Colors.grey.shade50
+                  ? Colors.tealAccent
+                  : Colors.tealAccent
           ),
         ),
       body: Padding(
@@ -82,12 +106,20 @@ class _UserScreenState extends State<UserScreen> {
                           ),
                           child: FloatingActionButton.extended(
                             heroTag: 'addUser',
-                            backgroundColor: const Color.fromRGBO(0, 132, 121, 100),
+                            backgroundColor: Colors.teal,
                             tooltip: 'Add user',
                             elevation: 10,
-                            icon: const Icon(Icons.add),
+                            icon: const Icon(
+                                Icons.add,
+                              color: Colors.tealAccent,
+                            ),
                             onPressed: _toggleFormShown,
-                            label: const Text('Add User'),
+                            label: const Text(
+                                'Add User',
+                              style: TextStyle(
+                                color: Colors.white
+                              ),
+                            ),
                           ),
                     )
                   ],
@@ -108,7 +140,7 @@ class _UserScreenState extends State<UserScreen> {
                             return Card(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                               color: Colors.teal,
-                              shadowColor: Colors.orangeAccent,
+                              shadowColor: Colors.tealAccent,
                               elevation: 10,
                               child: Container(
                                 height: MediaQuery.of(context).size.height /2.5,
@@ -157,11 +189,16 @@ class _UserScreenState extends State<UserScreen> {
                                             flex: 1,
                                             child:Chip(
                                               label: (snapshot.data![index].status == true)
-                                              ? const Text("Active")
+                                              ? const Text(
+                                                  "Active",
+                                                style: TextStyle(
+                                                  color: Colors.white
+                                                ),
+                                              )
                                               : const Text("Inactive"),
                                               backgroundColor: (snapshot.data![index].status == true)
-                                              ? Colors.greenAccent
-                                              : Colors.redAccent,
+                                              ? Colors.teal[800]
+                                              : Colors.red,
                                               elevation: 10,
                                             )
                                         ),
@@ -174,7 +211,7 @@ class _UserScreenState extends State<UserScreen> {
                                       ),
                                       child: Divider(
                                         thickness: 2,
-                                        color: Colors.greenAccent,
+                                        color: Colors.tealAccent,
                                       ),
                                     ),
                                     Padding(
@@ -199,7 +236,7 @@ class _UserScreenState extends State<UserScreen> {
                                                   child: Icon(
                                                     Icons.email,
                                                     size: 32,
-                                                    color: Colors.greenAccent,
+                                                    color: Colors.tealAccent,
                                                   ),
                                                 ),
                                                 Expanded(
@@ -231,7 +268,7 @@ class _UserScreenState extends State<UserScreen> {
                                                   child: Icon(
                                                     Icons.public_outlined,
                                                     size: 32,
-                                                    color: Colors.greenAccent,
+                                                    color: Colors.tealAccent,
                                                   ),
                                                 ),
                                                 Expanded(
@@ -261,7 +298,7 @@ class _UserScreenState extends State<UserScreen> {
                                                   child: Icon(
                                                     Icons.category_rounded,
                                                     size: 32,
-                                                    color: Colors.greenAccent,
+                                                    color: Colors.tealAccent,
                                                   ),
                                                 ),
                                                 Expanded(
@@ -290,37 +327,28 @@ class _UserScreenState extends State<UserScreen> {
                                                   ),
                                                   child: Icon(
                                                     Icons.shield,
-                                                    color: Colors.greenAccent,
+                                                    color: Colors.tealAccent,
                                                     size: 32,
                                                   ),
                                                 ),
-                                                Expanded(
-                                                    flex: 1,
-                                                    child:Chip(
-                                                      label: Text(snapshot.data![index].roles![0]),
-                                                      backgroundColor: Colors.greenAccent,
-                                                      elevation: 10,
-                                                    )
-                                                ),
-                                                Expanded(
-                                                    flex: 1,
-                                                    child:Chip(
-                                                      label: Text(snapshot.data![index].roles![1]),
-                                                      backgroundColor: Colors.lightGreenAccent,
-                                                      elevation: 10,
-                                                    )
-                                                ),
-                                                const Expanded(
-                                                    flex: 1,
-                                                    child:Chip(
-                                                      label: Text('DELETE'),
-                                                      backgroundColor: Colors.redAccent,
-                                                      elevation: 10,
-                                                    )
-                                                ),
+
+                                                for(int i = 0; i < snapshot.data![index].roles!.length; i++) ...[
+                                                  Expanded(
+                                                      flex: 1,
+                                                      child:Chip(
+                                                        label: Text(
+                                                            snapshot.data![index].roles![i],
+                                                            style: const TextStyle(
+                                                              color: Colors.grey
+                                                            ),
+                                                        ),
+                                                        backgroundColor: Colors.tealAccent,
+                                                        elevation: 10,
+                                                      )
+                                                  ),
+                                                ],
                                               ],
                                             ),
-
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
@@ -333,18 +361,18 @@ class _UserScreenState extends State<UserScreen> {
                                                 Expanded(
                                                   child: FloatingActionButton.extended(
                                                     heroTag: null,
-                                                    backgroundColor: Colors.greenAccent,
+                                                    backgroundColor: Colors.teal,
                                                     tooltip: 'Update',
                                                     elevation: 10,
                                                     icon: const Icon(
                                                       Icons.update,
-                                                      color: Colors.black,
+                                                      color: Colors.tealAccent,
                                                     ),
                                                     onPressed: () => {},
                                                     label: const Text(
                                                       'Update',
                                                       style: TextStyle(
-                                                          color: Colors.black
+                                                          color: Colors.white
                                                       ),
                                                     ),
                                                   ),
@@ -357,18 +385,18 @@ class _UserScreenState extends State<UserScreen> {
                                                 Expanded(
                                                   child: FloatingActionButton.extended(
                                                     heroTag: null,
-                                                    backgroundColor: Colors.redAccent,
+                                                    backgroundColor: Colors.red.shade900,
                                                     tooltip: 'Delete',
                                                     elevation: 10,
                                                     icon: const Icon(
                                                       Icons.delete,
-                                                      color: Colors.black,
+                                                      color: Colors.tealAccent,
                                                     ),
                                                     onPressed: () => {},
                                                     label: const Text(
                                                       'Delete',
                                                       style: TextStyle(
-                                                          color: Colors.black
+                                                          color: Colors.white
                                                       ),
                                                     ),
                                                   ),
@@ -399,22 +427,22 @@ class _UserScreenState extends State<UserScreen> {
                 ),
                 Card(
                   elevation: 12,
-                  color: Colors.grey.shade100,
-                  shadowColor: Colors.greenAccent,
+                  color: Colors.teal,
+                  shadowColor: Colors.blue,
                   child: _showForm ?
                       SizedBox(
                         width: MediaQuery.of(context).size.width /2.5,
                         child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 40,
-                      vertical: 46
-                    ),
-                      child: Form(
-                        key: _key,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 40,
+                            vertical: 46
+                          ),
+                          child: Form(
+                            key: _key,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                              const Padding(
                               padding: EdgeInsets.only(
                                   top: 50.0,
                                   right: 16.0,
@@ -423,7 +451,7 @@ class _UserScreenState extends State<UserScreen> {
                               child: Text(
                                 'Create new User',
                                 style: TextStyle(
-                                    color: Color.fromRGBO(0, 132, 121, 100),
+                                    color: Colors.white,//Color.fromRGBO(0, 132, 121, 100),
                                     fontSize: 25.0,
                                     fontWeight: FontWeight.bold
                                 ),
@@ -443,11 +471,21 @@ class _UserScreenState extends State<UserScreen> {
                                 onSaved: (String? val) {
                                   fullName = val;
                                 },
-                                style: const TextStyle(fontSize: 18.0),
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.white
+                                ),
                                 keyboardType: TextInputType.name,
                                 cursorColor: const Color.fromRGBO(0, 132, 121, 100),
                                 decoration: getInputDecoration(
+                                  prefixIcon: const Icon(
+                                    Icons.perm_identity_outlined,
+                                    color: Colors.tealAccent,
+                                  ),
                                     hint: "FullName",
+                                    hintStyle: const TextStyle(
+                                        color: Colors.white
+                                    ),
                                     darkMode: isDarkMode(context),
                                     errorColor: Theme.of(context).colorScheme.error
                                 ),
@@ -468,16 +506,20 @@ class _UserScreenState extends State<UserScreen> {
                                 },
                                 style: const TextStyle(
                                     fontSize: 18.0,
+                                    color: Colors.white
                                 ),
                                 keyboardType: TextInputType.name,
                                 cursorColor: const Color.fromRGBO(0, 132, 121, 100),
                                 decoration: getInputDecoration(
                                   prefixIcon: const Icon(
                                     Icons.person,
-                                    color: Color.fromRGBO(0, 132, 121, 100),
+                                    color: Colors.tealAccent,
                                     size: 24,
                                   ),
                                     hint: 'Username',
+                                    hintStyle: const TextStyle(
+                                        color: Colors.white
+                                    ),
                                     darkMode: isDarkMode(context),
                                     errorColor: Theme.of(context).colorScheme.error
                                 ),
@@ -496,16 +538,22 @@ class _UserScreenState extends State<UserScreen> {
                                 onSaved: (String? val) {
                                   email = val;
                                 },
-                                style: const TextStyle(fontSize: 18.0),
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.white
+                                ),
                                 keyboardType: TextInputType.emailAddress,
-                                cursorColor: const Color.fromRGBO(0, 132, 121, 100),
+                                cursorColor: Colors.tealAccent,
                                 decoration: getInputDecoration(
                                   prefixIcon: const Icon(
                                     Icons.email,
-                                    color: Color.fromRGBO(0, 132, 121, 100),
+                                    color: Colors.tealAccent,
                                     size: 24,
                                   ),
                                     hint: "Email",
+                                    hintStyle: const TextStyle(
+                                        color: Colors.white
+                                    ),
                                     darkMode: isDarkMode(context),
                                     errorColor: Theme.of(context).colorScheme.error
                                 ),
@@ -528,12 +576,14 @@ class _UserScreenState extends State<UserScreen> {
                                   },
                                   textInputAction: TextInputAction.next ,
                                   style: const TextStyle(
-                                      fontSize: 18.0),
-                                  cursorColor: const Color.fromRGBO(0, 132, 121, 100),
+                                    fontSize: 18.0,
+                                    color: Colors.white
+                                  ),
+                                  cursorColor: Colors.tealAccent,
                                   decoration: getInputDecoration(
                                       prefixIcon: const Icon(
                                         Icons.lock,
-                                        color: Color.fromRGBO(0, 132, 121, 100),
+                                        color: Colors.tealAccent,
                                         size: 24,
                                       ),
                                       suffixIcon: Padding(
@@ -541,7 +591,7 @@ class _UserScreenState extends State<UserScreen> {
                                         child: GestureDetector(
                                           onTap: _toggle,
                                           child: Icon(
-                                              color: const Color.fromRGBO(0, 132, 121, 100),
+                                              color: Colors.tealAccent,
                                               _obscureText
                                                   ? Icons.visibility_rounded
                                                   : Icons.visibility_off_rounded,
@@ -550,6 +600,9 @@ class _UserScreenState extends State<UserScreen> {
                                         ),
                                       ),
                                       hint: 'Password',
+                                      hintStyle: const TextStyle(
+                                          color: Colors.white
+                                      ),
                                       darkMode: isDarkMode(context),
                                       errorColor: Theme.of(context).colorScheme.error)
                               ),
@@ -571,17 +624,156 @@ class _UserScreenState extends State<UserScreen> {
                                   },
                                   textInputAction: TextInputAction.next,
                                   style: const TextStyle(
-                                      fontSize: 18.0),
-                                  cursorColor: const Color.fromRGBO(0, 132, 121, 100),
+                                    fontSize: 18.0,
+                                    color: Colors.white
+                                  ),
+                                  cursorColor: Colors.tealAccent,
                                   decoration: getInputDecoration(
                                       prefixIcon: const Icon(
                                         Icons.lock,
-                                        color: Color.fromRGBO(0, 132, 121, 100),
+                                        color: Colors.tealAccent,
                                         size: 24,
                                       ),
                                       hint: 'Confirm Password',
+                                      hintStyle: const TextStyle(
+                                          color: Colors.white
+                                      ),
                                       darkMode: isDarkMode(context),
                                       errorColor: Theme.of(context).colorScheme.error)
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 27,
+                                  right: 24.0,
+                                  left: 24.0
+                              ),
+                              child: Row(
+
+                                children: [
+                                  const Text(
+                                    'Status',
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Colors.white
+                                    ),
+                                  ),
+                                  Switch(
+                                    thumbIcon: thumbIcon,
+                                    activeColor: Colors.tealAccent,
+                                    inactiveThumbColor: Colors.red,
+                                    inactiveTrackColor: Colors.teal,
+                                    value: status,
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        status = value;
+                                      });
+                                    },
+                                  ),
+
+                                   Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 0.0,
+                                        right: 24.0,
+                                        left: 24.0
+                                    ),
+                                    child: FutureBuilder<List<ReducePartner>>(
+                                      future: futurePartners,
+                                      builder: (context, snapshot) {
+                                        if(snapshot.hasData) {
+                                          return SizedBox(
+                                            width: 200,
+                                            child:  DropdownButtonFormField(
+                                              dropdownColor: Colors.teal,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white
+                                              ),
+                                            decoration: getInputDecoration(
+                                              hint: 'Choose PartnerShip',
+                                              hintStyle: const TextStyle(
+                                                color: Colors.white
+                                              ),
+                                              darkMode: isDarkMode(context),
+                                              errorColor: Theme.of(context).colorScheme.error,
+                                            ),
+                                              isExpanded: true,
+                                            value: partnerValue,
+                                            onChanged: (ReducePartner? partner) {
+                                              setState(() {
+                                                partnerValue = partner!;
+                                              });
+                                            },
+                                            items: snapshot.data?.map<DropdownMenuItem<ReducePartner>>((ReducePartner partner) {
+                                              return
+                                                DropdownMenuItem<ReducePartner>(
+                                                value: partner,
+                                                child: Text(
+                                                  partner.name!,
+                                                  style: const TextStyle(fontSize: 14),
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ),
+                                          );
+                                        } else {
+                                          return const Text('');
+                                        }
+                                      }
+                                    )
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 0.0,
+                                          right: 24.0,
+                                          left: 24.0
+                                      ),
+                                      child: FutureBuilder<List<ReduceCategory>>(
+                                          future: futureCategories,
+                                          builder: (context, snapshot) {
+                                            if(snapshot.hasData) {
+                                              return SizedBox(
+                                                width: 200,
+                                              child:  DropdownButtonFormField(
+                                                dropdownColor: Colors.teal,
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.white
+                                                ),
+                                                  decoration: getInputDecoration(
+                                                    hint: 'Choose Category',
+                                                    hintStyle: const TextStyle(
+                                                        color: Colors.white
+                                                    ),
+                                                    darkMode: isDarkMode(context),
+                                                    errorColor: Theme.of(context).colorScheme.error,
+                                                  ),
+                                                  isExpanded: true,
+                                                  value: categoryValue,
+                                                  onChanged: (ReduceCategory? category) {
+                                                    setState(() {
+                                                      categoryValue = category!;
+                                                    });
+                                                  },
+                                                  items: snapshot.data?.map<DropdownMenuItem<ReduceCategory>>((ReduceCategory category) {
+                                                    return
+                                                      DropdownMenuItem<ReduceCategory>(
+                                                        value: category,
+                                                        child: Text(
+                                                          category.catName,
+                                                          style: const TextStyle(fontSize: 14),
+                                                        ),
+                                                      );
+                                                  }).toList(),
+                                                ),
+                                              );
+                                            } else {
+                                              return const Text('');
+                                            }
+                                          }
+                                      )
+                                  ),
+                                ],
                               ),
                             ),
                             Row(
@@ -598,11 +790,11 @@ class _UserScreenState extends State<UserScreen> {
                                   child: FloatingActionButton.extended(
                                     heroTag: null,
                                     backgroundColor: Colors.teal,
-                                    tooltip: 'Delete',
+                                    tooltip: 'Submit',
                                     elevation: 10,
                                     icon: const Icon(
                                       Icons.create,
-                                      color: Colors.greenAccent,
+                                      color: Colors.tealAccent,
                                     ),
                                     onPressed: () => {},
                                     label: const Text(
@@ -622,14 +814,17 @@ class _UserScreenState extends State<UserScreen> {
                                   ),
                                   child: FloatingActionButton.extended(
                                     heroTag: null,
-                                    backgroundColor: Colors.red,
+                                    backgroundColor: Colors.red.shade900,
                                     tooltip: 'Cancel',
                                     elevation: 10,
                                     icon: const Icon(
                                       Icons.delete,
-                                      color: Colors.orangeAccent,
+                                      color: Colors.tealAccent,
                                     ),
-                                    onPressed: () => {},
+
+                                    onPressed: () => {
+                                      _key.currentState?.reset()
+                                    },
                                     label: const Text(
                                       'Cancel',
                                       style: TextStyle(

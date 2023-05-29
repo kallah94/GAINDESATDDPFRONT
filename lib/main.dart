@@ -30,17 +30,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     return MaterialApp(
       theme: ThemeData(
-        brightness: Brightness.light,
-        scaffoldBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBarTheme:
-          const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.dark),
-        snackBarTheme: const SnackBarThemeData(
-          contentTextStyle: TextStyle(color: Colors.white)
-        ),
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          secondary: Colors.white,
-          brightness: Brightness.light
-        )
+          useMaterial3: true,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,

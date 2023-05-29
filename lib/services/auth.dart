@@ -38,7 +38,6 @@ class ApiAuth {
   Future<UserDetails> retrieveUserDetails() async {
     late final UserDetails userDetails;
     late final SharedPreferences prefs;
-
     prefs = await SharedPreferences.getInstance();
     final userDetailsJson = prefs.getString(userDetailsKey) ?? '';
     Map<String, dynamic> map = jsonDecode(userDetailsJson);

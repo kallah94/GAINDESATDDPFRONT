@@ -36,17 +36,18 @@ String? validateUsername(String? value) {
 }
 
 InputDecoration getInputDecoration(
-    {required String hint, required bool darkMode, required Color errorColor,  Icon? prefixIcon, Padding? suffixIcon}) {
+    {required String hint, required bool darkMode, required Color errorColor,  Icon? prefixIcon, Padding? suffixIcon, TextStyle? hintStyle}) {
   return InputDecoration(
     prefixIcon: prefixIcon,
+    hintStyle: hintStyle,
     suffixIcon: suffixIcon,
     constraints: const BoxConstraints(maxWidth: 720, minWidth: 200),
     contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-    fillColor: darkMode ? Colors.black54 : Colors.white,
+    fillColor: darkMode ? Colors.white : Colors.white,
     hintText: hint,
     focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(25.0),
-        borderSide: const BorderSide(color: Color.fromRGBO(0, 132, 121, 100), width: 2.0)),
+        borderSide: const BorderSide(color: Colors.tealAccent, width: 2.0)),
     errorBorder: OutlineInputBorder(
       borderSide: BorderSide(color: errorColor),
       borderRadius: BorderRadius.circular(25.0),

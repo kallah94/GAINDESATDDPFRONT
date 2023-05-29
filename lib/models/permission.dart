@@ -1,22 +1,27 @@
-import 'package:gaindesat_ddp_client/models/category.dart';
 
 class Permission {
-  late final String? id;
+  late final String? uuid;
   late final String code;
   late final String title;
-  late final Category category;
 
   Permission({
+    required this.uuid,
     required this.code,
     required this.title,
-    required this.category
   });
 
   Permission.empty();
 
+  factory Permission.fromJson(Map<dynamic, dynamic> parseJson) {
+    return Permission(
+      uuid: parseJson["uuid"] ?? "",
+      code: parseJson["code"] ?? "",
+      title: parseJson["title"] ?? "",
+    );
+  }
   @override
   String toString() {
-    return 'Permission{code: $code, title: $title, category: $category}';
+    return 'Permission{code: $code, title: $title}';
   }
 
 }

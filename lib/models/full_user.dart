@@ -20,6 +20,8 @@ class FullUser{
     required this.fullName,
   });
 
+  FullUser.empty();
+
   factory FullUser.fromJson(Map<dynamic, dynamic> parsedJson) {
     return FullUser(
       uuid: parsedJson['uuid'] ?? "",

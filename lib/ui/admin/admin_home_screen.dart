@@ -7,11 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gaindesat_ddp_client/models/user_detail.dart';
 import 'package:gaindesat_ddp_client/services/helper.dart';
+import 'package:gaindesat_ddp_client/ui/admin/partner/partner_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/permission/permission_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/user/user_screen.dart';
 import 'package:gaindesat_ddp_client/ui/auth/authentication_bloc.dart';
 import 'package:gaindesat_ddp_client/ui/auth/welcome/welcome_screen.dart';
 import 'package:gaindesat_ddp_client/ui/home.dart';
+
+import 'category/category_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   final UserDetails userDetails;
@@ -96,7 +99,7 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                   ),
                 ),
                 onTap: () {
-                  push(context, const UserScreen());
+                  push(context, const PartnerScreen());
                 },
               ),
               const Divider(),
@@ -112,7 +115,7 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 leading: Transform.rotate(
                   angle: 0,
                   child: const Icon(
-                    Icons.shield_rounded,
+                    Icons.security,
                     color: Color.fromRGBO(0, 100, 100, 1),
                   ),
                 ),
@@ -138,7 +141,7 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                   ),
                 ),
                 onTap: () {
-                  push(context, const UserScreen());
+                  push(context, const CategoryScreen());
                 },
               ),
               const Divider(),

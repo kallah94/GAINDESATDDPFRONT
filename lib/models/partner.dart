@@ -3,22 +3,22 @@ import 'package:gaindesat_ddp_client/models/user.dart';
 import 'mission_data.dart';
 
 class Partner {
-  late final String? id;
+  late final String? uuid;
   late final String code;
-  late final String partName;
+  late final String name;
   late final Set<User>? users;
   late final Set<MissionData>? missionData;
 
   Partner({
     required this.code,
-    required this.partName
+    required this.name,
   });
 
   Partner.empty();
 
   @override
   String toString() {
-    return 'Partner{code: $code, partName: $partName}';
+    return 'Partner{code: $code, partName: $name}';
   }
 }
 
