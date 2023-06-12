@@ -55,8 +55,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         context, AdminHomeScreen(userDetails: state.userDetails!),
                         false
                     );
-                  } else {
+                  } else  {
                     if (!mounted) return;
+                    pushAndRemoveUntil(
+                        context, const LoginScreen(),
+                        false
+                    );
                     showSnackBar(context, state.message ?? 'Couldn\' login, Please try again');
                   }
                 },

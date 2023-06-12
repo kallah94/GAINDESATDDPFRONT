@@ -38,9 +38,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       emit(const AuthenticationState.unauthenticated());
     });
     on<LoginWithUsernameAndPasswordEvent>((event, emit) async {
-
       dynamic result = await ApiAuth().login(event.username, event.password);
-      if (result !=null && result is UserDetails) {
+      if (result != null && result is UserDetails) {
         userDetails = result;
         if (userDetails?.roles?.contains('ROLE_ADMIN') == true) {
           emit(AuthenticationState.authenticatedAdmin(userDetails!));

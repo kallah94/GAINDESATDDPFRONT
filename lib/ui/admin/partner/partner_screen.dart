@@ -216,7 +216,8 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                             Icons.update,
                                             color: Colors.tealAccent,
                                           ),
-                                          onPressed: () {  },
+                                          onPressed: () {
+                                          },
 
                                         ),
                                       ),
@@ -233,7 +234,9 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                             Icons.delete,
                                             color: Colors.tealAccent,
                                           ),
-                                          onPressed: () {  },
+                                          onPressed: () {
+                                            PartnerService().deletePartner(snapshot.data![index]);
+                                          },
                                         ),
                                       ),
                                     ],
@@ -304,7 +307,8 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                 newPartner?.code = val!;
                               },
                               style: const TextStyle(
-                                fontSize: 18.0
+                                fontSize: 18.0,
+                                color: Colors.white
                               ),
                               keyboardType: TextInputType.name,
                               cursorColor: Colors.tealAccent,
@@ -323,7 +327,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               top: 27,
                               right: 24,
                               left: 24
@@ -331,7 +335,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                             child: TextFormField(
                               textAlignVertical: TextAlignVertical.center,
                               textInputAction: TextInputAction.next,
-                              validator: validateUsername,
+                              validator: null,
                               onSaved: (String? val) {
                                 newPartner!.name = val!;
                               },
@@ -376,7 +380,12 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                     Icons.create,
                                     color: Colors.tealAccent,
                                   ),
-                                  onPressed: () => {},
+                                  onPressed: () => {
+                                    _key.currentState?.save(),
+                                    print(newPartner?.code),
+                                    PartnerService().create(newPartner!),
+                                    newPartner = Partner.empty()
+                                  },
                                   label: const Text(
                                     'Submit',
                                     style: TextStyle(
@@ -401,7 +410,9 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                     Icons.delete,
                                     color: Colors.tealAccent,
                                   ),
-                                  onPressed: () => {},
+                                  onPressed: () => {
+                                    _key.currentState?.reset(),
+                                  },
                                   label: const Text(
                                     'Cancel',
                                     style: TextStyle(

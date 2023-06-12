@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user_detail.dart';
@@ -10,7 +13,7 @@ import 'globals.dart';
 class ApiAuth {
   var client = http.Client();
   late final SharedPreferences prefs;
-  Future<UserDetails> login(String username, String password) async {
+  Future<Object> login(String username, String password) async {
     prefs = await SharedPreferences.getInstance();
     Map data = {
       'username': username,
@@ -19,16 +22,36 @@ class ApiAuth {
     var body = json.encode(data);
     var url = Uri.parse(loginUrl);
 
-    http.Response response = await client.post(
-      url,
-      headers: headers,
-      body: body
-    );
-    Map responseMap = jsonDecode(response.body);
-    UserDetails userDetails = UserDetails.fromJson(responseMap);
-    String userDetailsString = jsonEncode(UserDetails.fromJson(responseMap));
-    prefs.setString(userDetailsKey, userDetailsString);
-    return userDetails;
+    try {
+      http.Response response = await client.post(
+          url,
+          headers: headers,
+          body: body
+      ).timeout(const Duration(seconds: 45));
+      Map responseMap = jsonDecode(response.body);
+      var status = response.statusCode;
+      if (status == 200) {
+        UserDetails userDetails = UserDetails.fromJson(responseMap);
+        String userDetailsString = jsonEncode(UserDetails.fromJson(responseMap));
+        prefs.setString(userDetailsKey, userDetailsString);
+        return userDetails;
+      } else {
+        if (kDebugMode) {
+          Map responseMap = jsonDecode(response.body);
+          print(responseMap["message"]);
+        }
+        return responseMap["message"];
+      }
+    }
+    on SocketException {
+      return "Connection errors";
+    }
+    on TimeoutException catch (e) {
+      return "Connection timeOut";
+    }
+    on Error catch(e) {
+      return "Unknown error occur";
+    }
   }
 
   logout() {
@@ -48,6 +71,14 @@ class ApiAuth {
         roles: map['roles'].cast<String>(),
         accessToken: map['accessToken']);
     return userDetails;
+  }
+
+  Future<Map<String, String>> buildHeaders() async {
+    late final UserDetails userDetails;
+    userDetails = await retrieveUserDetails();
+    final String? token = userDetails.accessToken;
+    headers.addEntries({"Authorization": 'Bearer $token'}.entries);
+    return headers;
   }
 }
 

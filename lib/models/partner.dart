@@ -16,6 +16,11 @@ class Partner {
 
   Partner.empty();
 
+  Map toJson() => {
+    'code': code,
+    'name': name
+  };
+
   @override
   String toString() {
     return 'Partner{code: $code, partName: $name}';

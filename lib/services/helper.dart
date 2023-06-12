@@ -18,7 +18,15 @@ showSnackBar(BuildContext context, String message) {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: Text(message),
+          backgroundColor: Colors.redAccent,
+          content: Text(
+              message,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 24
+            ),
+          ),
         ),
       );
 }

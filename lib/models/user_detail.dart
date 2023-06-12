@@ -15,6 +15,8 @@ class UserDetails {
 
   });
 
+  UserDetails.empty();
+
   factory UserDetails.fromJson(Map<dynamic, dynamic> parsedJson) {
     return  UserDetails(
         uuid: parsedJson["uuid"] ?? "",
