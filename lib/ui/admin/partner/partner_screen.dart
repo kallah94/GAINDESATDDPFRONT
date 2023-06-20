@@ -157,7 +157,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                   top: 0,
-                                                  left: 67
+                                                  left: 66
                                                 ),
                                                 child: Text(
                                                     snapshot.data![index].code!,
@@ -169,13 +169,38 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                               )
                                             ],
                                           ),
-                                          subtitle: Text(
-                                            snapshot.data![index].name!,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 19)
-                                          ),
+                                          subtitle: Stack(
+                                            alignment: Alignment.topLeft,
+                                            children: [
+                                              const Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 0,
+                                                    right: 0
+                                                ),
+                                                child: Text(
+                                                    'Name: ',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 21)
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 0,
+                                                  left: 66
+                                                ),
+                                                child: Text(
+                                                  snapshot.data![index].name!,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontSize: 21
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          )
                                         ),
                                       ),
                                       Expanded(
@@ -218,7 +243,6 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                           ),
                                           onPressed: () {
                                           },
-
                                         ),
                                       ),
                                       Padding(
@@ -302,7 +326,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                             child: TextFormField(
                               textAlignVertical: TextAlignVertical.center,
                               textInputAction: TextInputAction.next,
-                              validator: null,
+                              validator: validateCommonField,
                               onSaved: (String? val) {
                                 newPartner?.code = val!;
                               },
@@ -335,7 +359,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                             child: TextFormField(
                               textAlignVertical: TextAlignVertical.center,
                               textInputAction: TextInputAction.next,
-                              validator: null,
+                              validator: validateCommonField,
                               onSaved: (String? val) {
                                 newPartner!.name = val!;
                               },

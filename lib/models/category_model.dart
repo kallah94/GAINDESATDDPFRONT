@@ -3,7 +3,7 @@ import 'package:gaindesat_ddp_client/models/permission.dart';
 import 'package:gaindesat_ddp_client/models/user.dart';
 
 class CategoryModel {
-  late final String? id;
+  late final String? uuid;
   late final String code;
   late final String catName;
   late final Set<User>? users;
@@ -11,11 +11,19 @@ class CategoryModel {
 
   CategoryModel({
     required this.code,
-    required this.catName
+    required this.catName,
+    this.uuid
   });
 
   CategoryModel.empty();
 
+  factory CategoryModel.fromJson(Map<dynamic, dynamic> parsedJson) {
+    return CategoryModel(
+        uuid: parsedJson["uuid"],
+        code: parsedJson["code"],
+        catName: parsedJson["catName"]
+    );
+  }
   @override
   String toString() {
     return 'Category{code: $code, catName: $catName}';

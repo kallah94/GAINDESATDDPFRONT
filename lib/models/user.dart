@@ -7,12 +7,23 @@ class User {
   late final String fullName;
 
 
-  User(this.status, {
+  User({
     required this.username,
     required this.email,
     required this.password,
     required this.fullName,
+    this.status
 });
+
+  factory User.fromJson(Map<dynamic, dynamic> parsedJson) {
+    return User(
+      status: parsedJson["status"],
+      username: parsedJson["username"] ?? "",
+      email: parsedJson["email"] ?? "",
+      password: "",
+      fullName: parsedJson["fullName"] ?? ""
+    );
+  }
 
   User.empty();
 

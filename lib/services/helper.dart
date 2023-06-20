@@ -43,6 +43,17 @@ String? validateUsername(String? value) {
   }
 }
 
+String? validateCommonField(String? value) {
+  String pattern =
+      r'^[A-Za-z][A-Za-z0-9_]{2,29}$';
+  RegExp regex = RegExp(pattern);
+  if(!regex.hasMatch(value ?? '')) {
+    return 'Enter valid value';
+  } else {
+    return null;
+  }
+}
+
 InputDecoration getInputDecoration(
     {required String hint, required bool darkMode, required Color errorColor,  Icon? prefixIcon, Padding? suffixIcon, TextStyle? hintStyle}) {
   return InputDecoration(

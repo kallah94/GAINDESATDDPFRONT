@@ -12,9 +12,18 @@ class Partner {
   Partner({
     required this.code,
     required this.name,
+    this.uuid
   });
 
   Partner.empty();
+
+  factory Partner.fromJson(Map<dynamic, dynamic> parsedJson) {
+    return Partner(
+        uuid: parsedJson["uuid"] ?? "",
+        code: parsedJson["code"] ?? "",
+        name: parsedJson["name"] ?? ""
+    );
+  }
 
   Map toJson() => {
     'code': code,

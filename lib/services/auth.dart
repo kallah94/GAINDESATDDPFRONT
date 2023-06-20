@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user_detail.dart';
@@ -36,10 +35,6 @@ class ApiAuth {
         prefs.setString(userDetailsKey, userDetailsString);
         return userDetails;
       } else {
-        if (kDebugMode) {
-          Map responseMap = jsonDecode(response.body);
-          print(responseMap["message"]);
-        }
         return responseMap["message"];
       }
     }
