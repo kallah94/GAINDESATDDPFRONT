@@ -8,7 +8,20 @@ class ValidatePartnerFieldsEvent extends PartnerEvent {
   ValidatePartnerFieldsEvent(this.key);
 }
 
-class PartnerAddOrUpdateEvent extends PartnerEvent {
+class PartnerAddEvent extends PartnerEvent {
   late Partner partner;
-  PartnerAddOrUpdateEvent({required this.partner});
+  PartnerAddEvent({required this.partner});
 }
+
+class PartnerUpdateEvent extends PartnerEvent {
+  late Partner partner;
+  PartnerUpdateEvent({required this.partner});
+}
+
+class PartnerDeleteEvent extends PartnerEvent {
+  late String partnerUUID;
+  PartnerDeleteEvent({required this.partnerUUID});
+}
+
+
+class CheckFirstRunEvent extends PartnerEvent {}

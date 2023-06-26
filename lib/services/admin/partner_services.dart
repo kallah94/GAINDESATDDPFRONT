@@ -21,7 +21,7 @@ class PartnerService {
         allPartnersUrl
     );}
 
-  Future<Object> create(Partner partner) async {
+  Future<Partner> create(Partner partner) async {
     var url = Uri.parse(allPartnersUrl);
     String body = jsonEncode(partner);
     headers = await ApiAuth().buildHeaders();
@@ -31,19 +31,40 @@ class PartnerService {
       body: body,
     );
     final responseMap = jsonDecode(response.body);
-    return responseMap;
+    if (kDebugMode) {
+      print(responseMap);
+    }
+    Partner newPartner = Partner.fromJson(responseMap);
+    return newPartner;
   }
 
-  Future<Object> deletePartner(ReducePartner partner) async {
+  Future<Object> updatePartner(Partner partner) async {
     String? endPoint = partner.uuid;
+    String body = jsonEncode(partner);
     var url = Uri.parse('$allPartnersUrl/$endPoint');
+    headers = await ApiAuth().buildHeaders();
+
+    http.Response response = await client.put(
+      url,
+      body: body,
+      headers: headers,
+    );
+    final responseMap = jsonDecode(response.body);
+
+    return responseMap;
+  }
+  Future<Object> deletePartner(String partnerUUID) async {
+    var url = Uri.parse('$allPartnersUrl/$partnerUUID');
     headers = await ApiAuth().buildHeaders();
 
     http.Response response = await client.delete(
       url,
       headers: headers
     );
-    final responseMap = jsonDecode(response.body);
-    return responseMap;
+    if (kDebugMode) {
+      print(response.body);
+    }
+    //final responseMap = jsonDecode(response.body);
+    return response.body;
   }
 }

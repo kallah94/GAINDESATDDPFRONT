@@ -17,7 +17,7 @@ import '../globals.dart';
 class GenericService {
   var client = http.Client();
   late final UserDetails userDetails;
- Future<Object?> createItem<T>(T item, final String path) async {
+ Future<dynamic> createItem<T>(T item, final String path) async {
     var url = Uri.parse(path);
     String body = jsonEncode(item);
     headers = await ApiAuth().buildHeaders();

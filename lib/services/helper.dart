@@ -31,6 +31,24 @@ showSnackBar(BuildContext context, String message) {
       );
 }
 
+showSnackBarSuccess(BuildContext context, String message) {
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.teal,
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 24
+          ),
+        ),
+      ),
+    );
+}
+
 
 String? validateUsername(String? value) {
   String pattern =
