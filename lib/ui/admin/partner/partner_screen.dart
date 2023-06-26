@@ -22,6 +22,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
   Partner? newPartner = Partner.empty();
   late final Future<List<ReducePartner>> futurePartners;
 
+
   void _toggleFromShown() {
     setState(() {
       _showForm = !_showForm;
@@ -36,6 +37,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocProvider<PartnerBloc>(
       create: (context) => PartnerBloc(),
       child: Builder(builder: (context) {
@@ -315,9 +317,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                                   Icons.delete,
                                                   color: Colors.tealAccent,
                                                 ),
-                                                onPressed: () => context
-                                                .read<PartnerBloc>()
-                                                .add(PartnerDeleteEvent(partnerUUID: snapshot.data![index].uuid!)),
+                                                onPressed: () => showAlertDialog(context, snapshot.data![index].uuid)
                                               ),
                                             ),
                                           ],
@@ -500,6 +500,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                             ),
                                             onPressed: () => {
                                               _key.currentState?.reset(),
+                                              _toggleFromShown()
                                             },
                                             label: const Text(
                                               'Cancel',
@@ -520,7 +521,9 @@ class _PartnerScreenState extends State<PartnerScreen> {
                         );
                       },
                     )
+
                   ],
+
                 ),
               ),
             ),
@@ -528,5 +531,69 @@ class _PartnerScreenState extends State<PartnerScreen> {
         );
       }),
     );
+
   }
+}
+showAlertDialog(BuildContext context, String? partnerUUID) {
+  Widget deleteButton = FloatingActionButton.extended(
+      onPressed: () => context.read<PartnerBloc>()
+      .add(PartnerDeleteEvent(partnerUUID: partnerUUID!)),
+      icon: const Icon(
+        Icons.done_all_outlined,
+        color: Colors.tealAccent,
+      ),
+      label: const Text(
+          'Delete',
+        style: TextStyle(
+          color: Colors.tealAccent
+        ),
+      ),
+    backgroundColor: Colors.teal,
+  );
+
+  Widget cancelButton = FloatingActionButton.extended(
+    onPressed: () => Navigator.of(context).pop(),
+    icon: const Icon(
+      Icons.clear,
+      color: Colors.tealAccent,
+    ),
+    label: const Text(
+      'Cancel',
+      style: TextStyle(
+          color: Colors.tealAccent
+      ),
+    ),
+    backgroundColor: Colors.red.shade900,
+  );
+
+  AlertDialog alert =  AlertDialog(
+    backgroundColor: Colors.teal,
+    alignment: Alignment.center,
+    title: const Text('Confirmation Dialog'),
+    titleTextStyle: const TextStyle(
+      fontWeight: FontWeight.w300,
+      fontSize: 23
+    ),
+    content: const Text(
+        "Delete Partner ?",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 21,
+        fontWeight: FontWeight.w300
+      ),
+    ),
+    actionsAlignment: MainAxisAlignment.center,
+    actions: [
+      deleteButton,
+      cancelButton
+    ],
+  );
+
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+  );
 }
