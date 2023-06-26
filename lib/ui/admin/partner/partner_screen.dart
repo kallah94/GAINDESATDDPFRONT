@@ -17,11 +17,11 @@ class PartnerScreen extends StatefulWidget {
 class _PartnerScreenState extends State<PartnerScreen> {
   AutovalidateMode _validate = AutovalidateMode.disabled;
   final GlobalKey<FormState> _key = GlobalKey();
-  String? code, name;
+  String? code, name, deletePartnerUUID;
   bool _showForm = false;
   Partner? newPartner = Partner.empty();
   late final Future<List<ReducePartner>> futurePartners;
-
+  late final List<ReducePartner> test;
 
   void _toggleFromShown() {
     setState(() {
@@ -33,6 +33,11 @@ class _PartnerScreenState extends State<PartnerScreen> {
   void initState() {
     super.initState();
     futurePartners = PartnerService().fetchPartners();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -70,30 +75,48 @@ class _PartnerScreenState extends State<PartnerScreen> {
                   await context.read<LoadingCubit>().hideLoading();
                   if(state.partnerState == PartnerState.addSuccess) {
                     if (!mounted) return;
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => const PartnerScreen()
+                        ));
                     showSnackBarSuccess(context, state.message!);
                   } else if( state.partnerState == PartnerState.addError) {
                     if (!mounted) return;
-                    Navigator.pushReplacement(
-                        context,
+                    Navigator.pushReplacement(context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => super.widget));
+                            builder: (BuildContext context) => const PartnerScreen()
+                        ));
                     showSnackBar(context, state.message!);
                   } else if( state.partnerState == PartnerState.deleteSuccess) {
                     if (!mounted) return;
-                    Navigator.pushReplacement(
-                        context,
+                    Navigator.pushReplacement(context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => super.widget));
+                            builder: (BuildContext context) => widget
+                        ));
                     showSnackBar(context, state.message!);
                   } else if( state.partnerState == PartnerState.deleteError) {
                     if (!mounted) return;
-                    Navigator.pushReplacement(
-                        context,
+                    Navigator.pushReplacement(context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => super.widget));
+                            builder: (BuildContext context) => const PartnerScreen()
+                        ));
                     showSnackBar(context, state.message!);
                   }
                 },
+              ),
+              BlocListener<PartnerBloc, PartnerManagementState>(
+                  listener: (context, state) async {
+                    if (state.partnerState == PartnerState.deleteInit) {
+                      await context.read<LoadingCubit>().showLoading(
+                          context, "Deleting Partner !!", false);
+                      setState((){
+
+                      });
+                      if (!mounted) return;
+                      context.read<PartnerBloc>().add(
+                          PartnerDeleteEvent(partnerUUID: deletePartnerUUID!));
+                    }
+                  }
               ),
               BlocListener<PartnerBloc, PartnerManagementState>(
                 listener: (context, state) async {
@@ -104,13 +127,6 @@ class _PartnerScreenState extends State<PartnerScreen> {
                     context.read<PartnerBloc>().add(
                       PartnerAddEvent(partner: Partner(code: code!, name: name!))
                     );
-                  } else if (state.partnerState == PartnerState.addSuccess) {
-                    if (!mounted) return;
-                    pushAndRemoveUntil(context, const PartnerScreen(), false);
-                    showSnackBar(context, "state.message!");
-                  } else if (state.partnerState == PartnerState.deleteSuccess) {
-                    if (!mounted) return;
-
                   }
                 },
               )
@@ -317,7 +333,10 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                                   Icons.delete,
                                                   color: Colors.tealAccent,
                                                 ),
-                                                onPressed: () => showAlertDialog(context, snapshot.data![index].uuid)
+                                                onPressed: () => {
+                                                  deletePartnerUUID =  snapshot.data![index].uuid,
+                                                  showAlertDialog(context)
+                                                }
                                               ),
                                             ),
                                           ],
@@ -534,10 +553,12 @@ class _PartnerScreenState extends State<PartnerScreen> {
 
   }
 }
-showAlertDialog(BuildContext context, String? partnerUUID) {
+showAlertDialog(BuildContext context) {
   Widget deleteButton = FloatingActionButton.extended(
-      onPressed: () => context.read<PartnerBloc>()
-      .add(PartnerDeleteEvent(partnerUUID: partnerUUID!)),
+      onPressed: () => {context.read<PartnerBloc>()
+      .add(PartnerDeleteInitEvent()),
+        Navigator.of(context).pop(),
+      },
       icon: const Icon(
         Icons.done_all_outlined,
         color: Colors.tealAccent,

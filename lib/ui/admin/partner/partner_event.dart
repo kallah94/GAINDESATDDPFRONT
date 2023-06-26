@@ -8,6 +8,8 @@ class ValidatePartnerFieldsEvent extends PartnerEvent {
   ValidatePartnerFieldsEvent(this.key);
 }
 
+class PartnerDeleteInitEvent extends PartnerEvent {}
+
 class PartnerAddEvent extends PartnerEvent {
   late Partner partner;
   PartnerAddEvent({required this.partner});

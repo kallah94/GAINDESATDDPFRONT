@@ -5,7 +5,7 @@ enum PartnerState {
   failureFillPartnerFields,
   addSuccess, addError,
   updateSuccess, updateError,
-  deleteError, deleteSuccess
+  deleteInit, deleteError, deleteSuccess
 }
 
 
@@ -16,6 +16,8 @@ class PartnerManagementState {
   const PartnerManagementState._(this.partnerState, {this.message});
 
   const PartnerManagementState.onboarding(): this._(PartnerState.firstRun);
+
+  const PartnerManagementState.deleteInit(): this._(PartnerState.deleteInit);
 
   const PartnerManagementState.validPartnerFields(): this._(PartnerState.validPartnerFields);
 

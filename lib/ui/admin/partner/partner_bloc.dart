@@ -49,6 +49,10 @@ class PartnerBloc extends Bloc<PartnerEvent, PartnerManagementState> {
       }
     });
 
+    on<PartnerDeleteInitEvent>((event, emit) {
+      emit(const PartnerManagementState.deleteInit());
+    });
+
     on<PartnerDeleteEvent>((event, emit) async {
       dynamic result = await PartnerService().deletePartner(event.partnerUUID);
       if (result != null && result is Partner) {
@@ -57,6 +61,7 @@ class PartnerBloc extends Bloc<PartnerEvent, PartnerManagementState> {
         emit(const PartnerManagementState.deleteError("Error"));
       }
     });
+
   }
 
 
