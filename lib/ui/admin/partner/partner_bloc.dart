@@ -49,9 +49,8 @@ class PartnerBloc extends Bloc<PartnerEvent, PartnerManagementState> {
       }
     });
 
-    on<PartnerDeleteInitEvent>((event, emit) {
-      emit(const PartnerManagementState.deleteInit());
-    });
+    on<PartnerDeleteInitEvent>((event, emit) =>
+      emit(const PartnerManagementState.deleteInit()));
 
     on<PartnerDeleteEvent>((event, emit) async {
       dynamic result = await PartnerService().deletePartner(event.partnerUUID);
@@ -61,27 +60,5 @@ class PartnerBloc extends Bloc<PartnerEvent, PartnerManagementState> {
         emit(const PartnerManagementState.deleteError("Error"));
       }
     });
-
   }
-
-
-
-  /**PartnerBloc(): super(PartnerFormInitial()) {
-    on<ValidatePartnerFieldsEvent>((event, emit) {
-      if (event.key.currentState?.validate() ?? false) {
-        event.key.currentState!.save();
-        emit(ValidPartnerFields());
-      } else {
-        emit(PartnerFailureState(errorMessage: "Please fill required fields!"));
-      }
-    });
-    on<PartnerAddOrUpdateEvent>((event, emit) async {
-      dynamic result = await PartnerService().create(event.partner);
-      if (result != null && result is Partner) {
-        emit(PartnerAddOrUpdateSuccessState(successMessage: "Partner created successfully"));
-      } else {
-        emit(PartnerAddOrUpdateFailureState(errorMessage: "Partner creation failed !!"));
-      }
-    });
-  }**/
 }
