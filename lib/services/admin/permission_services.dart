@@ -6,6 +6,12 @@ import '../globals.dart';
 
 class PermissionService {
 
+  Future<Permission?> create(Permission permission) async { return null;}
+
+  Future<Permission?> update(Permission permission) async {return null;}
+
+  Future<Permission?> delete(String permissionUUID) async { return null;}
+
   Future<List<Permission>> fetchPermissions() async {
     return GenericService()
         .fetchAllData<Permission>(
