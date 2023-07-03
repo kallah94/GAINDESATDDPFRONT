@@ -93,7 +93,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                         MaterialPageRoute(
                             builder: (BuildContext context) => widget
                         ));
-                    showSnackBar(context, state.message!);
+                    showSnackBarSuccess(context, state.message!);
                   } else if( state.partnerState == PartnerState.deleteError) {
                     if (!mounted) return;
                     Navigator.pushReplacement(context,
@@ -540,9 +540,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                         );
                       },
                     )
-
                   ],
-
                 ),
               ),
             ),
@@ -550,7 +548,6 @@ class _PartnerScreenState extends State<PartnerScreen> {
         );
       }),
     );
-
   }
 }
 showAlertDialog(BuildContext context) {

@@ -1,4 +1,5 @@
 
+import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/models/permission.dart';
 import 'package:gaindesat_ddp_client/services/admin/generic_service.dart';
 
@@ -6,7 +7,14 @@ import '../globals.dart';
 
 class PermissionService {
 
-  Future<Permission?> create(Permission permission) async { return null;}
+  Future<dynamic> create(Permission permission) async {
+    dynamic response = GenericService()
+        .createItem<Permission>(permission, allPermissionsUrl);
+    if(response is ExceptionMessage) {
+      return response;
+    }
+    return Permission.fromJson(response);
+  }
 
   Future<Permission?> update(Permission permission) async {return null;}
 

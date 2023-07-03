@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
+import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/models/partner.dart';
 import 'package:gaindesat_ddp_client/models/user_detail.dart';
 import 'package:gaindesat_ddp_client/services/auth.dart';
@@ -21,21 +20,13 @@ class PartnerService {
         allPartnersUrl
     );}
 
-  Future<Partner> create(Partner partner) async {
-    var url = Uri.parse(allPartnersUrl);
-    String body = jsonEncode(partner);
-    headers = await ApiAuth().buildHeaders();
-    http.Response response = await client.post(
-      url,
-      headers: headers,
-      body: body,
-    );
-    final responseMap = jsonDecode(response.body);
-    if (kDebugMode) {
-      print(responseMap);
+  Future<Object> create(Partner partner) async {
+    dynamic response = await GenericService()
+        .createItem<Partner>(partner, allPartnersUrl);
+    if(response is ExceptionMessage) {
+      return response;
     }
-    Partner newPartner = Partner.fromJson(responseMap);
-    return newPartner;
+    return Partner.fromJson(response);
   }
 
   Future<Object> updatePartner(Partner partner) async {
@@ -53,18 +44,9 @@ class PartnerService {
 
     return responseMap;
   }
-  Future<Object> deletePartner(String partnerUUID) async {
-    var url = Uri.parse('$allPartnersUrl/$partnerUUID');
-    headers = await ApiAuth().buildHeaders();
 
-    http.Response response = await client.delete(
-      url,
-      headers: headers
-    );
-    if (kDebugMode) {
-      print(response.body);
-    }
-    //final responseMap = jsonDecode(response.body);
-    return response.body;
+  Future<Object> delete<Partner>(String partnerUUID) async {
+    return await GenericService().delete<Partner>(partnerUUID, allPartnersUrl);
   }
+
 }

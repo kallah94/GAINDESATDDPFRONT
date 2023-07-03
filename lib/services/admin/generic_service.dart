@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/models/category_model.dart';
 import 'package:gaindesat_ddp_client/models/full_user.dart';
@@ -9,8 +10,6 @@ import 'package:gaindesat_ddp_client/models/partner.dart';
 import 'package:gaindesat_ddp_client/models/permission.dart';
 import 'package:gaindesat_ddp_client/models/user_detail.dart';
 import 'package:http/http.dart' as http;
-
-import '../../models/user.dart';
 import '../auth.dart';
 import '../globals.dart';
 
@@ -28,14 +27,12 @@ class GenericService {
         headers: headers,
         body: body
       ).timeout(const Duration(seconds: 45));
-      Map responseMap = jsonDecode(response.body).cast<Map<String, dynamic>>();
       var status = response.statusCode;
-      if (status == 200) {
-        T entity = entityBuilder<T>(responseMap);
-        return entity;
+      if (status == 201) {
+        Map responseMap = jsonDecode(response.body);
+        return responseMap;
       } else {
-        Map errorMap = jsonDecode(response.body);
-        ExceptionMessage exceptionMessage = ExceptionMessage(statusCode: status, message: errorMap["message"]);
+        ExceptionMessage exceptionMessage = ExceptionMessage(statusCode: status, message: "Error occur item not added");
         return exceptionMessage;
       }
     }
@@ -45,9 +42,41 @@ class GenericService {
     }
     on TimeoutException catch(e) {
       return ExceptionMessage(statusCode: 599, message: e.message);
-    }
+    } catch (_, exception) {
+      return ExceptionMessage(statusCode: 500, message: exception.toString());
+   }
   }
 
+  Future<dynamic> delete<T>(final String itemUUID, final String path) async {
+    var url = Uri.parse('$path/$itemUUID');
+    headers = await ApiAuth().buildHeaders();
+    try {
+      http.Response response = await client.delete(
+        url,
+        headers: headers
+      ).timeout(const Duration(seconds: 60));
+      var status = response.statusCode;
+      if(status == 200) {
+        Map responseMap = jsonDecode(response.body);
+        return CustomMessage.fromJson(responseMap);
+      } else {
+        Map responseMap = jsonDecode(response.body);
+        if (kDebugMode) {
+          print(responseMap);
+        }
+        return ExceptionMessage.fromJson(responseMap);
+      }
+    }
+    on SocketException {
+      ExceptionMessage exceptionMessage = ExceptionMessage(statusCode: 503, message: "Connection Error");
+      return exceptionMessage;
+    }
+    on TimeoutException catch(e) {
+      return ExceptionMessage(statusCode: 599, message: e.message);
+    } catch (_, exception) {
+      return ExceptionMessage(statusCode: 500, message: exception.toString());
+    }
+  }
 
   Future<List<T>> fetchAllData<T>(T object, final String path) async {
     var url = Uri.parse(path);
@@ -82,34 +111,6 @@ class GenericService {
 
       default:
         throw "Unable to determinate class";
-    }
-  }
-
-  entityBuilder<T>(dynamic entity) {
-    switch(entity.runtimeType) {
-      case ReduceCategory:
-        return entity.map<ReduceCategory>((json) => ReduceCategory.fromJson(json));
-
-      case CategoryModel:
-        return entity.map<CategoryModel>((json) => CategoryModel.fromJson(json));
-
-      case ReducePartner:
-        return entity.map<ReducePartner>((json) => ReducePartner.fromJson(json));
-
-      case Partner:
-        return entity.map<Partner>((json) => Partner.fromJson(json));
-
-      case FullUser:
-        return entity.map<FullUser>((json) => FullUser.fromJson(json));
-
-      case User:
-        return entity.map<User>((json) => User.fromJson(json));
-
-      case Permission:
-        return entity.map<Permission>((json) => Permission.fromJson(json));
-
-      default:
-        return null;
     }
   }
 }
