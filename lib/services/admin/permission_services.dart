@@ -7,7 +7,7 @@ import '../globals.dart';
 
 class PermissionService {
 
-  Future<dynamic> create(Permission permission) async {
+  Future<Object> create(Permission permission) async {
     dynamic response = GenericService()
         .createItem<Permission>(permission, allPermissionsUrl);
     if(response is ExceptionMessage) {
@@ -18,7 +18,9 @@ class PermissionService {
 
   Future<Permission?> update(Permission permission) async {return null;}
 
-  Future<Permission?> delete(String permissionUUID) async { return null;}
+  Future<Object> delete<Permission>(String permissionUUID) async {
+    return await GenericService().delete<Permission>(permissionUUID, allPermissionsUrl);
+  }
 
   Future<List<Permission>> fetchPermissions() async {
     return GenericService()

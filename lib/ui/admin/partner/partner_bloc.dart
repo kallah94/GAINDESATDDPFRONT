@@ -6,7 +6,6 @@ import 'package:gaindesat_ddp_client/services/globals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/partner.dart';
-
 part 'partner_event.dart';
 part 'partner_state.dart';
 

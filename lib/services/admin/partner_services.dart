@@ -45,7 +45,7 @@ class PartnerService {
     return responseMap;
   }
 
-  Future<Object> delete<Partner>(String partnerUUID) async {
+  Future<Object> delete(String partnerUUID) async {
     return await GenericService().delete<Partner>(partnerUUID, allPartnersUrl);
   }
 
