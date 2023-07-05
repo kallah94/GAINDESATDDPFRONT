@@ -20,7 +20,6 @@ class GenericService {
     var url = Uri.parse(path);
     String body = jsonEncode(item);
     headers = await ApiAuth().buildHeaders();
-
     try {
       http.Response response = await client.post(
         url,

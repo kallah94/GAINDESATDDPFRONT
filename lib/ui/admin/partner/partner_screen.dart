@@ -21,7 +21,6 @@ class _PartnerScreenState extends State<PartnerScreen> {
   bool _showForm = false;
   Partner? newPartner = Partner.empty();
   late final Future<List<ReducePartner>> futurePartners;
-  late final List<ReducePartner> test;
 
   void _toggleFromShown() {
     setState(() {
@@ -33,11 +32,6 @@ class _PartnerScreenState extends State<PartnerScreen> {
   void initState() {
     super.initState();
     futurePartners = PartnerService().fetchPartners();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   @override
@@ -109,9 +103,6 @@ class _PartnerScreenState extends State<PartnerScreen> {
                     if (state.partnerState == PartnerState.deleteInit) {
                       await context.read<LoadingCubit>().showLoading(
                           context, "Deleting Partner !!", false);
-                      setState((){
-
-                      });
                       if (!mounted) return;
                       context.read<PartnerBloc>().add(
                           PartnerDeleteEvent(partnerUUID: deletePartnerUUID!));
@@ -125,8 +116,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                         context, "Adding a Partner!! Please wait", false);
                     if (!mounted) return;
                     context.read<PartnerBloc>().add(
-                      PartnerAddEvent(partner: Partner(code: code!, name: name!))
-                    );
+                      PartnerAddEvent(partner: Partner(code: code!, name: name!)));
                   }
                 },
               )
@@ -181,7 +171,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                               itemBuilder: (context, int index) {
                                 return Card(
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular((5))
+                                      borderRadius: BorderRadius.circular(5)
                                   ),
                                   color: Colors.teal,
                                   semanticContainer: true,
@@ -354,14 +344,14 @@ class _PartnerScreenState extends State<PartnerScreen> {
                               ),
                             );
                           } else {
-                            return  Container();
+                            return const Center(child: CircularProgressIndicator());
                           }
                         },
                       ),
                     ),
                     BlocBuilder<PartnerBloc,  PartnerManagementState>(
                       buildWhen: (old, current) =>
-                      current.partnerState is PartnerManagementState &&old != current,
+                      current.partnerState is PartnerManagementState && old != current,
                       builder: (context, state) {
                         if (state.partnerState == PartnerState.failureFillPartnerFields) {
                           _validate = AutovalidateMode.onUserInteraction;

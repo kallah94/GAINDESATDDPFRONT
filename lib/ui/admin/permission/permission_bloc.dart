@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/services/admin/permission_services.dart';
 import 'package:gaindesat_ddp_client/services/globals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,29 +35,34 @@ class PermissionBloc extends Bloc<PermissionEvent, PermissionManagementState> {
     on<PermissionAddEvent>((event, emit) async {
       dynamic result = PermissionService().create(event.permission);
       if (result !=null && result is Permission) {
-        emit(const PermissionManagementState.addSuccess("Success"));
+        emit(PermissionManagementState.addSuccess("Permission added successfully: ${result.uuid}"));
+      } else if (result !=null && result is ExceptionMessage) {
+        emit(PermissionManagementState.addError(result.message));
       } else {
-        emit(const PermissionManagementState.addError("Error"));
+        emit(PermissionManagementState.addError("Unknown Error"));
       }
     });
 
     on<PermissionUpdateEvent>((event, emit) async {
       dynamic result = PermissionService().update(event.permission);
       if(result != null && result is Permission) {
-        emit(const PermissionManagementState.addSuccess("Success"));
+        emit(const PermissionManagementState.updateSuccess("Success"));
       } else {
         emit(const PermissionManagementState.updateError("Error"));
       }
     });
 
-    on<PermissionDeleteInitEvent>((event, emit) => emit(const PermissionManagementState.deleteInit()));
+    on<PermissionDeleteInitEvent>((event, emit) =>
+        emit(const PermissionManagementState.deleteInit()));
 
     on<PermissionDeleteEvent>((event, emit) async {
       dynamic result = PermissionService().delete(event.permissionUUID);
-      if(result != null && result is Permission) {
-        emit(const PermissionManagementState.deleteSuccess("Success"));
+      if(result != null && result is CustomMessage) {
+        emit(PermissionManagementState.deleteSuccess(result.message));
+      } else if (result !=null && result is ExceptionMessage) {
+        emit(PermissionManagementState.deleteError(result.message));
       } else {
-        emit(const PermissionManagementState.deleteError("Error"));
+        emit(PermissionManagementState.deleteError("Unknown Error"));
       }
     });
   }
