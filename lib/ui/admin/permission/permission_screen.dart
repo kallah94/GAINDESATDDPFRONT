@@ -205,7 +205,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
                                             Expanded(
                                               flex: 1,
                                               child: Text(
-                                                'Title: ${snapshot.data![index].title}',
+                                                'Title: ${snapshot.data![index].uuid}',
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,
@@ -238,7 +238,10 @@ class _PermissionScreenState extends State<PermissionScreen> {
                                                   Icons.delete,
                                                   color: Colors.tealAccent,
                                                 ),
-                                                onPressed: () {},
+                                                onPressed: () => {
+                                                  deletePermissionUUID = snapshot.data![index].uuid,
+                                                  showAlertDialog(context)
+                                                },
                                               ),
                                             ),
                                           ],
@@ -502,6 +505,69 @@ class _PermissionScreenState extends State<PermissionScreen> {
       },),
     );
   }
+}
+showAlertDialog(BuildContext context) {
+  Widget deleteButton = FloatingActionButton.extended(
+    onPressed: () => {context.read<PermissionBloc>()
+    .add(PermissionDeleteInitEvent()),
+    Navigator.of(context).pop()
+    },
+    icon: const Icon(
+      Icons.done_all_outlined,
+      color: Colors.tealAccent,
+    ),
+    label: const Text(
+        'Delete',
+      style: TextStyle(
+        color: Colors.tealAccent
+      ),
+    ),
+    backgroundColor: Colors.teal,
+  );
 
+  Widget cancelButton = FloatingActionButton.extended(
+    onPressed: () => Navigator.of(context).pop(),
+    icon: const Icon(
+      Icons.clear,
+      color: Colors.tealAccent,
+    ),
+    label: const Text(
+      'Cancel',
+      style: TextStyle(
+        color: Colors.tealAccent
+      ),
+    ),
+    backgroundColor: Colors.red.shade900,
+  );
 
+  AlertDialog alert = AlertDialog(
+    backgroundColor: Colors.teal,
+    alignment: Alignment.center,
+    title: const Text('Confirmation Dialog'),
+    titleTextStyle: const TextStyle(
+      fontWeight: FontWeight.w300,
+      fontSize: 23
+    ),
+    content: const Text(
+      "Delete Permission ?",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 21,
+        fontWeight: FontWeight.w300
+      ),
+    ),
+    actionsAlignment: MainAxisAlignment.center,
+    actions: [
+      deleteButton,
+      cancelButton
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    }
+  );
 }

@@ -21,9 +21,12 @@ class CategoryService {
   }
 
   Future<List<ReduceCategory>> fetchCategories() async {
-   return GenericService()
-       .fetchAllData<ReduceCategory>(
-       ReduceCategory.empty(),
-       allCategoriesUrl
-   );}
+    dynamic response = await GenericService().fetchAllData(allCategoriesUrl);
+    if (response is ExceptionMessage) {
+      return [ReduceCategory.empty()];
+    }
+    List<ReduceCategory> categories = response.map<ReduceCategory>((json) => ReduceCategory.fromJson(json)).toList();
+    return categories;
+
+  }
 }

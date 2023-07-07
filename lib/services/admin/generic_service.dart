@@ -60,9 +60,6 @@ class GenericService {
         return CustomMessage.fromJson(responseMap);
       } else {
         Map responseMap = jsonDecode(response.body);
-        if (kDebugMode) {
-          print(responseMap);
-        }
         return ExceptionMessage.fromJson(responseMap);
       }
     }
@@ -77,39 +74,33 @@ class GenericService {
     }
   }
 
-  Future<List<T>> fetchAllData<T>(T object, final String path) async {
+  Future fetchAllData<T>(final String path) async {
     var url = Uri.parse(path);
     userDetails = await ApiAuth().retrieveUserDetails();
     final String? token = userDetails.accessToken;
     headers.addEntries({"Authorization": 'Bearer $token'}.entries);
-    final List<T> allData;
-
-    http.Response response = await client.get(
-        url,
-        headers: headers
-    );
-
-    final responseMap = jsonDecode(response.body).cast<Map<String, dynamic>>();
-
-    switch (object.runtimeType) {
-      case ReduceCategory:
-        allData = responseMap.map<ReduceCategory>((json) => ReduceCategory.fromJson(json)).toList();
-        return allData;
-
-      case ReducePartner:
-        allData = responseMap.map<ReducePartner>((json) => ReducePartner.fromJson(json)).toList();
-        return allData;
-
-      case FullUser:
-        allData = responseMap.map<FullUser>((json) => FullUser.fromJson(json)).toList();
-        return allData;
-
-      case Permission:
-        allData = responseMap.map<Permission>((json) => Permission.fromJson(json)).toList();
-        return allData;
-
-      default:
-        throw "Unable to determinate class";
+    try {
+      http.Response response = await client.get(
+          url,
+          headers: headers
+      ).timeout(const Duration(seconds: 60));
+      var status = response.statusCode;
+      if (status == 200) {
+        final responseMap = jsonDecode(response.body).cast<Map<String, dynamic>>();
+        return responseMap;
+      } else {
+        Map responseMap = jsonDecode(response.body);
+        return ExceptionMessage.fromJson(responseMap);
+      }
+    }
+    on TimeoutException catch(e) {
+      return ExceptionMessage(statusCode: 599, message: e.message);
+    }
+    on SocketException {
+      return ExceptionMessage(statusCode: 503, message: "Connection Error");
+    }
+    catch(_, exception) {
+      return ExceptionMessage(statusCode: 500, message: exception.toString());
     }
   }
 }

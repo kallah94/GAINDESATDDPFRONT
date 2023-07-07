@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/models/partner.dart';
 import 'package:gaindesat_ddp_client/models/user_detail.dart';
@@ -14,11 +15,13 @@ class PartnerService {
   late final Map<String, String> headers;
 
   Future<List<ReducePartner>> fetchPartners() async {
-    return GenericService()
-        .fetchAllData<ReducePartner>(
-        ReducePartner.empty(),
-        allPartnersUrl
-    );}
+    dynamic response = await GenericService().fetchAllData(allPartnersUrl);
+    if (response is ExceptionMessage) {
+      return [ReducePartner.empty()];
+    }
+    List<ReducePartner> reducePartners = response.map<ReducePartner>((json) => ReducePartner.fromJson(json)).toList();
+    return reducePartners;
+  }
 
   Future<Object> create(Partner partner) async {
     dynamic response = await GenericService()

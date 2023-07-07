@@ -24,9 +24,11 @@ class PermissionService {
   }
 
   Future<List<Permission>> fetchPermissions() async {
-    return GenericService()
-        .fetchAllData<Permission>(
-        Permission.empty(),
-        allPermissionsUrl
-    );}
+    dynamic response = await GenericService().fetchAllData(allPermissionsUrl);
+    if (response is ExceptionMessage) {
+      return [Permission.empty()];
+    }
+    List<Permission> permissions = response.map<Permission>((json) => Permission.fromJson(json)).toList();
+    return permissions;
+  }
 }
