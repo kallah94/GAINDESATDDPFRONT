@@ -205,7 +205,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
                                             Expanded(
                                               flex: 1,
                                               child: Text(
-                                                'Title: ${snapshot.data![index].uuid}',
+                                                'Title: ${snapshot.data![index].title}',
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,

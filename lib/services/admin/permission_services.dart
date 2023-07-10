@@ -14,7 +14,8 @@ class PermissionService {
     if(response is ExceptionMessage) {
       return response;
     }
-    return ReducePermission.fromJson(response);
+    ReducePermission reducePermission = ReducePermission.fromJson(response);
+    return reducePermission;
   }
 
   Future<Permission?> update(Permission permission) async {return null;}

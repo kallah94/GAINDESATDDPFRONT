@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/services/admin/permission_services.dart';
 import 'package:gaindesat_ddp_client/services/globals.dart';
@@ -33,9 +34,9 @@ class PermissionBloc extends Bloc<PermissionEvent, PermissionManagementState> {
     });
 
     on<PermissionAddEvent>((event, emit) async {
-      dynamic result = PermissionService().create(event.permission);
-      if (result !=null && result is Permission) {
-        emit(PermissionManagementState.addSuccess("Permission added successfully: ${result.uuid}"));
+      dynamic result = await PermissionService().create(event.permission);
+      if (result !=null && result is ReducePermission) {
+        emit(PermissionManagementState.addSuccess("Permission added successfully: ${result.id}"));
       } else if (result !=null && result is ExceptionMessage) {
         emit(PermissionManagementState.addError(result.message));
       } else {
@@ -44,7 +45,7 @@ class PermissionBloc extends Bloc<PermissionEvent, PermissionManagementState> {
     });
 
     on<PermissionUpdateEvent>((event, emit) async {
-      dynamic result = PermissionService().update(event.permission);
+      dynamic result = await PermissionService().update(event.permission);
       if(result != null && result is Permission) {
         emit(const PermissionManagementState.updateSuccess("Success"));
       } else {
@@ -56,7 +57,7 @@ class PermissionBloc extends Bloc<PermissionEvent, PermissionManagementState> {
         emit(const PermissionManagementState.deleteInit()));
 
     on<PermissionDeleteEvent>((event, emit) async {
-      dynamic result = PermissionService().delete(event.permissionUUID);
+      dynamic result = await PermissionService().delete(event.permissionUUID);
       if(result != null && result is CustomMessage) {
         emit(PermissionManagementState.deleteSuccess(result.message));
       } else if (result !=null && result is ExceptionMessage) {

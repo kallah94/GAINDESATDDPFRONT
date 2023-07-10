@@ -1,4 +1,3 @@
-
 class Permission {
   late final String? uuid;
   late final String code;
@@ -16,7 +15,7 @@ class Permission {
 
   factory Permission.fromJson(Map<dynamic, dynamic> parseJson) {
     return Permission(
-      uuid: parseJson["uuid"] ?? "",
+      uuid: parseJson["uuid"] ?? "z",
       code: parseJson["code"] ?? "",
       title: parseJson["title"] ?? "",
       categoryUUID: parseJson["categoryUUID"] ?? ""
@@ -24,6 +23,7 @@ class Permission {
   }
 
   Map toJson() => {
+    'uuid': uuid,
     'code': code,
     'title': title,
     'categoryUUID': categoryUUID
@@ -31,7 +31,7 @@ class Permission {
 
   @override
   String toString() {
-    return 'Permission{code: $code, title: $title, categoryUUID: $categoryUUID}';
+    return 'Permission{uuid: $uuid, code: $code, title: $title, categoryUUID: $categoryUUID}';
   }
 
 }
