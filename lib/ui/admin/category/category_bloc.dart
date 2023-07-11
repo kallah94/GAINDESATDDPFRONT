@@ -34,18 +34,18 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryManagementState> {
     on<CategoryAddEvent>((event, emit) async {
       dynamic result = await CategoryService().create(event.category);
       if (result !=null && result is CategoryModel) {
-        emit(const CategoryManagementState.addSuccess("success"));
+        emit(CategoryManagementState.addSuccess("Partner added successfully: : ${result.uuid}"));
       } else {
-        emit(const CategoryManagementState.addError("Error"));
+        emit(CategoryManagementState.addError("Error"));
       }
     });
 
     on<CategoryUpdateEvent>((event, emit) async {
       dynamic result = await CategoryService().update(event.category);
       if (result != null && result is CategoryModel) {
-        emit(const CategoryManagementState.updateSuccess("Success"));
+        emit(CategoryManagementState.updateSuccess("Success"));
       } else {
-        emit(const CategoryManagementState.updateError("Error"));
+        emit(CategoryManagementState.updateError("Error"));
       }
     });
 
@@ -55,9 +55,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryManagementState> {
     on<CategoryDeleteEvent>((event, emit) async {
       dynamic result = await CategoryService().delete(event.categoryUUID);
       if (result != null && result is CategoryModel) {
-        emit(const CategoryManagementState.deleteSuccess("Success"));
+        emit(CategoryManagementState.deleteSuccess("Success"));
       } else {
-        emit(const CategoryManagementState.deleteError("Error"));
+        emit(CategoryManagementState.deleteError("Error"));
       }
     });
   }
