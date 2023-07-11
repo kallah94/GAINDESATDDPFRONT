@@ -19,7 +19,6 @@ class _PartnerScreenState extends State<PartnerScreen> {
   final GlobalKey<FormState> _key = GlobalKey();
   String? code, name, deletePartnerUUID;
   bool _showForm = false;
-  Partner? newPartner = Partner.empty();
   late final Future<List<ReducePartner>> futurePartners;
 
   void _toggleFromShown() {
