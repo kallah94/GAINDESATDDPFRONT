@@ -198,11 +198,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: GestureDetector(
                                     onTap: _toggle,
                                     child: Icon(
-                                        color: const Color.fromRGBO(0, 132, 121, 100),
                                         _obscureText
-                                          ? Icons.visibility_rounded
-                                          : Icons.visibility_off_rounded,
-                                          size: 24
+                                            ? Icons.visibility_rounded
+                                            : Icons.visibility_off_rounded,
+                                        color: const Color.fromRGBO(0, 132, 121, 100),
+                                        size: 24
                                     ),
                                   ),
                                 ),

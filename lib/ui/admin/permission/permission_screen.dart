@@ -202,7 +202,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
                         },
                         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                           maxCrossAxisExtent: 500,
-                          childAspectRatio: 4/1,
+                          childAspectRatio: 4/2,
                           crossAxisSpacing: 1,
                           mainAxisSpacing: 1,
                         ),
