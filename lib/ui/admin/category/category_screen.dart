@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gaindesat_ddp_client/models/category_model.dart';
@@ -21,7 +20,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
   String? code, catName, deleteCategoryUUID;
   bool _showForm = false;
   late final Future<List<ReduceCategory>> futureCategories;
-
   void _toggleFormShow() {
     setState(() {
       _showForm = !_showForm;
@@ -384,6 +382,68 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                           errorColor: Theme.of(context).colorScheme.error
                                         ),
                                       ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 27,
+                                              right: 23,
+                                              left: 0,
+                                              bottom: 0
+                                          ),
+                                          child: FloatingActionButton.extended(
+                                            heroTag: null,
+                                            backgroundColor: Colors.teal,
+                                            tooltip: 'Submit',
+                                            elevation: 10,
+                                            icon: const Icon(
+                                              Icons.create,
+                                              color: Colors.tealAccent,
+                                            ),
+                                            onPressed: () => context
+                                                .read<CategoryBloc>()
+                                                .add(ValidateCategoryFieldsEvent(_key)),
+                                            label: const Text(
+                                              'Submit',
+                                              style: TextStyle(
+                                                  color: Colors.white
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 0,
+                                                right: 0,
+                                                left: 23,
+                                                bottom: 0
+                                            ),
+                                            child: FloatingActionButton.extended(
+                                              heroTag: null,
+                                              backgroundColor: Colors.red.shade900,
+                                              tooltip: "Cancel",
+                                              elevation: 10,
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.tealAccent,
+                                              ),
+                                              onPressed: () => {
+                                                _key.currentState?.reset(),
+                                                _toggleFormShow()
+                                              },
+                                              label: const Text(
+                                                'Cancel',
+                                                style: TextStyle(
+                                                    color: Colors.white
+                                                ),
+                                              ),
+                                            )
+
+                                        )
+                                      ],
                                     )
                                   ],
                                 ),
@@ -437,5 +497,36 @@ showAlertDialog(BuildContext context) {
       ),
     ),
     backgroundColor: Colors.red.shade900,
+  );
+
+  AlertDialog alert = AlertDialog(
+    backgroundColor: Colors.teal,
+    alignment: Alignment.center,
+    title: const Text('Confirmation Dialog'),
+    titleTextStyle: const TextStyle(
+      fontWeight: FontWeight.w300,
+      fontSize: 23
+    ),
+    content: const Text(
+      "Delete Category ?",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 21,
+        fontWeight: FontWeight.w300
+      ),
+    ),
+    actionsAlignment: MainAxisAlignment.center,
+    actions: [
+      deleteButton,
+      cancelButton
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    }
   );
 }

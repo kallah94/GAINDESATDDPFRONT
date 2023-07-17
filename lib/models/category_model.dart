@@ -24,6 +24,12 @@ class CategoryModel {
         catName: parsedJson["catName"]
     );
   }
+
+  Map toJson() => {
+    'code': code,
+    'catName': catName
+  };
+
   @override
   String toString() {
     return 'Category{code: $code, catName: $catName}';
