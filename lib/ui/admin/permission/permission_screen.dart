@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gaindesat_ddp_client/services/admin/category_services.dart';
@@ -26,6 +25,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
   late final Future<List<Permission>> futurePermissions;
   late final Future<List<ReduceCategory>> futureCategoryModels;
   ReduceCategory? categoryValue;
+
   void _toggleFormShown() {
     setState(() {
       _showForm = !_showForm;
@@ -259,7 +259,8 @@ class _PermissionScreenState extends State<PermissionScreen> {
                               ),
                             );
                           } else {
-                            return const Center(child: CircularProgressIndicator());
+                            return const Center(child: CircularProgressIndicator()
+                            );
                           }
                         },
                       ),
@@ -508,7 +509,8 @@ class _PermissionScreenState extends State<PermissionScreen> {
 }
 showAlertDialog(BuildContext context) {
   Widget deleteButton = FloatingActionButton.extended(
-    onPressed: () => {context.read<PermissionBloc>()
+    onPressed: () => {
+      context.read<PermissionBloc>()
     .add(PermissionDeleteInitEvent()),
     Navigator.of(context).pop()
     },

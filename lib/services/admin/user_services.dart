@@ -4,6 +4,7 @@ import 'package:gaindesat_ddp_client/services/admin/generic_service.dart';
 import 'package:gaindesat_ddp_client/services/globals.dart';
 
 import '../../models/full_user.dart';
+import '../../models/user.dart';
 
 class UserService {
 
@@ -16,9 +17,9 @@ class UserService {
     return fullUsers;
   }
 
-  Future<Object> create(FullUser fullUser) async {
+  Future<Object> create(User user) async {
     dynamic response = await GenericService()
-        .createItem<FullUser>(fullUser, allUsersUrl);
+        .createItem<User>(user, allUsersUrl);
     if (response is ExceptionMessage) {
       return response;
     }

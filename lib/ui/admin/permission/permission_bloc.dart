@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/services/admin/permission_services.dart';
 import 'package:gaindesat_ddp_client/services/globals.dart';
@@ -35,11 +34,14 @@ class PermissionBloc extends Bloc<PermissionEvent, PermissionManagementState> {
 
     on<PermissionAddEvent>((event, emit) async {
       dynamic result = await PermissionService().create(event.permission);
-      if (result !=null && result is ReducePermission) {
-        emit(PermissionManagementState.addSuccess("Permission added successfully: ${result.id}"));
-      } else if (result !=null && result is ExceptionMessage) {
-        emit(PermissionManagementState.addError(result.message));
-      } else {
+      if(result != null) {
+        if (result is ReducePermission) {
+          emit(PermissionManagementState.addSuccess("Permission added successfully: ${result.id}"));
+        } else if (result is ExceptionMessage) {
+          emit(PermissionManagementState.addError(result.message));
+        }
+      }
+       else {
         emit(PermissionManagementState.addError("Unknown Error"));
       }
     });

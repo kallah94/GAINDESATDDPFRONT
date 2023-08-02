@@ -1,8 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/full_user.dart';
+import '../../../models/user.dart';
 import '../../../services/admin/user_services.dart';
 import '../../../services/globals.dart';
 
@@ -32,11 +35,16 @@ class UserBloc extends Bloc<UserEvent, UserManagementState> {
     });
 
     on<UserAddEvent>((event, emit) async {
-      dynamic result = await UserService().create(event.fullUser);
+      dynamic result = await UserService().create(event.user);
       if (result != null && result is FullUser) {
-        emit(const UserManagementState.addSuccess("Success"));
+        if (kDebugMode) {
+          print(result);
+        }
+        emit(UserManagementState.addSuccess("User added successfully: ${result.uuid}"));
+      } else if (result != null && result is ExceptionMessage){
+        emit(UserManagementState.addError(result.message));
       } else {
-        emit(const UserManagementState.addError("Error"));
+        emit(UserManagementState.addError("Unknown Error"));
       }
     });
 
@@ -54,10 +62,14 @@ class UserBloc extends Bloc<UserEvent, UserManagementState> {
 
     on<UserDeleteEvent>((event, emit) async {
       dynamic result = await UserService().delete(event.fullUserUUID);
-      if (result != null && result is FullUser) {
-        emit(const UserManagementState.deleteSuccess("Success"));
+      if (result !=null) {
+        if (result is CustomMessage) {
+          emit(UserManagementState.deleteSuccess(result.message));
+        } else if( result is ExceptionMessage){
+          emit(UserManagementState.deleteError(result.message));
+        }
       } else {
-        emit(const UserManagementState.deleteError("Error"));
+        emit(UserManagementState.addError("Unknown Error"));
       }
     });
   }

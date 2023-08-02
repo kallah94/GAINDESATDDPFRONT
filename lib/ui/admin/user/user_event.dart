@@ -12,8 +12,8 @@ class ValidateUserFieldsEvent extends UserEvent {
 class UserDeleteInitEvent extends UserEvent {}
 
 class UserAddEvent extends UserEvent {
-  late FullUser fullUser;
-  UserAddEvent({required this.fullUser});
+  late User user;
+  UserAddEvent({required this.user});
 }
 
 class UserUpdateEvent extends UserEvent {

@@ -23,10 +23,10 @@ class UserManagementState {
   const UserManagementState.failureFillUserFields(String? message)
       : this._(UserState.failureFillUserFields, message: message ?? "Please fill required fields");
 
-  const UserManagementState.addSuccess(String? message)
+ UserManagementState.addSuccess(String? message)
       : this._(UserState.addSuccess, message: message ?? "Add Success");
 
-  const UserManagementState.addError(String? message)
+ UserManagementState.addError(String? message)
       : this._(UserState.addError, message: message ?? "Add Error");
 
   const UserManagementState.updateSuccess(String? message)
@@ -35,9 +35,9 @@ class UserManagementState {
   const UserManagementState.updateError(String? message)
       : this._(UserState.updateError, message: message ?? "Update Error");
 
-  const UserManagementState.deleteSuccess(String? message)
+  UserManagementState.deleteSuccess(String? message)
       : this._(UserState.deleteSuccess, message: message ?? "Delete Success");
 
-  const UserManagementState.deleteError(String? message)
+  UserManagementState.deleteError(String? message)
       : this._(UserState.deleteError, message: message ?? "Delete Error");
 }
