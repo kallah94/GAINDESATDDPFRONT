@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:progress_dialog/progress_dialog.dart';
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 push(BuildContext context, Widget destination) {
   Navigator.of(context)
@@ -126,7 +126,7 @@ pushReplacement(BuildContext context, Widget destination) {
 late ProgressDialog progressDialog;
 showProgress(BuildContext context, String message, bool isDismissible) async {
   progressDialog = ProgressDialog(context,
-  type: ProgressDialogType.Normal, isDismissible: isDismissible);
+  type: ProgressDialogType.normal, isDismissible: isDismissible);
   progressDialog.style(
     message: message,
     borderRadius: 10.0,
