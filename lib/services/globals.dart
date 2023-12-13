@@ -9,3 +9,4 @@ const allUsersUrl = "http://localhost:8080/api/v1/admin/users";
 const allPartnersUrl = "http://localhost:8080/api/v1/admin/partners";
 const allCategoriesUrl = "http://localhost:8080/api/v1/admin/categories";
 const allPermissionsUrl = "http://localhost:8080/api/v1/admin/permissions";
+const allStationsUrl = "http://localhost:8080/api/v1/admin/sensor-data-collectors";

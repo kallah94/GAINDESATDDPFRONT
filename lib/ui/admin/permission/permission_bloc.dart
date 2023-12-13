@@ -28,7 +28,7 @@ class PermissionBloc extends Bloc<PermissionEvent, PermissionManagementState> {
         event.key.currentState!.save();
         emit(const PermissionManagementState.validPartnerFields());
       } else {
-        emit( const PermissionManagementState.failureFillPartnerFields("fill required fields"));
+        emit(const PermissionManagementState.failureFillPartnerFields("fill required fields"));
       }
     });
 
@@ -40,8 +40,7 @@ class PermissionBloc extends Bloc<PermissionEvent, PermissionManagementState> {
         } else if (result is ExceptionMessage) {
           emit(PermissionManagementState.addError(result.message));
         }
-      }
-       else {
+      } else {
         emit(PermissionManagementState.addError("Unknown Error"));
       }
     });
@@ -62,7 +61,7 @@ class PermissionBloc extends Bloc<PermissionEvent, PermissionManagementState> {
       dynamic result = await PermissionService().delete(event.permissionUUID);
       if(result != null && result is CustomMessage) {
         emit(PermissionManagementState.deleteSuccess(result.message));
-      } else if (result !=null && result is ExceptionMessage) {
+      } else if (result != null && result is ExceptionMessage) {
         emit(PermissionManagementState.deleteError(result.message));
       } else {
         emit(PermissionManagementState.deleteError("Unknown Error"));

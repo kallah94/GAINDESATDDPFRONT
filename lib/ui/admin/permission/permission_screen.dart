@@ -41,16 +41,15 @@ class _PermissionScreenState extends State<PermissionScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider<PermissionBloc>(
       create: (context) => PermissionBloc(),
       child: Builder(builder: (context) {
         return Scaffold(
           appBar:  AppBar(
-            title: Row(
+            title: const Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'Permissions Management',
                   style: TextStyle(

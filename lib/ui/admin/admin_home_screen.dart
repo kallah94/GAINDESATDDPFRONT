@@ -9,6 +9,7 @@ import 'package:gaindesat_ddp_client/models/user_detail.dart';
 import 'package:gaindesat_ddp_client/services/helper.dart';
 import 'package:gaindesat_ddp_client/ui/admin/partner/partner_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/permission/permission_screen.dart';
+import 'package:gaindesat_ddp_client/ui/admin/stations/station_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/user/user_screen.dart';
 import 'package:gaindesat_ddp_client/ui/auth/authentication_bloc.dart';
 import 'package:gaindesat_ddp_client/ui/auth/welcome/welcome_screen.dart';
@@ -66,8 +67,8 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                   'Users Management',
                   style: TextStyle(
                       color: isDarkMode(context)
-                          ? Colors.grey.shade50
-                          : Colors.grey.shade900
+                          ? Colors.black
+                          : Colors.black
                   ),
                 ),
                 leading: Transform.rotate(
@@ -87,8 +88,8 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                   'Partners Management',
                   style: TextStyle(
                       color: isDarkMode(context)
-                          ? Colors.grey.shade50
-                          : Colors.grey.shade900
+                          ? Colors.black
+                          : Colors.black
                   ),
                 ),
                 leading: Transform.rotate(
@@ -108,8 +109,8 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                   'Users Permissions Management',
                   style: TextStyle(
                       color: isDarkMode(context)
-                          ? Colors.grey.shade50
-                          : Colors.grey.shade900
+                          ? Colors.black
+                          : Colors.black
                   ),
                 ),
                 leading: Transform.rotate(
@@ -129,8 +130,8 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                   'Users Categories Management',
                   style: TextStyle(
                       color: isDarkMode(context)
-                          ? Colors.grey.shade50
-                          : Colors.grey.shade900
+                          ? Colors.black
+                          : Colors.black
                   ),
                 ),
                 leading: Transform.rotate(
@@ -147,11 +148,32 @@ class _AdminHomeState extends State<AdminHomeScreen> {
               const Divider(),
               ListTile(
                 title: Text(
+                  "Stations Management",
+                  style: TextStyle(
+                    color: isDarkMode(context)
+                        ? Colors.black
+                        : Colors.black
+                  ),
+                ),
+                leading: Transform.rotate(
+                  angle: 0,
+                  child: const Icon(
+                    Icons.map_rounded,
+                    color: Color.fromRGBO(0, 100, 100, 1)
+                  ),
+                ),
+                onTap: () {
+                  push(context, const StationScreen());
+                },
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
                   'Logout',
                   style: TextStyle(
                       color: isDarkMode(context)
-                          ? Colors.grey.shade50
-                          : Colors.grey.shade900
+                          ? Colors.black
+                          : Colors.black
                   ),
                 ),
                 leading: Transform.rotate(

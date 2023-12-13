@@ -39,10 +39,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
-            title: Row(
+            title: const Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'Category Management',
                   style: TextStyle(
@@ -230,7 +230,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                                  left: 10
                                                ),
                                                child: FloatingActionButton(
-                                                 heroTag: null,
+                                                 heroTag: "update-category",
                                                  backgroundColor: Colors.teal,
                                                  mini: false,
                                                  child: const Icon(
@@ -245,7 +245,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                                  left: 10,
                                                ),
                                                child: FloatingActionButton(
-                                                 heroTag: null,
+                                                 heroTag: "delete-category",
                                                  backgroundColor: Colors.red.shade900,
                                                  mini: false,
                                                  child: const Icon(
