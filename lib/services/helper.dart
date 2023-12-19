@@ -63,7 +63,18 @@ String? validateUsername(String? value) {
 
 String? validateCommonField(String? value) {
   String pattern =
-      r'^[A-Za-z][A-Za-z0-9_]{2,29}$';
+      r'^[A-Za-z][A-Za-z0-9_]{1,29}$';
+  RegExp regex = RegExp(pattern);
+  if(!regex.hasMatch(value ?? '')) {
+    return 'Enter valid value';
+  } else {
+    return null;
+  }
+}
+
+String? validateDoubleField(String? value) {
+  String pattern =
+      r'^\d+(\.\d+)?$';
   RegExp regex = RegExp(pattern);
   if(!regex.hasMatch(value ?? '')) {
     return 'Enter valid value';

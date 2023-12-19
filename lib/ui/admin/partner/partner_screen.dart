@@ -41,10 +41,10 @@ class _PartnerScreenState extends State<PartnerScreen> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
-            title: Row(
+            title: const Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'Partner Management',
                   style: TextStyle(

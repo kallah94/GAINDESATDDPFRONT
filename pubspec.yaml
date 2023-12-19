@@ -44,6 +44,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   dropdown_button2: ^2.1.2
   progress_dialog_null_safe: ^1.0.7
+  google_maps_flutter: ^2.5.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,4 @@
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gaindesat_ddp_client/models/category_model.dart';
@@ -76,10 +75,10 @@ class _UserScreenState extends State<UserScreen> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
-            title: Row(
+            title: const Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'Users Management',
                   style: TextStyle(
@@ -476,7 +475,7 @@ class _UserScreenState extends State<UserScreen> {
                               );
                             },
                             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 500,
+                              maxCrossAxisExtent: 650,
                               childAspectRatio: 1,
                               crossAxisSpacing: 1,
                               mainAxisSpacing: 1,
@@ -770,7 +769,7 @@ class _UserScreenState extends State<UserScreen> {
                                                   builder: (context, snapshot) {
                                                     if(snapshot.hasData) {
                                                       return SizedBox(
-                                                        width: 200,
+                                                        width: 180,
                                                         child:  DropdownButtonFormField(
                                                           dropdownColor: Colors.teal,
                                                           style: const TextStyle(
@@ -861,12 +860,9 @@ class _UserScreenState extends State<UserScreen> {
                                                 color: Colors.tealAccent,
                                               ),
                                               onPressed:() {
-                                                if (kDebugMode) {
-                                                  print(categoryValue);
-                                                }
-                                                //_key.currentState?.reset();
-                                                //_keys.currentState?.reset();
-                                               // _toggleFormShown()
+                                                _key.currentState?.reset();
+                                                _keys.currentState?.reset(); // don't work yet
+                                               _toggleFormShown();
                                               },
                                               label: const Text(
                                                 'Cancel',
