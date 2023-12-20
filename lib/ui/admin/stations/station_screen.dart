@@ -101,6 +101,24 @@ class _StationScreenState extends State<StationScreen> {
                   }
                 },
               ),
+              BlocListener<StationBloc, StationManagementState>(
+                  listener: (context, state) async {
+                    if (state.stationState == StationState.validStationFields) {
+                      await context.read<LoadingCubit>().showLoading(context, "Adding new Station !!! Please wait", false);
+                      if (!mounted) return;
+                      context.read<StationBloc>().add(
+                        StationAddEvent(station: Station(
+                          code: code!,
+                          name: name!,
+                          partnerUUID: partnerUUID!,
+                          longitude: longitude!,
+                          latitude: latitude!,
+                          elevation: elevation!
+                        ))
+                      );
+                    }
+                  }
+              )
             ],
             child: Padding(
               padding: const EdgeInsets.all(16.0),
