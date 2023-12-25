@@ -1,5 +1,6 @@
 
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
+import 'package:gaindesat_ddp_client/models/full_station.dart';
 
 import '../../models/station.dart';
 import '../globals.dart';
@@ -21,12 +22,12 @@ class StationService {
     return await GenericService().delete<Station>(stationUUID, allStationsUrl);
   }
 
-  Future<List<Station>> fetchStations() async {
+  Future<List<FullStation>> fetchStations() async {
     dynamic response = await GenericService().fetchAllData(allStationsUrl);
     if(response is ExceptionMessage) {
-      return [Station.empty()];
+      return [FullStation.empty()];
     }
-    List<Station> stations = response.map<Station>((json) => Station.fromJson(json)).toList();
+    List<FullStation> stations = response.map<FullStation>((json) => FullStation.fromJson(json)).toList();
     return stations;
   }
 }

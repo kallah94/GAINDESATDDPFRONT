@@ -30,4 +30,19 @@ class Station {
       elevation: parsedJson["elevation"] ?? ""
     );
   }
+
+  Map toJson() => {
+    'uuid': uuid,
+    'code': code,
+    'name': name,
+    'partnerUUID': partnerUUID,
+    'longitude': longitude,
+    'latitude': latitude,
+    'elevation': elevation
+  };
+
+  @override
+  String toString() {
+    return 'Station{uuid: $uuid, code: $code,name: $name, longitude: $longitude, latitude: $latitude, elevation: $elevation, partnerUUID: $partnerUUID}';
+  }
 }

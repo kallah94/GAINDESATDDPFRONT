@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/models/station.dart';
 import 'package:gaindesat_ddp_client/services/admin/staion_service.dart';
@@ -34,6 +35,9 @@ class StationBloc extends Bloc<StationEvent, StationManagementState> {
 
     on<StationAddEvent>((event, emit) async {
       dynamic result = await StationService().create(event.station);
+      if (kDebugMode) {
+        print(result);
+      }
       if (result != null) {
         if (result is Station) {
           emit(StationManagementState.addSuccess("Station added successfully: ${result.uuid}"));

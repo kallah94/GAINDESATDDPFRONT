@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gaindesat_ddp_client/models/full_station.dart';
 import 'package:gaindesat_ddp_client/services/admin/staion_service.dart';
 import 'package:gaindesat_ddp_client/ui/admin/stations/station_bloc.dart';
 import 'package:gaindesat_ddp_client/ui/loading_cubit.dart';
@@ -23,7 +25,7 @@ class _StationScreenState extends State<StationScreen> {
   double? longitude, latitude, elevation;
   bool _showFrom = false;
   ReducePartner? partnerValue;
-  late final Future<List<Station>> futureStations;
+  late final Future<List<FullStation>> futureStations;
   late final Future<List<ReducePartner>> futurePartners;
   void _toggleFormShow() {
     setState(() {
@@ -33,9 +35,9 @@ class _StationScreenState extends State<StationScreen> {
 
   @override
   void initState() {
-    super.initState();
     futureStations = StationService().fetchStations();
     futurePartners = PartnerService().fetchPartners();
+    super.initState();
   }
 
   @override
@@ -110,7 +112,7 @@ class _StationScreenState extends State<StationScreen> {
                         StationAddEvent(station: Station(
                           code: code!,
                           name: name!,
-                          partnerUUID: partnerUUID!,
+                          partnerUUID: partnerValue?.uuid!,
                           longitude: longitude!,
                           latitude: latitude!,
                           elevation: elevation!
@@ -159,7 +161,7 @@ class _StationScreenState extends State<StationScreen> {
                       padding: const EdgeInsets.only(
                         bottom: 12
                       ),
-                      child: FutureBuilder<List<Station>> (
+                      child: FutureBuilder<List<FullStation>> (
                         future: futureStations,
                         builder: (context, snapshot) {
                           if(snapshot.hasData) {
@@ -295,7 +297,7 @@ class _StationScreenState extends State<StationScreen> {
                                                     right: 0
                                                 ),
                                                 child: Text(
-                                                  'Elev: ${snapshot.data![index].elevation} m',
+                                                  'Elev: ${snapshot.data![index].latitude} m',
                                                   style: const TextStyle(
                                                       color: Colors.white,
                                                       fontWeight: FontWeight.w300,
@@ -322,14 +324,18 @@ class _StationScreenState extends State<StationScreen> {
                                                     bottom: 3
                                                   ),
                                                 child: FloatingActionButton(
-                                                  heroTag: "update_station",
+                                                  heroTag: "update_station_$index",
                                                   backgroundColor: Colors.teal,
                                                   mini: false,
                                                   child: const Icon(
                                                     Icons.update,
                                                     color: Colors.tealAccent,
                                                   ),
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    if (kDebugMode) {
+                                                      print(snapshot.data![index]);
+                                                    }
+                                                  },
                                                 ),
                                               ),
                                               Padding(
@@ -339,7 +345,7 @@ class _StationScreenState extends State<StationScreen> {
                                                     bottom: 3
                                                   ),
                                                 child: FloatingActionButton(
-                                                  heroTag: "delete_station",
+                                                  heroTag: "delete_station_$index",
                                                   backgroundColor: Colors.red.shade900,
                                                   mini: false,
                                                   child: const Icon(
@@ -764,9 +770,10 @@ showAlertDialog(BuildContext context) {
     label: const Text(
       'Delete',
       style: TextStyle(
-        color: Colors.teal
+        color: Colors.tealAccent
       ),
     ),
+    backgroundColor: Colors.teal,
   );
 
   Widget cancelButton = FloatingActionButton.extended(
