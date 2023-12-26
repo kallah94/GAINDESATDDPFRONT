@@ -2,12 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
+
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
-import 'package:gaindesat_ddp_client/models/category_model.dart';
-import 'package:gaindesat_ddp_client/models/full_user.dart';
-import 'package:gaindesat_ddp_client/models/partner.dart';
-import 'package:gaindesat_ddp_client/models/permission.dart';
 import 'package:gaindesat_ddp_client/models/user_detail.dart';
 import 'package:http/http.dart' as http;
 import '../auth.dart';
@@ -57,9 +53,11 @@ class GenericService {
       var status = response.statusCode;
       if(status == 200) {
         Map responseMap = jsonDecode(response.body);
+        responseMap["statusCode"] = status;
         return CustomMessage.fromJson(responseMap);
       } else {
         Map responseMap = jsonDecode(response.body);
+        responseMap["statusCode"] = status;
         return ExceptionMessage.fromJson(responseMap);
       }
     }

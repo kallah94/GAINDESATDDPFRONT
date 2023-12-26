@@ -255,7 +255,13 @@ class _UserScreenState extends State<UserScreen> {
                                                       color: Colors.white
                                                   ),
                                                 )
-                                                    : const Text("Inactive"),
+                                                    : const Text(
+                                                    "Inactive",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w300
+                                                  ),
+                                                ),
                                                 backgroundColor: (snapshot.data![index].status == true)
                                                     ? Colors.teal[800]
                                                     : Colors.red,

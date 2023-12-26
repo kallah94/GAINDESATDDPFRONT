@@ -230,7 +230,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                                  left: 10
                                                ),
                                                child: FloatingActionButton(
-                                                 heroTag: "update-category",
+                                                 heroTag: "update-category_$index",
                                                  backgroundColor: Colors.teal,
                                                  mini: false,
                                                  child: const Icon(
@@ -245,7 +245,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                                  left: 10,
                                                ),
                                                child: FloatingActionButton(
-                                                 heroTag: "delete-category",
+                                                 heroTag: "delete-category_$index",
                                                  backgroundColor: Colors.red.shade900,
                                                  mini: false,
                                                  child: const Icon(

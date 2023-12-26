@@ -36,7 +36,7 @@ class PermissionBloc extends Bloc<PermissionEvent, PermissionManagementState> {
       dynamic result = await PermissionService().create(event.permission);
       if(result != null) {
         if (result is ReducePermission) {
-          emit(PermissionManagementState.addSuccess("Permission added successfully: ${result.id}"));
+          emit(PermissionManagementState.addSuccess("Permission added successfully: ${result.uuid}"));
         } else if (result is ExceptionMessage) {
           emit(PermissionManagementState.addError(result.message));
         }

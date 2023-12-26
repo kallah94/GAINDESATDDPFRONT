@@ -37,13 +37,13 @@ class Permission {
 }
 
 class ReducePermission {
-  late final String id;
+  late final String uuid;
   late final String code;
   late final String title;
   late final String categoryName;
 
   ReducePermission({
-    required this.id,
+    required this.uuid,
     required this.code,
     required this.title,
     required this.categoryName
@@ -52,7 +52,7 @@ class ReducePermission {
 
   factory ReducePermission.fromJson(Map<String, dynamic> parsedJson) {
     return ReducePermission(
-      id: parsedJson["id"],
+      uuid: parsedJson["uuid"],
       code: parsedJson["code"],
       title: parsedJson["title"],
       categoryName: parsedJson["categoryName"]
