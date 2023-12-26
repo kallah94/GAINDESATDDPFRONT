@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
+import 'package:gaindesat_ddp_client/models/full_station.dart';
 import 'package:gaindesat_ddp_client/models/station.dart';
 import 'package:gaindesat_ddp_client/services/admin/staion_service.dart';
 import 'package:gaindesat_ddp_client/services/globals.dart';
@@ -39,7 +40,7 @@ class StationBloc extends Bloc<StationEvent, StationManagementState> {
         print(result);
       }
       if (result != null) {
-        if (result is Station) {
+        if (result is FullStation) {
           emit(StationManagementState.addSuccess("Station added successfully: ${result.uuid}"));
         } else if (result is ExceptionMessage) {
           emit(StationManagementState.addError(result.message));

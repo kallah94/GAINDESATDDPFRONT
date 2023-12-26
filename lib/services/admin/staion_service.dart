@@ -13,7 +13,7 @@ class StationService {
     if(response is ExceptionMessage) {
       return response;
     }
-    return Station.fromJson(response);
+    return FullStation.fromJson(response);
   }
 
   Future<Station?> update(Station station) async {return null;}

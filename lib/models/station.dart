@@ -32,7 +32,6 @@ class Station {
   }
 
   Map toJson() => {
-    'uuid': uuid,
     'code': code,
     'name': name,
     'partnerUUID': partnerUUID,
