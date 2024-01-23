@@ -422,7 +422,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                                 bottom: 0
                                             ),
                                             child: FloatingActionButton.extended(
-                                              heroTag: null,
+                                              heroTag: "cancel-adding-category",
                                               backgroundColor: Colors.red.shade900,
                                               tooltip: "Cancel",
                                               elevation: 10,

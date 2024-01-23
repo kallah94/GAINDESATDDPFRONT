@@ -45,6 +45,8 @@ dependencies:
   dropdown_button2: ^2.1.2
   progress_dialog_null_safe: ^1.0.7
   google_maps_flutter: ^2.5.0
+  data_table_2: ^2.5.10
+  syncfusion_flutter_datagrid: ^24.1.46
 
 dev_dependencies:
   flutter_test:

@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gaindesat_ddp_client/services/admin/my_http_overrides.dart';
 import 'package:gaindesat_ddp_client/ui/auth/authentication_bloc.dart';
 import 'package:gaindesat_ddp_client/ui/auth/launcher_screen/launcher_screen.dart';
 import 'package:gaindesat_ddp_client/ui/loading_cubit.dart';
 
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MultiRepositoryProvider(
     providers: [
       RepositoryProvider(create: (_) => AuthenticationBloc()),

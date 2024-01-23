@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 push(BuildContext context, Widget destination) {
@@ -84,12 +85,12 @@ String? validateDoubleField(String? value) {
 }
 
 InputDecoration getInputDecoration(
-    {required String hint, required bool darkMode, required Color errorColor,  Icon? prefixIcon, Padding? suffixIcon, TextStyle? hintStyle}) {
+    {required String hint, required bool darkMode, required Color errorColor,  Icon? prefixIcon, Padding? suffixIcon, TextStyle? hintStyle, BoxConstraints constraints = const BoxConstraints(maxWidth: 720, minWidth: 200)}) {
   return InputDecoration(
     prefixIcon: prefixIcon,
     hintStyle: hintStyle,
     suffixIcon: suffixIcon,
-    constraints: const BoxConstraints(maxWidth: 720, minWidth: 200),
+    constraints: constraints,
     contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
     fillColor: darkMode ? Colors.white : Colors.white,
     hintText: hint,

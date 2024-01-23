@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gaindesat_ddp_client/models/user_detail.dart';
 import 'package:gaindesat_ddp_client/services/helper.dart';
+import 'package:gaindesat_ddp_client/ui/admin/collected-data/collected-data_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/partner/partner_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/permission/permission_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/stations/station_map_screen.dart';
@@ -170,7 +171,7 @@ class _AdminHomeState extends State<AdminHomeScreen> {
               const Divider(),
               ListTile(
                 title: Text(
-                  "Stations Positions",
+                  "Données collectées",
                   style: TextStyle(
                       color: isDarkMode(context)
                           ? Colors.black
@@ -185,7 +186,7 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                   ),
                 ),
                 onTap: () {
-                  push(context, const StationPosition());
+                  push(context, const CollectedDataScreen());
                 },
               ),
               const Divider(),
@@ -232,13 +233,33 @@ class _AdminHomeState extends State<AdminHomeScreen> {
               : const Color.fromRGBO(0, 132, 121, 100),
           centerTitle: true,
         ),
-        body: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [],
-          ),
+        body: Center(
+          child: GridView.extent(
+            maxCrossAxisExtent: 500,
+            padding: const EdgeInsets.all(30),
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            children: [
+              Container(
+                color: Colors.tealAccent,
+              ),
+              Container(
+                color: Colors.tealAccent,
+              ),
+              Container(
+                color: Colors.tealAccent,
+              ),
+              Container(
+                color: Colors.tealAccent,
+              ),
+              Container(
+                color: Colors.tealAccent,
+              ),
+              Container(
+                color: Colors.tealAccent,
+              )
+            ],
+          )
         ),
       ),
     );
