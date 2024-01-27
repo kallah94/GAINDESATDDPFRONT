@@ -9,7 +9,8 @@ import 'package:gaindesat_ddp_client/ui/loading_cubit.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../../../services/helper.dart';
 
-int _rowsPerPage = 10;
+final int _rowsPerPage = 10;
+List<MissionData> _paginatedMissionData = [];
 class CollectedDataScreen extends StatefulWidget {
   const CollectedDataScreen({super.key});
 
@@ -22,14 +23,11 @@ class _CollectedDataScreenState extends State<CollectedDataScreen> {
   final GlobalKey<FormState> _key = GlobalKey();
   String? startDate, endDate;
   bool _showForm = false;
-  final int rowsPerPage = 10;
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
   DateTime _selectedStartDate = DateTime.now();
   DateTime _selectedEndDate = DateTime.now();
   late final Future<List<MissionData>> futureMissionData;
-  bool showLoadingIndicator = true;
-  double pageCount = 0;
   void _toggleFormShow() {
     setState(() {
       _showForm = !_showForm;
@@ -376,7 +374,7 @@ Future<void> _selectEndDate(BuildContext context) async {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                        bottom: 0
+                        right: 0
                       ),
                       child: FutureBuilder<List<MissionData>>(
                         future: futureMissionData,
@@ -384,73 +382,61 @@ Future<void> _selectEndDate(BuildContext context) async {
                           if(snapshot.hasData) {
                             return Column(
                               //padding: const EdgeInsets.all(15.0),
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                SfDataGrid(
-                                  source: _CollectedDataGridSource(data: snapshot.data!),
-                                  columnWidthMode: ColumnWidthMode.fill,
-                                  columns: <GridColumn>[
-                                    GridColumn(
-                                        columnName: "Paramètre",
-                                        label: Container(
-                                          padding: const EdgeInsets.all(16.0),
-                                          alignment: Alignment.center,
-                                          child: const Text(
-                                              'PARAMÉTRE'
-                                          ),
-                                        )
-                                    ),
-                                    GridColumn(
-                                        columnName: "valeur",
-                                        label: Container(
-                                          padding: const EdgeInsets.all(16.0),
-                                          alignment: Alignment.center,
-                                          child: const Text(
-                                              'VALEUR'
-                                          ),
-                                        )
-                                    ),
-                                    GridColumn(
-                                        columnName: "Unité",
-                                        label: Container(
-                                          padding: const EdgeInsets.all(16.0),
-                                          alignment: Alignment.center,
-                                          child: const Text(
-                                              'UNITÉ'
-                                          ),
-                                        )
-                                    ),
-                                    GridColumn(
-                                        columnName: "Date",
-                                        label: Container(
-                                          padding: const EdgeInsets.all(16.0),
-                                          alignment: Alignment.center,
-                                          child: const Text(
-                                              'DATE'
-                                          ),
-                                        )
-                                    )
-                                  ],
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: SfDataGrid(
+                                      shrinkWrapColumns: false,
+                                      shrinkWrapRows: false,
+                                      source: MissionDataSource(missionData: snapshot.data!),
+                                      columnWidthMode: ColumnWidthMode.fill,
+                                      columns: <GridColumn>[
+                                        GridColumn(
+                                            columnName: "Paramètre",
+                                            label: Container(
+                                              padding: const EdgeInsets.all(8.0),
+                                              alignment: Alignment.center,
+                                              child: const Text('PARAMETRE'),
+                                            )
+                                        ),
+                                        GridColumn(
+                                            columnName: "Valeur",
+                                            label: Container(
+                                              padding: const EdgeInsets.all(8.0),
+                                              alignment: Alignment.center,
+                                              child: const Text('VALEUR'),
+                                            )
+                                        ),
+                                        GridColumn(
+                                            columnName: "Unité",
+                                            label: Container(
+                                              padding: const EdgeInsets.all(8.0),
+                                              alignment: Alignment.center,
+                                              child: const Text('UNITÉ'),
+                                            )
+                                        ),
+                                        GridColumn(
+                                            columnName: "Date",
+                                            label: Container(
+                                              padding: const EdgeInsets.all(8.0),
+                                              alignment: Alignment.center,
+                                              child: const Text('DATE'),
+                                            )
+                                        ),
+                                      ]),
                                 ),
-                                SfDataPager(
-                                  pageCount: ((snapshot.data!.length / _rowsPerPage).ceil()).toDouble(),
-                                  direction: Axis.horizontal,
-                                  onPageNavigationStart: (int pageIndex) {
-                                    setState(() {
-                                      showLoadingIndicator = true;
-                                    });
-                                  },
-                                  delegate: _CollectedDataGridSource(data: snapshot.data!),
-                                  onPageNavigationEnd: (int pageIndex) {
-                                    setState(() {
-                                      showLoadingIndicator = false;
-                                    });
-                                  },
-                                  availableRowsPerPage: const [10, 20, 100, 250],
-                                  onRowsPerPageChanged: (int? rowsPerPage) {
+                               /* SizedBox(
+                                  height: 60.0,
+                                  child: SfDataPager(
+                                    delegate: MissionDataSource(missionData: snapshot.data!),
+                                    pageCount: snapshot.data!.length / _rowsPerPage,
+                                    direction: Axis.horizontal,
+                                  ),
+                                )*/
 
-                                  },
-
-                                )
                               ]
                             );
 
@@ -471,73 +457,33 @@ Future<void> _selectEndDate(BuildContext context) async {
   }
 }
 
-class _CollectedDataSource extends DataTableSource {
-  final List<MissionData> data;
-
-  _CollectedDataSource({required this.data});
-
-  @override
-  DataRow? getRow(int index) {
-    if (data.isEmpty || index >= data.length) {
-      return null;
-    }
-    final item = data[index];
-
-    return DataRow(cells: [
-      DataCell(Text(item.parameter ?? "")),
-      DataCell(Text(item.value.toString())),
-      DataCell(Text(item.unit ?? "")),
-      DataCell(Text(item.date.toString()))
-    ]);
-  }
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get rowCount => data.length;
-
-  @override
-  int get selectedRowCount => 0;
-}
-
-class _CollectedDataGridSource extends DataGridSource {
-  _CollectedDataGridSource({required List<MissionData> data}) {
-    _missionData = data;
-    _paginatedMissionData = data;
-    buildDataGridRow();
-  }
-
-  List<DataGridRow> _missionDataGridRows = [];
-  List<MissionData> _missionData = [];
-  List<MissionData> _paginatedMissionData = [];
-
-
-  void buildDataGridRow() {
-    _missionDataGridRows = _paginatedMissionData
+class MissionDataSource extends DataGridSource {
+  MissionDataSource({required List<MissionData> missionData}) {
+    missionDataGridRows = missionData
         .map<DataGridRow>((item) => DataGridRow(cells: [
           DataGridCell<String>(columnName: "Paramètre", value: item.parameter),
-          DataGridCell<double>(columnName: "Valeur", value: item.value),
+          DataGridCell<String>(columnName: "Valeur", value: item.value.toString()),
           DataGridCell<String>(columnName: "Unité", value: item.unit),
           DataGridCell<String>(columnName: "Date", value: item.date)
-    ]))
-        .toList();
+    ])).toList(growable: true);
   }
 
+  List<DataGridRow> missionDataGridRows = [];
+
   @override
-  List<DataGridRow> get rows => _missionDataGridRows;
+  List<DataGridRow> get rows => missionDataGridRows;
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
-      cells: row.getCells().map<Widget>((item) {
-        return Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(8.0),
-          child: Text(item.value.toString()),
-        );
-      }).toList());
+        cells: row.getCells().map<Widget>((dataGridCell) {
+          return Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                dataGridCell.value.toString(),
+                overflow: TextOverflow.ellipsis,
+              ));
+        }).toList(growable: true));
   }
-
-
 }

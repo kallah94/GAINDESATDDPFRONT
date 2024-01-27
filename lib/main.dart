@@ -38,7 +38,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.grey.shade800,
+        scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           systemOverlayStyle: SystemUiOverlayStyle.light
         ),

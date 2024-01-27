@@ -101,7 +101,9 @@ class WelcomeScreen extends StatelessWidget {
                       child: const Text(
                         'Log In',
                         style: TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
                         ),
                       ),
                       onPressed: () {
