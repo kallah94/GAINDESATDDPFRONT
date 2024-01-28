@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 push(BuildContext context, Widget destination) {
@@ -119,8 +117,6 @@ String? validatePassword(String? value) {
     return null;
   }
 }
-
-
 
 bool isDarkMode(BuildContext context) {
   if (Theme.of(context).brightness == Brightness.light) {

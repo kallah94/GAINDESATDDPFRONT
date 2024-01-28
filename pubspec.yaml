@@ -48,6 +48,7 @@ dependencies:
   data_table_2: ^2.5.10
   syncfusion_flutter_datagrid: ^24.1.46
   syncfusion_flutter_datagrid_export: ^24.1.47
+  path_provider_macos: ^2.0.7
 
 dev_dependencies:
   flutter_test:

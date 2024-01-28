@@ -8,9 +8,10 @@ import 'package:gaindesat_ddp_client/ui/admin/collected-data/collected-data_bloc
 import 'package:gaindesat_ddp_client/ui/loading_cubit.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../../../services/helper.dart';
-
-final int _rowsPerPage = 10;
-List<MissionData> _paginatedMissionData = [];
+import 'package:syncfusion_flutter_datagrid_export/export.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row;
+import '../../../services/platfome_saver.dart'
+if (dart.library.html) '../../../../../../services/web_saver.dart' as saver;
 class CollectedDataScreen extends StatefulWidget {
   const CollectedDataScreen({super.key});
 
@@ -21,6 +22,7 @@ class CollectedDataScreen extends StatefulWidget {
 class _CollectedDataScreenState extends State<CollectedDataScreen> {
   AutovalidateMode _validate = AutovalidateMode.disabled;
   final GlobalKey<FormState> _key = GlobalKey();
+  final GlobalKey<SfDataGridState> _dataGridKey = GlobalKey<SfDataGridState>();
   String? startDate, endDate;
   bool _showForm = false;
   final TextEditingController _dateController = TextEditingController();
@@ -64,6 +66,15 @@ Future<void> _selectEndDate(BuildContext context) async {
         _endDateController.text = "${picked.toLocal()}";
       });
     }
+}
+
+Future<void> _exportMissionDataToExcel() async {
+    final Workbook workbook = _dataGridKey.currentState!.exportToExcelWorkbook();
+
+    final List<int> bytes = workbook.saveAsStream();
+    workbook.dispose();
+
+    await saver.saveAndLaunchFile(bytes, 'missionData-${DateTime.now().day.toString()}.xlsx');
 }
   @override
   void initState() {
@@ -176,7 +187,7 @@ Future<void> _selectEndDate(BuildContext context) async {
                                 Icons.upload,
                                 color: Colors.tealAccent,
                               ),
-                              onPressed: _toggleFormShow,
+                              onPressed: _exportMissionDataToExcel,
                               label: const Text(
                                 "Export Mission Data",
                                 style: TextStyle(
@@ -389,12 +400,13 @@ Future<void> _selectEndDate(BuildContext context) async {
                                 SizedBox(
                                   height: MediaQuery.of(context).size.height,
                                   child: SfDataGrid(
-                                      shrinkWrapColumns: false,
-                                      shrinkWrapRows: false,
-                                      source: MissionDataSource(missionData: snapshot.data!),
-                                      columnWidthMode: ColumnWidthMode.fill,
-                                      columns: <GridColumn>[
-                                        GridColumn(
+                                    key: _dataGridKey,
+                                    shrinkWrapColumns: false,
+                                    shrinkWrapRows: false,
+                                    source: MissionDataSource(missionData: snapshot.data!),
+                                    columnWidthMode: ColumnWidthMode.fill,
+                                    columns: <GridColumn>[
+                                      GridColumn(
                                             columnName: "Paramètre",
                                             label: Container(
                                               padding: const EdgeInsets.all(8.0),
