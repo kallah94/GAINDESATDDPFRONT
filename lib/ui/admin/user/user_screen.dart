@@ -62,12 +62,6 @@ class _UserScreenState extends State<UserScreen> {
     futureCategories = CategoryService().fetchCategories();
   }
 
-  void _toggle() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider<UserBloc>(
@@ -138,7 +132,7 @@ class _UserScreenState extends State<UserScreen> {
                         UserAddEvent(user: User(
                             username: username!,
                             email: email!,
-                            password: password!,
+                            password: password ?? "",
                             fullName: fullName!,
                             status: status,
                             categoryUUID: categoryValue?.uuid ?? "",
@@ -633,55 +627,6 @@ class _UserScreenState extends State<UserScreen> {
                                             errorColor: Theme.of(context).colorScheme.error
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 27,
-                                          right: 24.0,
-                                          left: 24.0,
-                                      ),
-                                      child: TextFormField(
-                                        obscuringCharacter: '*',
-                                        keyboardType: TextInputType.visiblePassword,
-                                        textAlignVertical: TextAlignVertical.center,
-                                        obscureText: _obscureText,
-                                        validator: validatePassword,
-                                        onSaved: (String? val) {
-                                          password = val;
-                                        },
-                                        textInputAction: TextInputAction.next,
-                                        style: const TextStyle(
-                                            fontSize: 18.0,
-                                            color: Colors.white
-                                        ),
-                                        cursorColor: Colors.tealAccent,
-                                        decoration: getInputDecoration(
-                                          prefixIcon: const Icon(
-                                            Icons.lock,
-                                            color: Colors.tealAccent,
-                                            size: 24,
-                                          ),
-                                          suffixIcon: Padding(
-                                            padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                                            child: GestureDetector(
-                                              onTap: _toggle,
-                                              child: Icon(
-                                                  color: Colors.tealAccent,
-                                                  _obscureText
-                                                      ? Icons.visibility_rounded
-                                                      : Icons.visibility_off_rounded,
-                                                  size: 24
-                                              ),
-                                            ),
-                                          ),
-                                          hint: 'Password',
-                                          hintStyle: const TextStyle(
-                                              color: Colors.white
-                                          ),
-                                          darkMode: isDarkMode(context),
-                                          errorColor: Theme.of(context).colorScheme.error,
-                                        ),
-                                      )
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(

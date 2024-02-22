@@ -23,8 +23,14 @@ class PartnerService {
     return Partner.fromJson(response);
   }
 
-  Future<Object?> updatePartner(Partner partner) async {return null;}
-
+  Future<Object?> update(Partner partner) async {
+    dynamic response = await GenericService()
+        .updateItem(partner, allPartnersUrl, partner.uuid!);
+    if (response is ExceptionMessage) {
+      return response;
+    }
+    return Partner.fromJson(response);
+  }
   Future<Object> delete(String partnerUUID) async {
     return await GenericService().delete<Partner>(partnerUUID, allPartnersUrl);
   }

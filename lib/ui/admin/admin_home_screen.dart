@@ -10,23 +10,18 @@ import 'package:gaindesat_ddp_client/services/helper.dart';
 import 'package:gaindesat_ddp_client/ui/admin/collected-data/collected-data_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/partner/partner_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/permission/permission_screen.dart';
-import 'package:gaindesat_ddp_client/ui/admin/stations/station_map_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/stations/station_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/user/user_screen.dart';
 import 'package:gaindesat_ddp_client/ui/auth/authentication_bloc.dart';
 import 'package:gaindesat_ddp_client/ui/auth/welcome/welcome_screen.dart';
 import 'package:gaindesat_ddp_client/ui/home.dart';
-
 import 'category/category_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   final UserDetails userDetails;
-  
   const AdminHomeScreen({Key? key, required this.userDetails}) : super(key: key);
-  
   @override
   State createState() => _AdminHomeState();
-  
 }
 
 class _AdminHomeState extends State<AdminHomeScreen> {
@@ -200,7 +195,7 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                   ),
                 ),
                 leading: Transform.rotate(
-                  angle: pi / 2,
+                  angle: pi,
                   child: const Icon(
                     Icons.exit_to_app,
                     color: Color.fromRGBO(255, 0, 0, 1),

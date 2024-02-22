@@ -30,10 +30,10 @@ class PartnerManagementState {
   PartnerManagementState.addError(String? message)
       : this._(PartnerState.addError, message: message ?? "Add Error");
 
-  const PartnerManagementState.updateSuccess(String? message)
+  PartnerManagementState.updateSuccess(String? message)
       : this._(PartnerState.updateSuccess, message: message ?? "Update Success");
 
-  const PartnerManagementState.updateError(String? message)
+  PartnerManagementState.updateError(String? message)
       : this._(PartnerState.updateError, message: message ?? "Update Error");
 
   PartnerManagementState.deleteSuccess(String? message)

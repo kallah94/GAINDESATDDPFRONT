@@ -27,7 +27,6 @@ class MyApp extends StatefulWidget {
   // This widget is the root of your application.
   @override
   MyAppState createState() => MyAppState();
-
 }
 
 class MyAppState extends State<MyApp> with WidgetsBindingObserver {

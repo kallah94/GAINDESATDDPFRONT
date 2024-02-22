@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/models/mission_data.dart';
@@ -11,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 class MissionDataService {
   Future<List<MissionData>> fetchMissionData() async {
-    dynamic response = await GenericService().fetchAllData(allMissionData);
+    dynamic response = await GenericService().fetchAllData(allMissionDataUrl);
     if (response is ExceptionMessage) {
       return [];
     }
@@ -39,7 +37,7 @@ class MissionDataService {
       ).timeout(const Duration(seconds: 50));
       var status = response.statusCode;
       if (status == 200) {
-        return CustomMessage(statusCode: status, message: "data saved successfully");;
+        return CustomMessage(statusCode: status, message: "data saved successfully");
       }
     } on Error catch(error) {
       return ExceptionMessage(statusCode: 500, message: "Error occur during requesting mission data: $error");

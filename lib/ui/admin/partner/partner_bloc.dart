@@ -43,11 +43,11 @@ class PartnerBloc extends Bloc<PartnerEvent, PartnerManagementState> {
     });
 
     on<PartnerUpdateEvent>((event, emit) async {
-      dynamic result = await PartnerService().updatePartner(event.partner);
+      dynamic result = await PartnerService().update(event.partner);
       if (result != null && result is Partner) {
-        emit(const PartnerManagementState.updateSuccess("Success"));
+        emit(PartnerManagementState.updateSuccess("Success"));
       } else {
-        emit(const PartnerManagementState.updateError("Error"));
+        emit(PartnerManagementState.updateError("Error"));
       }
     });
 

@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gaindesat_ddp_client/models/mission_data.dart';
-import 'package:gaindesat_ddp_client/services/admin/mission_data_services.dart';
+import 'package:gaindesat_ddp_client/services/partners/mission_data_services.dart';
 import 'package:gaindesat_ddp_client/ui/admin/collected-data/collected-data_bloc.dart';
 import 'package:gaindesat_ddp_client/ui/loading_cubit.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -78,7 +78,7 @@ Future<void> _exportMissionDataToExcel() async {
   @override
   void initState() {
     super.initState();
-    futureMissionData = MissionDataService().fetchMissionData();
+    futureMissionData = PartnerMissionDataService().fetchMissionData();
   }
 
   @override

@@ -23,7 +23,14 @@ class CategoryService {
     return CategoryModel.fromJson(response);
   }
 
-  Future<CategoryModel?> update(CategoryModel category) async { return null;}
+  Future<Object?> update(CategoryModel category) async {
+    dynamic response = await GenericService()
+        .updateItem(category, allCategoriesUrl, category.uuid!);
+    if (response is ExceptionMessage) {
+      return response;
+    }
+    return CategoryModel.fromJson(response);
+  }
 
   Future<Object> delete(String categoryUUID) async {
     return await GenericService().delete<CategoryModel>(categoryUUID, allCategoriesUrl);

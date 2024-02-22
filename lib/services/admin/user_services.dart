@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/services/admin/generic_service.dart';
 import 'package:gaindesat_ddp_client/services/globals.dart';
@@ -31,6 +30,4 @@ class UserService {
   Future<Object> delete(String fullUserUUID) async {
     return await GenericService().delete<FullUser>(fullUserUUID, allUsersUrl);
   }
-
-
 }

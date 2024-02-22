@@ -17,12 +17,29 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   AutovalidateMode _validate = AutovalidateMode.disabled;
   final GlobalKey<FormState> _key = GlobalKey();
-  String? code, catName, deleteCategoryUUID;
+  final TextEditingController codeController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  String? code, catName, deleteCategoryUUID, updatingCategoryUUID;
   bool _showForm = false;
+  bool _updating = false;
   late final Future<List<ReduceCategory>> futureCategories;
   void _toggleFormShow() {
     setState(() {
       _showForm = !_showForm;
+      _updating = false;
+      codeController.clear();
+      nameController.clear();
+    });
+  }
+  void _toggleUpdate(ReduceCategory reduceCategory) {
+    setState(() {
+      _updating = true;
+      _showForm = true;
+      code = reduceCategory.code;
+      catName = reduceCategory.catName;
+      updatingCategoryUUID = reduceCategory.uuid;
+      codeController.text = code!;
+      nameController.text = catName!;
     });
   }
 
@@ -97,7 +114,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   if (state.categoryState == CategoryState.validCategoryFields) {
                     await context.read<LoadingCubit>().showLoading(context, "Adding category. Please Wait !!", false);
                     if (!mounted) return;
-                    context.read<CategoryBloc>().add(
+                    _updating ? context.read<CategoryBloc>().add(
+                      CategoryUpdateEvent(category: CategoryModel(uuid: updatingCategoryUUID, code: code!, catName: catName!))
+                    ) : context.read<CategoryBloc>().add(
                       CategoryAddEvent(category: CategoryModel(code: code!, catName: catName!))
                     );
                   }
@@ -237,7 +256,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                                    Icons.update,
                                                    color: Colors.tealAccent,
                                                  ),
-                                                 onPressed: () {},
+                                                 onPressed: () {
+                                                   _toggleUpdate(snapshot.data![index]);
+                                                 }
                                                ),
                                              ),
                                              Padding(
@@ -303,17 +324,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.zero,
-                                      child: Text(
-                                        'Create new Category',
-                                        style: TextStyle(
+                                      child: Text(!_updating ? 'Create new Category' : 'Update Category',
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 25.0,
                                           fontWeight: FontWeight.bold
                                         ),
                                         textAlign: TextAlign.center,
-                                      ),
+                                      )
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -322,6 +342,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                         left: 24
                                       ),
                                       child: TextFormField(
+                                        controller: codeController,
                                         textAlignVertical: TextAlignVertical.center,
                                         textInputAction: TextInputAction.next,
                                         validator: validateCommonField,
@@ -355,6 +376,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                         left: 24
                                       ),
                                       child: TextFormField(
+                                        controller: nameController,
                                         textAlignVertical: TextAlignVertical.center,
                                         textInputAction: TextInputAction.done,
                                         validator: validateCommonField,
@@ -432,6 +454,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                               ),
                                               onPressed: () => {
                                                 _key.currentState?.reset(),
+                                                codeController.clear(),
+                                                nameController.clear(),
                                                 _toggleFormShow()
                                               },
                                               label: const Text(
@@ -463,7 +487,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   }
 }
-
 showAlertDialog(BuildContext context) {
   Widget deleteButton = FloatingActionButton.extended(
     onPressed: () =>
@@ -522,7 +545,6 @@ showAlertDialog(BuildContext context) {
       cancelButton
     ],
   );
-
   showDialog(
     context: context,
     builder: (BuildContext context) {

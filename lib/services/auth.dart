@@ -63,6 +63,7 @@ class ApiAuth {
         uuid: map['uuid'],
         username: map['username'],
         email: map['email'],
+        partnerUuid: map["partnerUuid"],
         roles: map['roles'].cast<String>(),
         accessToken: map['accessToken']);
     return userDetails;

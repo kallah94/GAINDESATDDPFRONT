@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,9 +36,6 @@ class UserBloc extends Bloc<UserEvent, UserManagementState> {
     on<UserAddEvent>((event, emit) async {
       dynamic result = await UserService().create(event.user);
       if (result != null && result is FullUser) {
-        if (kDebugMode) {
-          print(result);
-        }
         emit(UserManagementState.addSuccess("User added successfully: ${result.uuid}"));
       } else if (result != null && result is ExceptionMessage){
         emit(UserManagementState.addError(result.message));

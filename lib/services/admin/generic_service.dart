@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
-
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/models/user_detail.dart';
 import 'package:http/http.dart' as http;
@@ -39,6 +37,36 @@ class GenericService {
       return ExceptionMessage(statusCode: 599, message: e.message);
     } catch (_, exception) {
       return ExceptionMessage(statusCode: 500, message: exception.toString());
+   }
+  }
+
+  Future<dynamic> updateItem<T>(T item, final String rootPath, String endingPath) async {
+   var url = Uri.parse('$rootPath/$endingPath');
+   String body = jsonEncode(item);
+   headers = await ApiAuth().buildHeaders();
+   try {
+     http.Response response = await client.put(
+       url,
+       headers: headers,
+       body: body
+     ).timeout(const Duration(seconds: 45));
+     var status = response.statusCode;
+     if ((status == 201) || (status == 200) ) {
+       Map responseMap = jsonDecode(response.body);
+       return responseMap;
+     } else {
+       ExceptionMessage exceptionMessage = ExceptionMessage(statusCode: status, message: "Error occur item not added");
+       return exceptionMessage;
+     }
+   }
+   on SocketException {
+     ExceptionMessage exceptionMessage = ExceptionMessage(statusCode: 503, message: "Connection Error");
+     return exceptionMessage;
+   }
+   on TimeoutException catch(e) {
+     return ExceptionMessage(statusCode: 599, message: e.message);
+   } catch (_, exception) {
+     return ExceptionMessage(statusCode: 500, message: exception.toString());
    }
   }
 
