@@ -10,6 +10,7 @@ import '../../../models/partner.dart';
 import '../../../models/station.dart';
 import '../../../services/admin/partner_services.dart';
 import '../../../services/helper.dart';
+
 class StationScreen extends StatefulWidget {
   const StationScreen({super.key});
 
@@ -72,7 +73,7 @@ class _StationScreenState extends State<StationScreen> {
               BlocListener<StationBloc, StationManagementState>(
                 listener: (context, state) async {
                   await context.read<LoadingCubit>().hideLoading();
-                  if((state.stationState == StationState.addSuccess)
+                  if ((state.stationState == StationState.addSuccess)
                   || (state.stationState == StationState.deleteSuccess)
                   || (state.stationState == StationState.updateSuccess)) {
                     if(!mounted) return;

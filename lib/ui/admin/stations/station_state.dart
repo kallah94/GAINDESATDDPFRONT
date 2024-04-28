@@ -29,7 +29,6 @@ class StationManagementState {
   StationManagementState.addError(String? message):
       this._(StationState.addError, message: message ?? "Error occur");
 
-
   StationManagementState.updateSuccess(String? message):
       this._(StationState.updateSuccess, message: message ?? "Update done");
 

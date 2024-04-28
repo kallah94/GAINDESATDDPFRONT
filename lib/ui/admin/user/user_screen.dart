@@ -775,7 +775,7 @@ class _UserScreenState extends State<UserScreen> {
                                               bottom: 0
                                           ),
                                           child: FloatingActionButton.extended(
-                                              heroTag: null,
+                                              heroTag: "submit-user",
                                               backgroundColor: Colors.teal,
                                               tooltip: 'Submit',
                                               elevation: 10,

@@ -9,6 +9,7 @@ const allUsersUrl = "$ddpBackendURL/api/v1/admin/users";
 const allPartnersUrl = "$ddpBackendURL/api/v1/admin/partners";
 const allCategoriesUrl = "$ddpBackendURL/api/v1/admin/categories";
 const allPermissionsUrl = "$ddpBackendURL/api/v1/admin/permissions";
+const allSensors = "$ddpBackendURL/api/v1/admin/sensors";
 const allStationsUrl = "$ddpBackendURL/api/v1/admin/sensor-data-collectors";
 const allMissionDataUrl = "$ddpBackendURL/api/v1/admin/mission-data";
 const allPartnerMissionDataUrl = "$ddpBackendURL/api/v1/resources/mission-data";
