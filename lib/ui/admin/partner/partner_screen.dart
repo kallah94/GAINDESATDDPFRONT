@@ -91,29 +91,17 @@ class _PartnerScreenState extends State<PartnerScreen> {
                             builder: (BuildContext context) => const PartnerScreen()
                         ));
                     showSnackBarSuccess(context, state.message!);
-                  } else if((state.partnerState == PartnerState.addError)
-                  || (state.partnerState == PartnerState.updateError)
-                  || (state.partnerState == PartnerState.deleteError)) {
-                    if (!mounted) return;
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => const PartnerScreen()
-                        ));
-                    showSnackBar(context, state.message!);
-                  } else if( state.partnerState == PartnerState.deleteSuccess) {
-                    if (!mounted) return;
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => widget
-                        ));
-                    showSnackBarSuccess(context, state.message!);
-                  } else if( state.partnerState == PartnerState.deleteError) {
-                    if (!mounted) return;
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => const PartnerScreen()
-                        ));
-                    showSnackBar(context, state.message!);
+                  } else {
+                    if ((state.partnerState == PartnerState.addError)
+                    || (state.partnerState == PartnerState.updateError)
+                    || (state.partnerState == PartnerState.deleteError)) {
+                      if (!mounted) return;
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => const PartnerScreen()
+                          ));
+                      showSnackBar(context, state.message!);
+                    }
                   }
                 },
               ),
@@ -131,7 +119,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
               BlocListener<PartnerBloc, PartnerManagementState>(
                 listener: (context, state) async {
                   if (state.partnerState == PartnerState.validPartnerFields) {
-                    await context.read<LoadingCubit>().showLoading(context, _updating ? "Updating Partner!! Please waitss" : "Adding a Partner!! Please wait", false);
+                    await context.read<LoadingCubit>().showLoading(context, _updating ? "Updating Partner!! Please wait" : "Adding a Partner!! Please wait", false);
                     if (!mounted) return;
                     _updating ? context.read<PartnerBloc>().add(
                       PartnerUpdateEvent(partner: Partner(uuid: updatingPartnerUUID, code: code!, name: name!))

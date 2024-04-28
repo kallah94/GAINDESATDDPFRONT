@@ -15,7 +15,6 @@ class UserService {
     List<FullUser> fullUsers = response.map<FullUser>((json) => FullUser.fromJson(json)).toList();
     return fullUsers;
   }
-
   Future<Object> create(User user) async {
     dynamic response = await GenericService()
         .createItem<User>(user, allUsersUrl);
@@ -24,7 +23,6 @@ class UserService {
     }
     return FullUser.fromJson(response);
   }
-
   Future<FullUser?> update(FullUser fullUser) async { return null;}
 
   Future<Object> delete(String fullUserUUID) async {

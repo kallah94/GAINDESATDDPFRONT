@@ -10,11 +10,13 @@ import 'package:gaindesat_ddp_client/services/helper.dart';
 import 'package:gaindesat_ddp_client/ui/admin/collected-data/collected-data_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/partner/partner_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/permission/permission_screen.dart';
+import 'package:gaindesat_ddp_client/ui/admin/sensor/sensor_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/stations/station_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/user/user_screen.dart';
 import 'package:gaindesat_ddp_client/ui/auth/authentication_bloc.dart';
 import 'package:gaindesat_ddp_client/ui/auth/welcome/welcome_screen.dart';
 import 'package:gaindesat_ddp_client/ui/home.dart';
+import 'package:gaindesat_ddp_client/ui/profile/profile_screen.dart';
 import 'category/category_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
@@ -155,7 +157,7 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 leading: Transform.rotate(
                   angle: 0,
                   child: const Icon(
-                    Icons.map_rounded,
+                    Icons.place_sharp,
                     color: Color.fromRGBO(0, 100, 100, 1)
                   ),
                 ),
@@ -182,6 +184,48 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 onTap: () {
                   push(context, const CollectedDataScreen());
+                },
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  "Capteurs",
+                  style: TextStyle(
+                      color: isDarkMode(context)
+                          ? Colors.black
+                          : Colors.black
+                  ),
+                ),
+                leading: Transform.rotate(
+                  angle: 0,
+                  child: const Icon(
+                      Icons.sensors,
+                      color: Color.fromRGBO(0, 100, 100, 1)
+                  ),
+                ),
+                onTap: () {
+                  push(context, const SensorScreen());
+                },
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  "Profile",
+                  style: TextStyle(
+                      color: isDarkMode(context)
+                          ? Colors.black
+                          : Colors.black
+                  ),
+                ),
+                leading: Transform.rotate(
+                  angle: 0,
+                  child: const Icon(
+                      Icons.person,
+                      color: Color.fromRGBO(0, 100, 100, 1)
+                  ),
+                ),
+                onTap: () {
+                  push(context, const ProfileScreen());
                 },
               ),
               const Divider(),
