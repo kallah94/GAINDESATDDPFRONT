@@ -26,32 +26,14 @@ class _SensorScreenState extends State<SensorScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController typeController = TextEditingController();
   late final Future<List<FullStation>> futureStations;
-<<<<<<< HEAD
-
-=======
-  Map<String, List<String>> sensorParameters = <String, List<String>>{
-    "SE200": [
-      "salinity", "wingDirection"
-    ],
-    "WS601": [
-      "tds", "wingSpeed"
-    ],
-    "PLS-C": [
-      "waterHeight"
-    ]
-  };
->>>>>>> origin/dev_services
   FullStation? stationValue;
   List<String> sensorTypes = ["PLS-C", "WS601", "SE200"];
   String? deleteSensorUUID;
   String? code, name, sensorType, stationUUID;
   bool _showForm = false;
   bool _updating = false;
-<<<<<<< HEAD
-  late List<dynamic> parameters;
-=======
+
   late List<String> parameters;
->>>>>>> origin/dev_services
   late final Future<List<Sensor>> futureSensors;
   void _toggleFormShown() {
     setState(() {
@@ -155,11 +137,7 @@ class _SensorScreenState extends State<SensorScreen> {
                             name: name,
                             type: sensorType,
                             parameters: parameters,
-<<<<<<< HEAD
-                            stationUuid: stationValue!.uuid
-=======
                             stationUuid: stationUUID
->>>>>>> origin/dev_services
                         ))
                     ) :
                       context.read<SensorBloc>().add(
@@ -167,12 +145,8 @@ class _SensorScreenState extends State<SensorScreen> {
                             code: code,
                             name: name,
                             type: sensorType,
-<<<<<<< HEAD
-                            stationUuid: stationValue!.uuid
-=======
                             parameters: parameters,
                             stationUuid: stationUUID
->>>>>>> origin/dev_services
                         ))
                       );
                   }
@@ -239,29 +213,17 @@ class _SensorScreenState extends State<SensorScreen> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
-<<<<<<< HEAD
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-=======
                                     child: const Stack(
                                       alignment: Alignment.topCenter,
->>>>>>> origin/dev_services
                                       children: [
                                         Row(
                                           mainAxisSize: MainAxisSize.min,
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-<<<<<<< HEAD
-                                            const Padding(
-                                              padding: EdgeInsets.only(
-                                                top: 0,
-=======
                                             Padding(
                                               padding: EdgeInsets.only(
                                                 top: 12,
->>>>>>> origin/dev_services
                                                 right: 7,
                                                 left: 7,
                                               ),
@@ -271,68 +233,6 @@ class _SensorScreenState extends State<SensorScreen> {
                                                 color: Colors.tealAccent,
                                               )
                                             ),
-<<<<<<< HEAD
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                top: 0.0
-                                              ),
-                                              child: Text(
-                                                  'Nom: ${snapshot.data![index].name!}',
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w300,
-                                                  fontSize: 21
-                                                ),
-                                              ),
-                                            ),
-                                             Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 0.0,
-                                                  left: 12
-                                                ),
-                                               child: Text(
-                                                 'Code: ${snapshot.data![index].code}',
-                                                 style: const TextStyle(
-                                                     color: Colors.white,
-                                                     fontWeight: FontWeight.w300,
-                                                     fontSize: 21
-                                                 ),
-                                               ),
-                                            )
-                                          ],
-                                        ),
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            const Padding(
-                                                padding: EdgeInsets.only(
-                                                  top: 0,
-                                                  right: 7,
-                                                  left: 7,
-                                                ),
-                                                child: Icon(
-                                                  Icons.tour_outlined,
-                                                  size: 23,
-                                                  color: Colors.tealAccent,
-                                                )
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 0.0,
-                                                  left: 0.0
-                                              ),
-                                              child: Text(
-                                                'Type: ${snapshot.data![index].type}',
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w300,
-                                                    fontSize: 17
-                                                ),
-                                              ),
-                                            )
-=======
->>>>>>> origin/dev_services
                                           ],
                                         )
                                       ],

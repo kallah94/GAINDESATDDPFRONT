@@ -2,12 +2,12 @@
 
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gaindesat_ddp_client/models/user_detail.dart';
 import 'package:gaindesat_ddp_client/services/helper.dart';
 import 'package:gaindesat_ddp_client/ui/admin/collected-data/collected-data_screen.dart';
+import 'package:gaindesat_ddp_client/ui/admin/parameter/parameter_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/partner/partner_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/permission/permission_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/sensor/sensor_screen.dart';
@@ -205,6 +205,27 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 onTap: () {
                   push(context, const SensorScreen());
+                },
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  "Paramètres",
+                  style: TextStyle(
+                      color: isDarkMode(context)
+                          ? Colors.black
+                          : Colors.black
+                  ),
+                ),
+                leading: Transform.rotate(
+                  angle: 0,
+                  child: const Icon(
+                      Icons.grain,
+                      color: Color.fromRGBO(0, 100, 100, 1)
+                  ),
+                ),
+                onTap: () {
+                  push(context, const ParameterScreen());
                 },
               ),
               const Divider(),
