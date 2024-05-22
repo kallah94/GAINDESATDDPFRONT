@@ -1,6 +1,9 @@
 
 
+<<<<<<< HEAD
 import 'package:flutter/foundation.dart';
+=======
+>>>>>>> origin/dev_services
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/services/admin/generic_service.dart';
 import 'package:gaindesat_ddp_client/services/globals.dart';
@@ -18,9 +21,12 @@ class SensorService {
   }
 
   Future<Object> create(Sensor sensor) async {
+<<<<<<< HEAD
     if (kDebugMode) {
       print(sensor);
     }
+=======
+>>>>>>> origin/dev_services
     dynamic response = await GenericService()
         .createItem<Sensor>(sensor, allSensors);
     if(response is ExceptionMessage) {
