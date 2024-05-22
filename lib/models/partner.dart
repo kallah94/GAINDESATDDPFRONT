@@ -19,9 +19,9 @@ class Partner {
 
   factory Partner.fromJson(Map<dynamic, dynamic> parsedJson) {
     return Partner(
-        uuid: parsedJson["uuid"] ?? "",
+        uuid: parsedJson["id"] ?? "",
         code: parsedJson["code"] ?? "",
-        name: parsedJson["name"] ?? ""
+        name: parsedJson["partName"] ?? ""
     );
   }
 

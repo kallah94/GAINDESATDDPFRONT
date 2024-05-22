@@ -5,6 +5,8 @@ class User {
   late final String email;
   late final String password;
   late final String fullName;
+  late final String partnerUUID;
+  late final String categoryUUID;
 
 
   User({
@@ -12,18 +14,34 @@ class User {
     required this.email,
     required this.password,
     required this.fullName,
-    this.status
+    required this.status,
+    required this.categoryUUID,
+    required this.partnerUUID,
+    uuid
 });
 
   factory User.fromJson(Map<dynamic, dynamic> parsedJson) {
     return User(
+      uuid: parsedJson["uuid"] ?? "",
       status: parsedJson["status"],
       username: parsedJson["username"] ?? "",
       email: parsedJson["email"] ?? "",
-      password: "",
-      fullName: parsedJson["fullName"] ?? ""
+      password: parsedJson["password"] ?? "",
+      fullName: parsedJson["fullName"] ?? "",
+      categoryUUID: parsedJson["categoryUUID"] ?? "",
+      partnerUUID: parsedJson["partnerUUID"] ?? ""
     );
   }
+
+  Map toJson() => {
+    'email': email,
+    'status': status,
+    'password': password,
+    'username': username,
+    'fullName': fullName,
+    'categoryUUID': categoryUUID,
+    'partnerUUID': partnerUUID
+  };
 
   User.empty();
 

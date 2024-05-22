@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/services/admin/partner_services.dart';
 import 'package:gaindesat_ddp_client/services/globals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/partner.dart';
-
 part 'partner_event.dart';
 part 'partner_state.dart';
 
@@ -34,18 +34,20 @@ class PartnerBloc extends Bloc<PartnerEvent, PartnerManagementState> {
     on<PartnerAddEvent>((event, emit) async {
       dynamic result = await PartnerService().create(event.partner);
       if (result != null && result is Partner) {
-        emit(const PartnerManagementState.addSuccess("Success"));
+        emit(PartnerManagementState.addSuccess("Partner add successfully: ${result.uuid}"));
+      } else if (result != null && result is ExceptionMessage){
+        emit(PartnerManagementState.addError(result.message));
       } else {
-        emit(const PartnerManagementState.addError("Error"));
+        emit(PartnerManagementState.addError("Unknown Error"));
       }
     });
 
     on<PartnerUpdateEvent>((event, emit) async {
-      dynamic result = await PartnerService().updatePartner(event.partner);
+      dynamic result = await PartnerService().update(event.partner);
       if (result != null && result is Partner) {
-        emit(const PartnerManagementState.updateSuccess("Success"));
+        emit(PartnerManagementState.updateSuccess("Success"));
       } else {
-        emit(const PartnerManagementState.updateError("Error"));
+        emit(PartnerManagementState.updateError("Error"));
       }
     });
 
@@ -53,11 +55,13 @@ class PartnerBloc extends Bloc<PartnerEvent, PartnerManagementState> {
       emit(const PartnerManagementState.deleteInit()));
 
     on<PartnerDeleteEvent>((event, emit) async {
-      dynamic result = await PartnerService().deletePartner(event.partnerUUID);
-      if (result != null && result is Partner) {
-        emit(const PartnerManagementState.deleteSuccess("Success"));
+      dynamic result = await PartnerService().delete(event.partnerUUID);
+      if (result != null && result is CustomMessage) {
+        emit(PartnerManagementState.deleteSuccess(result.message));
+      } else if (result != null && result is ExceptionMessage){
+        emit(PartnerManagementState.deleteError(result.message));
       } else {
-        emit(const PartnerManagementState.deleteError("Error"));
+        emit(PartnerManagementState.deleteError("Unknown Error"));
       }
     });
   }

@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:progress_dialog/progress_dialog.dart';
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 push(BuildContext context, Widget destination) {
   Navigator.of(context)
@@ -63,7 +62,18 @@ String? validateUsername(String? value) {
 
 String? validateCommonField(String? value) {
   String pattern =
-      r'^[A-Za-z][A-Za-z0-9_]{2,29}$';
+      r'^[A-Za-z][A-Za-z0-9_]{1,29}$';
+  RegExp regex = RegExp(pattern);
+  if(!regex.hasMatch(value ?? '')) {
+    return 'Enter valid value';
+  } else {
+    return null;
+  }
+}
+
+String? validateDoubleField(String? value) {
+  String pattern =
+      r'^\d+(\.\d+)?$';
   RegExp regex = RegExp(pattern);
   if(!regex.hasMatch(value ?? '')) {
     return 'Enter valid value';
@@ -73,12 +83,12 @@ String? validateCommonField(String? value) {
 }
 
 InputDecoration getInputDecoration(
-    {required String hint, required bool darkMode, required Color errorColor,  Icon? prefixIcon, Padding? suffixIcon, TextStyle? hintStyle}) {
+    {required String hint, required bool darkMode, required Color errorColor,  Icon? prefixIcon, Padding? suffixIcon, TextStyle? hintStyle, BoxConstraints constraints = const BoxConstraints(maxWidth: 720, minWidth: 200)}) {
   return InputDecoration(
     prefixIcon: prefixIcon,
     hintStyle: hintStyle,
     suffixIcon: suffixIcon,
-    constraints: const BoxConstraints(maxWidth: 720, minWidth: 200),
+    constraints: constraints,
     contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
     fillColor: darkMode ? Colors.white : Colors.white,
     hintText: hint,
@@ -108,8 +118,6 @@ String? validatePassword(String? value) {
   }
 }
 
-
-
 bool isDarkMode(BuildContext context) {
   if (Theme.of(context).brightness == Brightness.light) {
     return false;
@@ -126,7 +134,7 @@ pushReplacement(BuildContext context, Widget destination) {
 late ProgressDialog progressDialog;
 showProgress(BuildContext context, String message, bool isDismissible) async {
   progressDialog = ProgressDialog(context,
-  type: ProgressDialogType.Normal, isDismissible: isDismissible);
+  type: ProgressDialogType.normal, isDismissible: isDismissible);
   progressDialog.style(
     message: message,
     borderRadius: 10.0,

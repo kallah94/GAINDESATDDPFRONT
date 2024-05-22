@@ -17,27 +17,36 @@ class PartnerScreen extends StatefulWidget {
 class _PartnerScreenState extends State<PartnerScreen> {
   AutovalidateMode _validate = AutovalidateMode.disabled;
   final GlobalKey<FormState> _key = GlobalKey();
-  String? code, name, deletePartnerUUID;
+  final TextEditingController codeController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  String? code, name, deletePartnerUUID, updatingPartnerUUID;
   bool _showForm = false;
-  Partner? newPartner = Partner.empty();
+  bool _updating = false;
   late final Future<List<ReducePartner>> futurePartners;
-  late final List<ReducePartner> test;
-
   void _toggleFromShown() {
     setState(() {
       _showForm = !_showForm;
+      _updating = false;
+      codeController.clear();
+      nameController.clear();
     });
   }
-
+  
+  void _toggleUpdate(ReducePartner reducePartner) {
+    setState(() {
+      _showForm = true;
+      _updating = true;
+      code = reducePartner.code;
+      name = reducePartner.name;
+      updatingPartnerUUID = reducePartner.uuid;
+      codeController.text = code!;
+      nameController.text = name!;
+    });
+  }
   @override
   void initState() {
     super.initState();
     futurePartners = PartnerService().fetchPartners();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   @override
@@ -48,10 +57,10 @@ class _PartnerScreenState extends State<PartnerScreen> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
-            title: Row(
+            title: const Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'Partner Management',
                   style: TextStyle(
@@ -73,34 +82,26 @@ class _PartnerScreenState extends State<PartnerScreen> {
               BlocListener<PartnerBloc, PartnerManagementState>(
                 listener: (context, state) async {
                   await context.read<LoadingCubit>().hideLoading();
-                  if(state.partnerState == PartnerState.addSuccess) {
+                  if((state.partnerState == PartnerState.addSuccess)
+                  || (state.partnerState == PartnerState.updateSuccess)
+                  || (state.partnerState == PartnerState.deleteSuccess)) {
                     if (!mounted) return;
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(
                             builder: (BuildContext context) => const PartnerScreen()
                         ));
                     showSnackBarSuccess(context, state.message!);
-                  } else if( state.partnerState == PartnerState.addError) {
-                    if (!mounted) return;
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => const PartnerScreen()
-                        ));
-                    showSnackBar(context, state.message!);
-                  } else if( state.partnerState == PartnerState.deleteSuccess) {
-                    if (!mounted) return;
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => widget
-                        ));
-                    showSnackBar(context, state.message!);
-                  } else if( state.partnerState == PartnerState.deleteError) {
-                    if (!mounted) return;
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => const PartnerScreen()
-                        ));
-                    showSnackBar(context, state.message!);
+                  } else {
+                    if ((state.partnerState == PartnerState.addError)
+                    || (state.partnerState == PartnerState.updateError)
+                    || (state.partnerState == PartnerState.deleteError)) {
+                      if (!mounted) return;
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => const PartnerScreen()
+                          ));
+                      showSnackBar(context, state.message!);
+                    }
                   }
                 },
               ),
@@ -109,9 +110,6 @@ class _PartnerScreenState extends State<PartnerScreen> {
                     if (state.partnerState == PartnerState.deleteInit) {
                       await context.read<LoadingCubit>().showLoading(
                           context, "Deleting Partner !!", false);
-                      setState((){
-
-                      });
                       if (!mounted) return;
                       context.read<PartnerBloc>().add(
                           PartnerDeleteEvent(partnerUUID: deletePartnerUUID!));
@@ -121,12 +119,13 @@ class _PartnerScreenState extends State<PartnerScreen> {
               BlocListener<PartnerBloc, PartnerManagementState>(
                 listener: (context, state) async {
                   if (state.partnerState == PartnerState.validPartnerFields) {
-                    await context.read<LoadingCubit>().showLoading(
-                        context, "Adding a Partner!! Please wait", false);
+                    await context.read<LoadingCubit>().showLoading(context, _updating ? "Updating Partner!! Please wait" : "Adding a Partner!! Please wait", false);
                     if (!mounted) return;
+                    _updating ? context.read<PartnerBloc>().add(
+                      PartnerUpdateEvent(partner: Partner(uuid: updatingPartnerUUID, code: code!, name: name!))
+                    ) :
                     context.read<PartnerBloc>().add(
-                      PartnerAddEvent(partner: Partner(code: code!, name: name!))
-                    );
+                      PartnerAddEvent(partner: Partner(code: code!, name: name!)));
                   }
                 },
               )
@@ -181,7 +180,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                               itemBuilder: (context, int index) {
                                 return Card(
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular((5))
+                                      borderRadius: BorderRadius.circular(5)
                                   ),
                                   color: Colors.teal,
                                   semanticContainer: true,
@@ -309,7 +308,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                                   right: 34
                                               ),
                                               child: FloatingActionButton(
-                                                heroTag: null,
+                                                heroTag: "update-partner_$index",
                                                 backgroundColor: Colors.teal,
                                                 mini: false,
                                                 child: const Icon(
@@ -317,6 +316,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                                   color: Colors.tealAccent,
                                                 ),
                                                 onPressed: () {
+                                                  _toggleUpdate(snapshot.data![index]);
                                                 },
                                               ),
                                             ),
@@ -326,7 +326,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                                   left: 34
                                               ),
                                               child: FloatingActionButton(
-                                                heroTag: null,
+                                                heroTag: "delete-partner_$index",
                                                 backgroundColor: Colors.red.shade900,
                                                 mini: false,
                                                 child: const Icon(
@@ -354,14 +354,14 @@ class _PartnerScreenState extends State<PartnerScreen> {
                               ),
                             );
                           } else {
-                            return  Container();
+                            return const Center(child: CircularProgressIndicator());
                           }
                         },
                       ),
                     ),
                     BlocBuilder<PartnerBloc,  PartnerManagementState>(
                       buildWhen: (old, current) =>
-                      current.partnerState is PartnerManagementState &&old != current,
+                      current.partnerState is PartnerManagementState && old != current,
                       builder: (context, state) {
                         if (state.partnerState == PartnerState.failureFillPartnerFields) {
                           _validate = AutovalidateMode.onUserInteraction;
@@ -384,16 +384,15 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const Padding(
-                                      padding: EdgeInsets.only(
+                                     Padding(
+                                      padding: const EdgeInsets.only(
                                           top: 40,
                                           right: 16,
                                           left: 16,
                                           bottom: 12
                                       ),
-                                      child: Text(
-                                        'Create New Partner',
-                                        style: TextStyle(
+                                      child: Text(!_updating ? 'Create New Partner' : 'Update Partner',
+                                        style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 25,
                                             fontWeight: FontWeight.bold
@@ -408,6 +407,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                           left: 24
                                       ),
                                       child: TextFormField(
+                                        controller: codeController,
                                         textAlignVertical: TextAlignVertical.center,
                                         textInputAction: TextInputAction.next,
                                         validator: validateCommonField,
@@ -441,6 +441,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                           left: 24
                                       ),
                                       child: TextFormField(
+                                        controller: nameController,
                                         textAlignVertical: TextAlignVertical.center,
                                         textInputAction: TextInputAction.next,
                                         validator: validateCommonField,
@@ -482,7 +483,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                               bottom: 0
                                           ),
                                           child: FloatingActionButton.extended(
-                                            heroTag: null,
+                                            heroTag: "submit",
                                             backgroundColor: Colors.teal,
                                             tooltip: 'Submit',
                                             elevation: 10,
@@ -509,7 +510,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                               bottom: 0
                                           ),
                                           child: FloatingActionButton.extended(
-                                            heroTag: null,
+                                            heroTag: "cancel",
                                             backgroundColor: Colors.red.shade900,
                                             tooltip: 'Cancel',
                                             elevation: 10,
@@ -519,6 +520,8 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                             ),
                                             onPressed: () => {
                                               _key.currentState?.reset(),
+                                              codeController.clear(),
+                                              nameController.clear(),
                                               _toggleFromShown()
                                             },
                                             label: const Text(
@@ -540,9 +543,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                         );
                       },
                     )
-
                   ],
-
                 ),
               ),
             ),
@@ -550,7 +551,6 @@ class _PartnerScreenState extends State<PartnerScreen> {
         );
       }),
     );
-
   }
 }
 showAlertDialog(BuildContext context) {
@@ -610,7 +610,6 @@ showAlertDialog(BuildContext context) {
       cancelButton
     ],
   );
-
   showDialog(
       context: context,
       builder: (BuildContext context) {

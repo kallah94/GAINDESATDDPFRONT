@@ -2,28 +2,28 @@
 
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gaindesat_ddp_client/models/user_detail.dart';
 import 'package:gaindesat_ddp_client/services/helper.dart';
+import 'package:gaindesat_ddp_client/ui/admin/collected-data/collected-data_screen.dart';
+import 'package:gaindesat_ddp_client/ui/admin/parameter/parameter_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/partner/partner_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/permission/permission_screen.dart';
+import 'package:gaindesat_ddp_client/ui/admin/sensor/sensor_screen.dart';
+import 'package:gaindesat_ddp_client/ui/admin/stations/station_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/user/user_screen.dart';
 import 'package:gaindesat_ddp_client/ui/auth/authentication_bloc.dart';
 import 'package:gaindesat_ddp_client/ui/auth/welcome/welcome_screen.dart';
 import 'package:gaindesat_ddp_client/ui/home.dart';
-
+import 'package:gaindesat_ddp_client/ui/profile/profile_screen.dart';
 import 'category/category_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   final UserDetails userDetails;
-  
   const AdminHomeScreen({Key? key, required this.userDetails}) : super(key: key);
-  
   @override
   State createState() => _AdminHomeState();
-  
 }
 
 class _AdminHomeState extends State<AdminHomeScreen> {
@@ -63,11 +63,11 @@ class _AdminHomeState extends State<AdminHomeScreen> {
               ),
               ListTile(
                 title: Text(
-                  'Users Management',
+                  'Users',
                   style: TextStyle(
                       color: isDarkMode(context)
-                          ? Colors.grey.shade50
-                          : Colors.grey.shade900
+                          ? Colors.black
+                          : Colors.black
                   ),
                 ),
                 leading: Transform.rotate(
@@ -84,11 +84,11 @@ class _AdminHomeState extends State<AdminHomeScreen> {
               const Divider(),
               ListTile(
                 title: Text(
-                  'Partners Management',
+                  'Partners',
                   style: TextStyle(
                       color: isDarkMode(context)
-                          ? Colors.grey.shade50
-                          : Colors.grey.shade900
+                          ? Colors.black
+                          : Colors.black
                   ),
                 ),
                 leading: Transform.rotate(
@@ -105,11 +105,11 @@ class _AdminHomeState extends State<AdminHomeScreen> {
               const Divider(),
               ListTile(
                 title: Text(
-                  'Users Permissions Management',
+                  'Users Permissions',
                   style: TextStyle(
                       color: isDarkMode(context)
-                          ? Colors.grey.shade50
-                          : Colors.grey.shade900
+                          ? Colors.black
+                          : Colors.black
                   ),
                 ),
                 leading: Transform.rotate(
@@ -126,11 +126,11 @@ class _AdminHomeState extends State<AdminHomeScreen> {
               const Divider(),
               ListTile(
                 title: Text(
-                  'Users Categories Management',
+                  'Users Categories',
                   style: TextStyle(
                       color: isDarkMode(context)
-                          ? Colors.grey.shade50
-                          : Colors.grey.shade900
+                          ? Colors.black
+                          : Colors.black
                   ),
                 ),
                 leading: Transform.rotate(
@@ -147,15 +147,120 @@ class _AdminHomeState extends State<AdminHomeScreen> {
               const Divider(),
               ListTile(
                 title: Text(
-                  'Logout',
+                  "Stations",
                   style: TextStyle(
-                      color: isDarkMode(context)
-                          ? Colors.grey.shade50
-                          : Colors.grey.shade900
+                    color: isDarkMode(context)
+                        ? Colors.black
+                        : Colors.black
                   ),
                 ),
                 leading: Transform.rotate(
-                  angle: pi / 2,
+                  angle: 0,
+                  child: const Icon(
+                    Icons.place_sharp,
+                    color: Color.fromRGBO(0, 100, 100, 1)
+                  ),
+                ),
+                onTap: () {
+                  push(context, const StationScreen());
+                },
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  "Données collectées",
+                  style: TextStyle(
+                      color: isDarkMode(context)
+                          ? Colors.black
+                          : Colors.black
+                  ),
+                ),
+                leading: Transform.rotate(
+                  angle: 0,
+                  child: const Icon(
+                      Icons.map_rounded,
+                      color: Color.fromRGBO(0, 100, 100, 1)
+                  ),
+                ),
+                onTap: () {
+                  push(context, const CollectedDataScreen());
+                },
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  "Capteurs",
+                  style: TextStyle(
+                      color: isDarkMode(context)
+                          ? Colors.black
+                          : Colors.black
+                  ),
+                ),
+                leading: Transform.rotate(
+                  angle: 0,
+                  child: const Icon(
+                      Icons.sensors,
+                      color: Color.fromRGBO(0, 100, 100, 1)
+                  ),
+                ),
+                onTap: () {
+                  push(context, const SensorScreen());
+                },
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  "Paramètres",
+                  style: TextStyle(
+                      color: isDarkMode(context)
+                          ? Colors.black
+                          : Colors.black
+                  ),
+                ),
+                leading: Transform.rotate(
+                  angle: 0,
+                  child: const Icon(
+                      Icons.grain,
+                      color: Color.fromRGBO(0, 100, 100, 1)
+                  ),
+                ),
+                onTap: () {
+                  push(context, const ParameterScreen());
+                },
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  "Profile",
+                  style: TextStyle(
+                      color: isDarkMode(context)
+                          ? Colors.black
+                          : Colors.black
+                  ),
+                ),
+                leading: Transform.rotate(
+                  angle: 0,
+                  child: const Icon(
+                      Icons.person,
+                      color: Color.fromRGBO(0, 100, 100, 1)
+                  ),
+                ),
+                onTap: () {
+                  push(context, const ProfileScreen());
+                },
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  'Logout',
+                  style: TextStyle(
+                      color: isDarkMode(context)
+                          ? Colors.black
+                          : Colors.black
+                  ),
+                ),
+                leading: Transform.rotate(
+                  angle: pi,
                   child: const Icon(
                     Icons.exit_to_app,
                     color: Color.fromRGBO(255, 0, 0, 1),
@@ -189,12 +294,32 @@ class _AdminHomeState extends State<AdminHomeScreen> {
           centerTitle: true,
         ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [],
-          ),
+          child: GridView.extent(
+            maxCrossAxisExtent: 500,
+            padding: const EdgeInsets.all(30),
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            children: [
+              Container(
+                color: Colors.tealAccent,
+              ),
+              Container(
+                color: Colors.tealAccent,
+              ),
+              Container(
+                color: Colors.tealAccent,
+              ),
+              Container(
+                color: Colors.tealAccent,
+              ),
+              Container(
+                color: Colors.tealAccent,
+              ),
+              Container(
+                color: Colors.tealAccent,
+              )
+            ],
+          )
         ),
       ),
     );

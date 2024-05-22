@@ -1,4 +1,4 @@
-
+import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/models/permission.dart';
 import 'package:gaindesat_ddp_client/services/admin/generic_service.dart';
 
@@ -6,16 +6,28 @@ import '../globals.dart';
 
 class PermissionService {
 
-  Future<Permission?> create(Permission permission) async { return null;}
+  Future<Object> create(Permission permission) async {
+    dynamic response = await GenericService()
+        .createItem<Permission>(permission, allPermissionsUrl);
+    if(response is ExceptionMessage) {
+      return response;
+    }
+    ReducePermission reducePermission = ReducePermission.fromJson(response);
+    return reducePermission;
+  }
 
   Future<Permission?> update(Permission permission) async {return null;}
 
-  Future<Permission?> delete(String permissionUUID) async { return null;}
+  Future<Object> delete<Permission>(String permissionUUID) async {
+    return await GenericService().delete<Permission>(permissionUUID, allPermissionsUrl);
+  }
 
   Future<List<Permission>> fetchPermissions() async {
-    return GenericService()
-        .fetchAllData<Permission>(
-        Permission.empty(),
-        allPermissionsUrl
-    );}
+    dynamic response = await GenericService().fetchAllData(allPermissionsUrl);
+    if (response is ExceptionMessage) {
+      return [Permission.empty()];
+    }
+    List<Permission> permissions = response.map<Permission>((json) => Permission.fromJson(json)).toList();
+    return permissions;
+  }
 }

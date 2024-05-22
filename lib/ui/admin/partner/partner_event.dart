@@ -25,5 +25,4 @@ class PartnerDeleteEvent extends PartnerEvent {
   PartnerDeleteEvent({required this.partnerUUID});
 }
 
-
 class CheckFirstRunEvent extends PartnerEvent {}

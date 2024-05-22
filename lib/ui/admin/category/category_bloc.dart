@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/services/admin/category_services.dart';
 import 'package:gaindesat_ddp_client/services/globals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,18 +35,20 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryManagementState> {
     on<CategoryAddEvent>((event, emit) async {
       dynamic result = await CategoryService().create(event.category);
       if (result !=null && result is CategoryModel) {
-        emit(const CategoryManagementState.addSuccess("success"));
+        emit(CategoryManagementState.addSuccess("Partner added successfully: : ${result.uuid}"));
+      } else if (result != null && result is ExceptionMessage){
+        emit(CategoryManagementState.addError(result.message));
       } else {
-        emit(const CategoryManagementState.addError("Error"));
+        emit(CategoryManagementState.addError("Unknown Error"));
       }
     });
 
     on<CategoryUpdateEvent>((event, emit) async {
       dynamic result = await CategoryService().update(event.category);
       if (result != null && result is CategoryModel) {
-        emit(const CategoryManagementState.updateSuccess("Success"));
+        emit(CategoryManagementState.updateSuccess("Success"));
       } else {
-        emit(const CategoryManagementState.updateError("Error"));
+        emit(CategoryManagementState.updateError("Error"));
       }
     });
 
@@ -54,10 +57,12 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryManagementState> {
 
     on<CategoryDeleteEvent>((event, emit) async {
       dynamic result = await CategoryService().delete(event.categoryUUID);
-      if (result != null && result is CategoryModel) {
-        emit(const CategoryManagementState.deleteSuccess("Success"));
+      if (result != null && result is CustomMessage) {
+        emit(CategoryManagementState.deleteSuccess(result.message));
+      } else if (result != null && result is ExceptionMessage) {
+        emit(CategoryManagementState.deleteError(result.message));
       } else {
-        emit(const CategoryManagementState.deleteError("Error"));
+        emit(CategoryManagementState.deleteError("Unknown Error"));
       }
     });
   }

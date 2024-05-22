@@ -4,6 +4,7 @@ class UserDetails {
   late final String? username;
   late final String? email;
   late final String? accessToken;
+  late final String? partnerUuid;
   late final List<String>? roles;
 
   UserDetails({
@@ -11,6 +12,7 @@ class UserDetails {
     required this.username,
     required this.email,
     required this.roles,
+    required this.partnerUuid,
     required this.accessToken
 
   });
@@ -23,6 +25,7 @@ class UserDetails {
         username: parsedJson["username"] ?? "",
         roles: parsedJson["roles"].cast<String>() ?? "",
         email: parsedJson["email"] ?? "",
+        partnerUuid: parsedJson["partnerUUID"],
         accessToken: parsedJson["accessToken"] ?? ""
     );
   }
@@ -32,6 +35,7 @@ class UserDetails {
         "uuid": uuid,
         "username": username,
         "email": email,
+        "partnerUuid": partnerUuid,
         "roles": roles,
         "accessToken": accessToken
       };
@@ -43,6 +47,7 @@ class UserDetails {
         ' username: $username,'
         ' email: $email,'
         ' roles: $roles,'
+        ' partnerUuid: $partnerUuid,'
         ' accessToken: $accessToken,'
         '}';
   }

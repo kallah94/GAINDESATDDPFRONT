@@ -1,13 +1,10 @@
-
-
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gaindesat_ddp_client/models/user_detail.dart';
 import 'package:gaindesat_ddp_client/services/helper.dart';
 import 'package:gaindesat_ddp_client/ui/auth/authentication_bloc.dart';
-
+import 'package:gaindesat_ddp_client/ui/partners/collected-data/collected-data_screen.dart';
 import 'auth/welcome/welcome_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeState extends State<HomeScreen> {
   late UserDetails userDetails;
-
   @override
   void initState() {
     super.initState();
@@ -52,20 +48,39 @@ class _HomeState extends State<HomeScreen> {
               ),
               ListTile(
                 title: Text(
-                  'Logout',
+                    'Données collectées',
                   style: TextStyle(
-                    color: isDarkMode(context)
-                        ? Colors.grey.shade50
-                        : Colors.grey.shade900
+                      color: isDarkMode(context)
+                          ? Colors.black
+                          : Colors.black
                   ),
                 ),
                 leading: Transform.rotate(
-                  angle: pi / 2,
-                  child: Icon(
+                  angle: 0,
+                  child: const Icon(
+                    Icons.data_exploration,
+                    color: Color.fromRGBO(0, 100, 100, 1),
+                  ),
+                ),
+                onTap: () {
+                  push(context, const CollectedDataScreen());
+                },
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  'Logout',
+                  style: TextStyle(
+                      color: isDarkMode(context)
+                          ? Colors.black
+                          : Colors.black
+                  ),
+                ),
+                leading: Transform.rotate(
+                  angle: pi,
+                  child: const Icon(
                     Icons.exit_to_app,
-                    color: isDarkMode(context)
-                        ? Colors.grey.shade50
-                        : Colors.grey.shade900,
+                    color: Color.fromRGBO(255, 0, 0, 1),
                   ),
                 ) ,
                 onTap: () {
@@ -95,12 +110,12 @@ class _HomeState extends State<HomeScreen> {
               : const Color.fromRGBO(0, 132, 121, 100),
           centerTitle: true,
         ),
-        body: Center(
+        body: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [],
+            children: [],
           ),
         ),
       ),

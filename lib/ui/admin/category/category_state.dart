@@ -23,21 +23,21 @@ class CategoryManagementState {
   const CategoryManagementState.failureFillCategoryFields(String? message)
     : this._(CategoryState.failureFillCategoryFields, message: message ?? "Please fill required fields");
 
-  const CategoryManagementState.addSuccess(String? message)
+  CategoryManagementState.addSuccess(String? message)
     : this._(CategoryState.addSuccess, message: message ?? " Add Successfully");
 
-  const CategoryManagementState.addError(String? message)
+  CategoryManagementState.addError(String? message)
     : this._(CategoryState.addError, message: message ?? "Error when adding new category");
 
-  const CategoryManagementState.updateSuccess(String? message)
+  CategoryManagementState.updateSuccess(String? message)
       : this._(CategoryState.updateSuccess, message: message ?? "Update Success");
 
-  const CategoryManagementState.updateError(String? message)
+  CategoryManagementState.updateError(String? message)
     : this._(CategoryState.updateError, message: message ?? "Error when updating");
 
-  const CategoryManagementState.deleteSuccess(String? message)
+  CategoryManagementState.deleteSuccess(String? message)
     : this._(CategoryState.deleteSuccess, message: message ?? "Category deleted successfully");
 
-  const CategoryManagementState.deleteError(String? message)
+  CategoryManagementState.deleteError(String? message)
     : this._(CategoryState.deleteError, message: message ?? "Error when deleting category");
 }

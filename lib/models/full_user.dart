@@ -10,7 +10,6 @@ class FullUser{
   late List<String>? roles;
 
   FullUser({
-    required uuid,
     required this.status,
     required this.roles,
     required this.categoryName,
@@ -18,6 +17,7 @@ class FullUser{
     required this.username,
     required this.email,
     required this.fullName,
+    required this.uuid,
   });
 
   FullUser.empty();
@@ -38,6 +38,7 @@ class FullUser{
   @override
   String toString() {
     return 'FullUser{'
+        'uuid: $uuid,'
         'username: $username,'
         'email: $email,'
         'fullName: $fullName,'

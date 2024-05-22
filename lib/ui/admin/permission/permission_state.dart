@@ -23,10 +23,10 @@ class PermissionManagementState {
   const PermissionManagementState.failureFillPartnerFields(String? message)
       : this._(PermissionState.failureFillPermissionFields, message: message ?? "Please fill required fields");
 
-  const PermissionManagementState.addSuccess(String? message)
+  PermissionManagementState.addSuccess(String? message)
       : this._(PermissionState.addSuccess, message: message ?? "Add Success");
 
-  const PermissionManagementState.addError(String? message)
+  PermissionManagementState.addError(String? message)
       : this._(PermissionState.addError, message: message ?? "Add Error");
 
   const PermissionManagementState.updateSuccess(String? message)
@@ -35,9 +35,9 @@ class PermissionManagementState {
   const PermissionManagementState.updateError(String? message)
       : this._(PermissionState.updateError, message: message ?? "Update Error");
 
-  const PermissionManagementState.deleteSuccess(String? message)
+  PermissionManagementState.deleteSuccess(String? message)
       : this._(PermissionState.deleteSuccess, message: message ?? "Delete Success");
 
-  const PermissionManagementState.deleteError(String? message)
+  PermissionManagementState.deleteError(String? message)
       : this._(PermissionState.deleteError, message: message ?? "Delete Error");
 }

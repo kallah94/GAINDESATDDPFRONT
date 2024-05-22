@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gaindesat_ddp_client/services/admin/my_http_overrides.dart';
 import 'package:gaindesat_ddp_client/ui/auth/authentication_bloc.dart';
 import 'package:gaindesat_ddp_client/ui/auth/launcher_screen/launcher_screen.dart';
 import 'package:gaindesat_ddp_client/ui/loading_cubit.dart';
+import 'package:path_provider_macos/path_provider_macos.dart';
 
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
+  PathProviderMacOS.registerWith();
   runApp(MultiRepositoryProvider(
     providers: [
       RepositoryProvider(create: (_) => AuthenticationBloc()),
@@ -21,7 +27,6 @@ class MyApp extends StatefulWidget {
   // This widget is the root of your application.
   @override
   MyAppState createState() => MyAppState();
-
 }
 
 class MyAppState extends State<MyApp> with WidgetsBindingObserver {
@@ -34,7 +39,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.grey.shade800,
+        scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           systemOverlayStyle: SystemUiOverlayStyle.light
         ),
