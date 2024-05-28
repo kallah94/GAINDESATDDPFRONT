@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gaindesat_ddp_client/models/full_station.dart';
-import 'package:gaindesat_ddp_client/models/station.dart';
 import 'package:gaindesat_ddp_client/services/admin/sensor_service.dart';
 import 'package:gaindesat_ddp_client/services/admin/staion_service.dart';
 import 'package:gaindesat_ddp_client/ui/admin/sensor/sensor_bloc.dart';
@@ -16,6 +15,107 @@ class SensorScreen extends StatefulWidget {
   @override
   State createState() => _SensorScreenState();
 }
+
+class SensorCard extends StatelessWidget {
+  final Sensor sensor;
+
+  const SensorCard({super.key, required this.sensor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.teal,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 5,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.sensors_rounded,
+                  size: 24,
+                  color: Colors.tealAccent,
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  'Code: ${sensor.code}',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 5),
+            Text(
+                'Name: ${sensor.name}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w300
+              ),
+            ),
+            Text('Type: ${sensor.type}',
+            style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w300
+            )),
+            const SizedBox(height: 10),
+            const Text(
+              'Parameters:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              )
+            ),
+            Wrap(
+              spacing: 8.0,
+              runSpacing: 4.0,
+              children: sensor.parameters
+                  .map((parameter) => PillShapedContainer(text: parameter))
+                  .toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PillShapedContainer extends StatelessWidget {
+  final String text;
+
+  const PillShapedContainer({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7.0),
+      decoration: BoxDecoration(
+        color: Colors.teal,
+        borderRadius: BorderRadius.circular(53.0),
+        border: Border.all(
+          color: Colors.tealAccent,
+          width: 1.7,
+        ),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 9,
+          fontWeight: FontWeight.w400
+        ),
+      ),
+    );
+  }
+}
+
+
 
 class _SensorScreenState extends State<SensorScreen> {
   final AutovalidateMode _validate = AutovalidateMode.disabled;
@@ -201,43 +301,111 @@ class _SensorScreenState extends State<SensorScreen> {
                               padding: const EdgeInsets.symmetric(horizontal: 30),
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, int index) {
-                                return Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)
-                                  ),
-                                  color: Colors.teal,
-                                  semanticContainer: true,
-                                  shadowColor: Colors.tealAccent,
-                                  elevation: 10,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: const Stack(
-                                      alignment: Alignment.topCenter,
-                                      children: [
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                return Padding(
+                                  padding: const EdgeInsets.all(0),
+                                   child: SensorCard(sensor: snapshot.data![index])
+                                  /**Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5)
+                                      ),
+                                      color: Colors.teal,
+                                      semanticContainer: true,
+                                      shadowColor: Colors.tealAccent,
+                                      elevation: 10,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: Column(
                                           children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                top: 12,
-                                                right: 7,
-                                                left: 7,
-                                              ),
-                                              child: Icon(
-                                                Icons.tour_outlined,
-                                                size: 23,
-                                                color: Colors.tealAccent,
-                                              )
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const Padding(
+                                                    padding: EdgeInsets.only(
+                                                      top: 12,
+                                                      right: 7,
+                                                      left: 7,
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.tour_outlined,
+                                                      size: 23,
+                                                      color: Colors.tealAccent,
+                                                    )
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.only(
+                                                      top: 12,
+                                                      right: 7,
+                                                      left: 7,
+                                                    ),
+                                                    child: Text(
+                                                      " Name : ${snapshot.data![index].name!}",
+                                                    )
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.only(
+                                                      top: 12,
+                                                      right: 7,
+                                                      left: 7,
+                                                    ),
+                                                    child: Text(
+                                                      " Code : ${snapshot.data![index].code!}",
+                                                    )
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.only(
+                                                      top: 12,
+                                                      right: 7,
+                                                      left: 7,
+                                                    ),
+                                                    child: Text(
+                                                      " Type : ${snapshot.data![index].type!}",
+                                                    )
+                                                ),
+                                              ],
                                             ),
+                                            Padding(padding: const EdgeInsets.only(top: 43, left: 43),
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  SingleChildScrollView(
+                                                    scrollDirection: Axis.horizontal,
+                                                    child: Row(
+                                                      children: snapshot.data![index].parameters.map((parameter) =>
+                                                      Padding(
+                                                          padding: const EdgeInsets.only(top: 0, right: 1, left: 12),
+                                                          child: Container(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 7.0),
+                                                            decoration: BoxDecoration(
+                                                              color: Colors.grey,
+                                                              borderRadius: BorderRadius.circular(39.0),
+                                                            ),
+                                                            child: Text(
+                                                              parameter,
+                                                              style: const TextStyle(
+                                                                  color: Colors.white,
+                                                                  fontWeight: FontWeight.w300,
+                                                                  fontSize: 11
+                                                              ),
+                                                            ),
+                                                          )
+                                                        )
+                                                      ).toList(),
+                                                    ),
+                                                  ),
+
+                                                ],
+                                              ),
+                                            ),
+
                                           ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                        ),
+                                      ),
+                                    )**/
                                 );
                               },
                               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(

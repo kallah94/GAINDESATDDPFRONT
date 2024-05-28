@@ -1,4 +1,5 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:gaindesat_ddp_client/models/ExceptionMessage.dart';
 import 'package:gaindesat_ddp_client/services/admin/generic_service.dart';
 import 'package:gaindesat_ddp_client/services/globals.dart';
@@ -9,9 +10,15 @@ class SensorService {
   Future<List<Sensor>> fetchSensors() async {
     dynamic response = await GenericService().fetchAllData(allSensors);
     if (response is ExceptionMessage) {
+      if (kDebugMode) {
+        print("test error");
+      }
       return [Sensor.empty()];
     }
     List<Sensor> sensors = response.map<Sensor>((json) => Sensor.fromJson(json)).toList();
+    if (kDebugMode) {
+      print("test");
+    }
     return sensors;
   }
 
