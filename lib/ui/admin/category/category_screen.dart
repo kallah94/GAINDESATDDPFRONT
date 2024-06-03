@@ -69,7 +69,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 )
               ],
             ),
-            backgroundColor: Colors.teal,
+            backgroundColor: Colors.teal.shade900,
             iconTheme: IconThemeData(
               color: isDarkMode(context)
                   ? Colors.tealAccent
@@ -140,7 +140,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           ),
                           child: FloatingActionButton.extended(
                             heroTag: "AddCategory",
-                              backgroundColor: Colors.teal,
+                              backgroundColor: Colors.teal.shade900,
                               tooltip: "Add new Category",
                               elevation: 10,
                               icon: const Icon(
@@ -174,7 +174,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 return Card(
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                   elevation: 12,
-                                  color: Colors.teal,
+                                  color: Colors.teal.shade900,
                                   shadowColor: Colors.tealAccent,
                                   child: Container(
                                     decoration: BoxDecoration(

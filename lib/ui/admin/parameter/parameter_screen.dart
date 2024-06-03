@@ -203,11 +203,11 @@ class _ParameterScreenState extends State<ParameterScreen> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 0, right: 0, left: 0),
+                                            const Padding(
+                                              padding: EdgeInsets.only(top: 0, right: 0, left: 0),
                                               child: CircleAvatar(
                                                 radius: 25,
-                                                backgroundImage: const AssetImage('assets/images/welcome_image.png'),
+                                                backgroundImage: AssetImage('assets/images/welcome_image.png'),
                                               ),
                                             ),
                                             Expanded(
@@ -490,11 +490,11 @@ showAlertDialog(BuildContext context) {
   Widget deleteButton = FloatingActionButton.extended(
     onPressed: () => {
       context.read<ParameterBloc>().add(ParameterDeleteInitEvent()),
-      Navigator.of(context).pop(),
+      Navigator.of(context).pop()
     },
     icon: const Icon(
       Icons.done_all_outlined,
-      color: Colors.tealAccent,
+      color: Colors.tealAccent
     ),
     label: const Text(
       'Delete',
@@ -521,12 +521,12 @@ showAlertDialog(BuildContext context) {
     alignment: Alignment.center,
     title: const Text(
       'Confirmation Dialog',
-      style: TextStyle(fontWeight: FontWeight.w300, fontSize: 23),
+      style: TextStyle(fontWeight: FontWeight.w300, fontSize: 23)
     ),
     content: const Text(
       "Delete Parameter ?",
       textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.white, fontSize: 21, fontWeight: FontWeight.w300),
+      style: TextStyle(color: Colors.white, fontSize: 21, fontWeight: FontWeight.w300)
     ),
     actionsAlignment: MainAxisAlignment.center,
     actions: [

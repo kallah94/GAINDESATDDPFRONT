@@ -18,75 +18,6 @@ class SensorScreen extends StatefulWidget {
   State createState() => _SensorScreenState();
 }
 
-class SensorCard extends StatelessWidget {
-  final Sensor sensor;
-  const SensorCard({super.key, required this.sensor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.teal,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(
-                  Icons.sensors_rounded,
-                  size: 24,
-                  color: Colors.tealAccent,
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  'Code: ${sensor.code}',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 5),
-            Text(
-                'Name: ${sensor.name}',
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w300
-              ),
-            ),
-            Text('Type: ${sensor.type}',
-            style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w300
-            )),
-            const SizedBox(height: 10),
-            const Text(
-              'Parameters:',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              )
-            ),
-            Wrap(
-              spacing: 8.0,
-              runSpacing: 4.0,
-              children: sensor.parameters
-                  .map((parameter) => PillShapedContainer(text: parameter))
-                  .toList(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class PillShapedContainer extends StatelessWidget {
   final String text;
 
@@ -97,7 +28,7 @@ class PillShapedContainer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7.0),
       decoration: BoxDecoration(
-        color: Colors.teal,
+        color: Colors.teal.shade800,
         borderRadius: BorderRadius.circular(53.0),
         border: Border.all(
           color: Colors.tealAccent,
@@ -184,7 +115,7 @@ class _SensorScreenState extends State<SensorScreen> {
                 )
               ],
             ),
-            backgroundColor: Colors.teal,
+            backgroundColor: Colors.teal.shade900,
             iconTheme: IconThemeData(
               color: isDarkMode(context)
                   ? Colors.tealAccent
@@ -271,7 +202,7 @@ class _SensorScreenState extends State<SensorScreen> {
                           ),
                           child: FloatingActionButton.extended(
                             heroTag: 'AddSensor',
-                            backgroundColor: Colors.teal,
+                            backgroundColor: Colors.teal.shade900,
                             tooltip: 'Add New Sensor',
                             elevation: 10,
                             icon: const Icon(
@@ -302,14 +233,109 @@ class _SensorScreenState extends State<SensorScreen> {
                               padding: const EdgeInsets.symmetric(horizontal: 30),
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, int index) {
-                                return Padding(
+                                return LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    return Card(
+                                      color: Colors.teal.shade900,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      elevation: 5,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.sensors_rounded,
+                                                  size: 24,
+                                                  color: Colors.tealAccent,
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  'Code: ${snapshot.data?[index].code}',
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              'Name: ${snapshot.data?[index].name}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Type: ${snapshot.data?[index].type}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            const Text(
+                                              'Parameters:',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Wrap(
+                                              spacing: 8.0,
+                                              runSpacing: 4.0,
+                                              children: snapshot.data![index].parameters
+                                                  .map((parameter) => PillShapedContainer(text: parameter))
+                                                  .toList(),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                FloatingActionButton(
+                                                  heroTag: 'update-sensor_$index',
+                                                  backgroundColor: Colors.teal,
+                                                  child: const Icon(
+                                                    Icons.update,
+                                                    color: Colors.white,
+                                                  ),
+                                                  onPressed: () {
+                                                    _toggleFormShown();
+                                                  },
+                                                ),
+                                                const SizedBox(width: 10),
+                                                FloatingActionButton(
+                                                  heroTag: 'delete-sensor_$index',
+                                                  backgroundColor: Colors.red.shade900,
+                                                  child: const Icon(
+                                                    Icons.delete,
+                                                    color: Colors.white,
+                                                  ),
+                                                  onPressed: () => {
+                                                    deleteSensorUUID = snapshot.data![index].uuid,
+                                                    showAlertDialog(context)
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                                /*Padding(
                                   padding: const EdgeInsets.all(0),
                                    child: SensorCard(sensor: snapshot.data![index])
-                                );
+                                );*/
                               },
                               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 600,
-                                childAspectRatio: 3/1,
+                                maxCrossAxisExtent: 700,
+                                childAspectRatio: 7/3,
                                 crossAxisSpacing: 1,
                                 mainAxisSpacing: 1
                               ),
@@ -679,4 +705,64 @@ class _SensorScreenState extends State<SensorScreen> {
       }),
     );
   }
+}
+
+showAlertDialog(BuildContext context) {
+  Widget deleteButton = FloatingActionButton.extended(
+    onPressed: () => {
+      context.read<SensorBloc>().add(SensorDeleteInitEvent()),
+      Navigator.of(context).pop()
+    },
+    icon: const Icon(
+      Icons.done_all_outlined,
+      color: Colors.tealAccent
+    ),
+    label: const Text(
+      'Delete',
+      style: TextStyle(color: Colors.tealAccent)
+    ),
+    backgroundColor: Colors.teal
+  );
+
+  Widget cancelButton = FloatingActionButton.extended(
+    onPressed: () => Navigator.of(context).pop(),
+    icon: const Icon(
+      Icons.clear,
+      color: Colors.tealAccent
+    ),
+    label: const Text(
+      'Cancel',
+      style: TextStyle(color: Colors.tealAccent)
+    ),
+    backgroundColor: Colors.red.shade900
+  );
+
+  AlertDialog alert = AlertDialog(
+    backgroundColor: Colors.teal,
+    alignment: Alignment.center,
+    title: const Text(
+      'Confirmation Dialog',
+      style: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w300,
+        fontSize: 23
+      )
+    ),
+    content: const Text(
+      'Delete Sensor ?',
+      textAlign: TextAlign.center,
+      style: TextStyle(color: Colors.white, fontSize: 21, fontWeight: FontWeight.w300)
+    ),
+    actionsAlignment: MainAxisAlignment.center,
+    actions: [
+      deleteButton,
+      cancelButton
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    }
+  );
 }

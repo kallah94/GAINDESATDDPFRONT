@@ -70,7 +70,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                 )
               ],
             ),
-            backgroundColor: Colors.teal,
+            backgroundColor: Colors.teal.shade900,
             iconTheme: IconThemeData(
                 color: isDarkMode(context)
                     ? Colors.tealAccent
@@ -147,7 +147,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                           ),
                           child: FloatingActionButton.extended(
                             heroTag: 'AddPartner',
-                            backgroundColor: Colors.teal,
+                            backgroundColor: Colors.teal.shade900,
                             tooltip: 'Add New Partner',
                             elevation: 10,
                             icon: const Icon(
@@ -182,7 +182,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5)
                                   ),
-                                  color: Colors.teal,
+                                  color: Colors.teal.shade900,
                                   semanticContainer: true,
                                   shadowColor: Colors.tealAccent,
                                   elevation: 10,
@@ -368,7 +368,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                         }
                         return Card(
                           elevation: 12,
-                          color: Colors.teal,
+                          color: Colors.teal.shade900,
                           shadowColor: Colors.blue,
                           child: _showForm ?
                           SizedBox(

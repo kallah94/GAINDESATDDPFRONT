@@ -11,6 +11,7 @@ import 'package:gaindesat_ddp_client/ui/admin/parameter/parameter_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/partner/partner_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/permission/permission_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/sensor/sensor_screen.dart';
+import 'package:gaindesat_ddp_client/ui/admin/stations/station_map_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/stations/station_screen.dart';
 import 'package:gaindesat_ddp_client/ui/admin/user/user_screen.dart';
 import 'package:gaindesat_ddp_client/ui/auth/authentication_bloc.dart';
@@ -28,18 +29,18 @@ class AdminHomeScreen extends StatefulWidget {
 
 class _AdminHomeState extends State<AdminHomeScreen> {
   late UserDetails userDetails;
-  
+
   @override
   void initState()  {
     super.initState();
     userDetails = widget.userDetails;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        if ((state.authState != AuthState.isAdmin) 
+        if ((state.authState != AuthState.isAdmin)
         && (state.authState != AuthState.authenticated)) {
           pushAndRemoveUntil(context, const WelcomeScreen(), false);
         } else if (state.authState != AuthState.isAdmin) {
@@ -51,15 +52,32 @@ class _AdminHomeState extends State<AdminHomeScreen> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
+              DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(0, 132, 121, 100),
+                  gradient: LinearGradient(
+                    colors: [Colors.teal.shade900, Colors.teal.shade800],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
-                child: Text(
-                  'Menu',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white),
-                ),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: AssetImage('assets/images/moussa.jpeg'),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Menu',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    )
+                  )
+                  ]
+                )
               ),
               ListTile(
                 title: Text(
@@ -72,9 +90,9 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 leading: Transform.rotate(
                   angle: 0,
-                  child: const Icon(
+                  child:  Icon(
                     Icons.people_alt_rounded,
-                    color: Color.fromRGBO(0, 100, 100, 1),
+                    color: Colors.teal.shade900,
                   ),
                 ),
                 onTap: () {
@@ -93,9 +111,9 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 leading: Transform.rotate(
                   angle: 0,
-                  child: const Icon(
+                  child:  Icon(
                     Icons.public_outlined,
-                    color: Color.fromRGBO(0, 100, 100, 1),
+                    color: Colors.teal.shade900,
                   ),
                 ),
                 onTap: () {
@@ -114,9 +132,9 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 leading: Transform.rotate(
                   angle: 0,
-                  child: const Icon(
+                  child: Icon(
                     Icons.security,
-                    color: Color.fromRGBO(0, 100, 100, 1),
+                    color: Colors.teal.shade900,
                   ),
                 ),
                 onTap: () {
@@ -135,9 +153,9 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 leading: Transform.rotate(
                   angle: 0,
-                  child: const Icon(
+                  child: Icon(
                     Icons.category_rounded,
-                    color: Color.fromRGBO(0, 100, 100, 1),
+                    color: Colors.teal.shade900,
                   ),
                 ),
                 onTap: () {
@@ -156,9 +174,9 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 leading: Transform.rotate(
                   angle: 0,
-                  child: const Icon(
+                  child: Icon(
                     Icons.place_sharp,
-                    color: Color.fromRGBO(0, 100, 100, 1)
+                    color: Colors.teal.shade900
                   ),
                 ),
                 onTap: () {
@@ -177,9 +195,9 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 leading: Transform.rotate(
                   angle: 0,
-                  child: const Icon(
-                      Icons.map_rounded,
-                      color: Color.fromRGBO(0, 100, 100, 1)
+                  child: Icon(
+                      Icons.data_saver_on,
+                      color: Colors.teal.shade900
                   ),
                 ),
                 onTap: () {
@@ -198,13 +216,34 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 leading: Transform.rotate(
                   angle: 0,
-                  child: const Icon(
+                  child: Icon(
                       Icons.sensors,
-                      color: Color.fromRGBO(0, 100, 100, 1)
+                      color: Colors.teal.shade900
                   ),
                 ),
                 onTap: () {
                   push(context, const SensorScreen());
+                },
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  "Position des Stations",
+                  style: TextStyle(
+                      color: isDarkMode(context)
+                          ? Colors.black
+                          : Colors.black
+                  ),
+                ),
+                leading: Transform.rotate(
+                  angle: 0,
+                  child: Icon(
+                      Icons.map,
+                      color: Colors.teal.shade900
+                  ),
+                ),
+                onTap: () {
+                  push(context, const MapScreen());
                 },
               ),
               const Divider(),
@@ -219,9 +258,9 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 leading: Transform.rotate(
                   angle: 0,
-                  child: const Icon(
+                  child: Icon(
                       Icons.grain,
-                      color: Color.fromRGBO(0, 100, 100, 1)
+                      color: Colors.teal.shade900
                   ),
                 ),
                 onTap: () {
@@ -240,9 +279,9 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 leading: Transform.rotate(
                   angle: 0,
-                  child: const Icon(
+                  child: Icon(
                       Icons.person,
-                      color: Color.fromRGBO(0, 100, 100, 1)
+                      color: Colors.teal.shade900
                   ),
                 ),
                 onTap: () {
@@ -261,9 +300,9 @@ class _AdminHomeState extends State<AdminHomeScreen> {
                 ),
                 leading: Transform.rotate(
                   angle: pi,
-                  child: const Icon(
+                  child: Icon(
                     Icons.exit_to_app,
-                    color: Color.fromRGBO(255, 0, 0, 1),
+                    color: Colors.red.shade900,
                   ),
                 ) ,
                 onTap: () {
@@ -289,8 +328,8 @@ class _AdminHomeState extends State<AdminHomeScreen> {
           ),
           backgroundColor:
           isDarkMode(context)
-              ? const Color.fromRGBO(0, 132, 121, 100)
-              : const Color.fromRGBO(0, 132, 121, 100),
+              ? Colors.teal.shade900
+              : Colors.teal.shade900,
           centerTitle: true,
         ),
         body: Center(
@@ -301,22 +340,22 @@ class _AdminHomeState extends State<AdminHomeScreen> {
             crossAxisSpacing: 4,
             children: [
               Container(
-                color: Colors.tealAccent,
+                color: Colors.teal.shade900,
               ),
               Container(
-                color: Colors.tealAccent,
+                color: Colors.teal.shade900,
               ),
               Container(
-                color: Colors.tealAccent,
+                color: Colors.teal.shade900,
               ),
               Container(
-                color: Colors.tealAccent,
+                color: Colors.teal.shade900,
               ),
               Container(
-                color: Colors.tealAccent,
+                color: Colors.teal.shade900,
               ),
               Container(
-                color: Colors.tealAccent,
+                color: Colors.teal.shade900,
               )
             ],
           )

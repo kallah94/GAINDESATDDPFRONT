@@ -36,7 +36,6 @@ class _UserScreenState extends State<UserScreen> {
 
   bool status = false;
   bool _showForm = false;
-  bool _obscureText = true;
 
   final MaterialStateProperty<Icon?> thumbIcon =
   MaterialStateProperty.resolveWith<Icon?>(
@@ -82,7 +81,7 @@ class _UserScreenState extends State<UserScreen> {
                 )
               ],
             ),
-            backgroundColor: Colors.teal,
+            backgroundColor: Colors.teal.shade900,
             centerTitle: true,
             iconTheme: IconThemeData(
                 color: isDarkMode(context)
@@ -160,7 +159,7 @@ class _UserScreenState extends State<UserScreen> {
                           ),
                           child: FloatingActionButton.extended(
                             heroTag: 'addUser',
-                            backgroundColor: Colors.teal,
+                            backgroundColor: Colors.teal.shade900,
                             tooltip: 'Add user',
                             elevation: 10,
                             icon: const Icon(
@@ -193,7 +192,7 @@ class _UserScreenState extends State<UserScreen> {
                             itemBuilder: (context, int index) {
                               return Card(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                color: Colors.teal,
+                                color: Colors.teal.shade900,
                                 shadowColor: Colors.tealAccent,
                                 elevation: 10,
                                 child: Container(

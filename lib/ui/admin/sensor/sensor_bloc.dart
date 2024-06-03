@@ -43,12 +43,27 @@ class SensorBloc extends Bloc<SensorEvent, SensorManagementState> {
       }
     });
 
+    on<SensorDeleteInitEvent>((event, emit) async {
+      emit(const SensorManagementState.deleteInit());
+    });
+
     on<SensorUpdateEvent>((event, emit) async {
       dynamic result = await SensorService().update(event.sensor);
       if (result != null && result is Sensor) {
         emit(SensorManagementState.updateSuccess("Success"));
       } else {
         emit(SensorManagementState.deleteError("Error"));
+      }
+    });
+
+    on<SensorDeleteEvent>((event, emit) async {
+      dynamic result = await SensorService().delete(event.sensorUUID);
+      if( result != null && result is CustomMessage) {
+        emit(SensorManagementState.deleteSuccess(result.message));
+      } else if (result != null && result is ExceptionMessage) {
+        emit(SensorManagementState.deleteError(result.message));
+      } else {
+        emit(SensorManagementState.deleteError("Unknown Error"));
       }
     });
   }

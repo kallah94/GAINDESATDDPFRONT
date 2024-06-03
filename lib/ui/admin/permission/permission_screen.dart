@@ -59,7 +59,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
                 )
               ],
             ),
-            backgroundColor: Colors.teal,
+            backgroundColor: Colors.teal.shade900,
             iconTheme: IconThemeData(
                 color: isDarkMode(context)
                     ? Colors.tealAccent
@@ -128,7 +128,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
                           ),
                           child: FloatingActionButton.extended(
                             heroTag: 'AddPermission',
-                            backgroundColor: Colors.teal,
+                            backgroundColor: Colors.teal.shade900,
                             tooltip: 'Add new Permission',
                             elevation: 10,
                             icon: const Icon(
@@ -163,7 +163,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5)
                                   ),
-                                  color: Colors.teal,
+                                  color: Colors.teal.shade900,
                                   semanticContainer: true,
                                   shadowColor: Colors.tealAccent,
                                   elevation: 10,
