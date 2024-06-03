@@ -89,7 +89,7 @@ class WelcomeScreen extends StatelessWidget {
                         fixedSize: Size.fromWidth(
                           MediaQuery.of(context).size.width / 5.5
                         ),
-                        backgroundColor: const Color.fromRGBO(0, 132, 121, 100),
+                        backgroundColor: Colors.teal.shade900,
                         textStyle: const TextStyle(color: Colors.blue),
                         padding: const EdgeInsets.only(top: 16, bottom: 16),
                         shape: RoundedRectangleBorder(

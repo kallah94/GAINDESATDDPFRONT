@@ -61,7 +61,7 @@ class _StationScreenState extends State<StationScreen> {
                 )
               ],
             ),
-            backgroundColor: Colors.teal,
+            backgroundColor: Colors.teal.shade900,
             iconTheme: IconThemeData(
               color: isDarkMode(context)
                   ? Colors.tealAccent
@@ -140,7 +140,7 @@ class _StationScreenState extends State<StationScreen> {
                           ),
                           child: FloatingActionButton.extended(
                               heroTag: "AddStation",
-                              backgroundColor: Colors.teal,
+                              backgroundColor: Colors.teal.shade900,
                               tooltip: "Add new Station",
                               elevation: 10,
                               icon: const Icon(
@@ -175,7 +175,7 @@ class _StationScreenState extends State<StationScreen> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5)
                                   ),
-                                  color: Colors.teal,
+                                  color: Colors.teal.shade900,
                                   semanticContainer: true,
                                   shadowColor: Colors.tealAccent,
                                   elevation: 10,

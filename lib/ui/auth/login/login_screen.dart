@@ -118,10 +118,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        const Align(
+                        Align(
                           alignment: Alignment.center,
                           child: Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               top: 50.0,
                               right: 16.0,
                               left: 16.0
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Text(
                               'Connexion',
                               style: TextStyle(
-                                color: Color.fromRGBO(0, 132, 121, 100),
+                                color: Colors.teal.shade900,
                                 fontSize: 25.0,
                                 fontWeight: FontWeight.bold
                               ),
@@ -154,9 +154,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             keyboardType: TextInputType.name,
                             cursorColor: const Color.fromRGBO(0, 132, 121, 100),
                             decoration: getInputDecoration(
-                              prefixIcon: const Icon(
+                              prefixIcon: Icon(
                                 Icons.person,
-                                color: Color.fromRGBO(0, 132, 121, 100),
+                                color: Colors.teal.shade900,
                                 size: 24,
                               ),
                               hint: 'Username',
@@ -188,9 +188,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontSize: 18.0),
                             cursorColor: const Color.fromRGBO(0, 132, 121, 100),
                             decoration: getInputDecoration(
-                              prefixIcon: const Icon(
+                              prefixIcon: Icon(
                                 Icons.lock,
-                                color: Color.fromRGBO(0, 132, 121, 100),
+                                color: Colors.teal.shade900,
                                 size: 24,
                               ),
                                 suffixIcon: Padding(
@@ -198,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: GestureDetector(
                                     onTap: _toggle,
                                     child: Icon(
-                                        color: const Color.fromRGBO(0, 132, 121, 100),
+                                        color: Colors.teal.shade900,
                                         _obscureText
                                           ? Icons.visibility_rounded
                                           : Icons.visibility_off_rounded,
@@ -223,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 MediaQuery.of(context).size.width / 4.5
                               ),
                               padding: const EdgeInsets.symmetric(vertical: 19),
-                              backgroundColor: const Color.fromRGBO(0, 132, 121, 100),
+                              backgroundColor: Colors.teal.shade900,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(23.0),
                                 side: const BorderSide(

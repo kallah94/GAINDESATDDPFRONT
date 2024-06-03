@@ -3,7 +3,7 @@ class Sensor {
   late final String? code;
   late final String? name;
   late final String? type;
-  late final List<String>? parameters;
+  late final List<String> parameters;
   late final String? stationUuid;
 
   Sensor(
@@ -11,7 +11,7 @@ class Sensor {
       required this.code,
       required this.name,
       required this.type,
-      this.parameters,
+      required this.parameters,
       required this.stationUuid});
 
 
@@ -24,7 +24,7 @@ class Sensor {
         code: parsedJson["code"] ?? "",
         name: parsedJson["name"] ?? "",
         type: parsedJson["type"] ?? "",
-        parameters: parsedJson["parameters"] ?? "",
+        parameters: List<String>.from(parsedJson["parameters"]),
         stationUuid: parsedJson["stationUuid"] ?? "");
   }
 

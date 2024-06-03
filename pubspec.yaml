@@ -49,6 +49,12 @@ dependencies:
   syncfusion_flutter_datagrid: ^24.1.46
   syncfusion_flutter_datagrid_export: ^24.1.47
   path_provider_macos: ^2.0.7
+  flutter_simple_treeview: ^3.0.2
+  flutter_fancy_tree_view: ^1.6.0
+  multi_dropdown: ^2.0.0
+  multi_select_flutter: ^4.1.3
+  flutter_map: ^4.0.0
+  latlong2: ^0.8.1
 
 dev_dependencies:
   flutter_test:
