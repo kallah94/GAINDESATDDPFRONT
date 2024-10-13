@@ -30,10 +30,6 @@ class _MapScreenState extends State<MapScreen> {
         point: LatLng(43.636584, 3.842965),
         builder: (ctx) => GestureDetector(
           onTap: () {
-            // Handle tap if needed
-            if (kDebugMode) {
-              print("test");
-            }
           },
           child:  Tooltip(
             message: 'CSUM',
@@ -74,7 +70,7 @@ class _MapScreenState extends State<MapScreen> {
             }
           },
           child: Tooltip(
-            message: 'Saniente: SE-200',
+            message: 'Saniente: SE-200\n Niveau d\'eau',
             child: Column(
               children: [
                 Icon(Icons.location_on, color: Colors.red.shade900, size: 40),
@@ -98,7 +94,7 @@ class _MapScreenState extends State<MapScreen> {
             }
           },
           child: Tooltip(
-            message: 'Baobolong: SE-200',
+            message: 'Baobolong: SE-200\n Niveau d\'eau',
             child: Column(
               children: [
                 Icon(Icons.location_on, color: Colors.red.shade900, size: 40),
@@ -119,7 +115,7 @@ class _MapScreenState extends State<MapScreen> {
             // Handle tap if needed
           },
           child: Tooltip(
-            message: 'Ziguinchor: SE-200',
+            message: 'Ziguinchor: SE-200\n Niveau d\'eau',
             child: Column(
               children: [
                 Icon(Icons.location_on, color: Colors.red.shade900, size: 40),
@@ -140,7 +136,7 @@ class _MapScreenState extends State<MapScreen> {
             // Handle tap if needed
           },
           child: Tooltip(
-            message: 'Ngnith: WS601',
+            message: 'Ngnith: WS601\n * Temperature\n * Humidité\n * Direction du vent\n * Vitesse du vent\n * Précipitation',
             child: Column(
               children: [
                 Icon(Icons.location_on, color: Colors.green.shade900, size: 40),
@@ -161,7 +157,7 @@ class _MapScreenState extends State<MapScreen> {
             // Handle tap if needed
           },
           child: Tooltip(
-            message: 'Niandouba: WS601',
+            message: 'Niandouba: WS601\n * Temperature\n * Humidité\n * Direction du vent\n * Vitesse du vent\n * Précipitation',
             child: Column(
               children: [
                 Icon(Icons.location_on, color: Colors.green.shade900, size: 40),
@@ -182,7 +178,7 @@ class _MapScreenState extends State<MapScreen> {
             // Handle tap if needed
           },
           child: Tooltip(
-            message: 'Djikoye: WS601',
+            message: 'Djikoye: WS601\n * Temperature\n * Humidité\n * Direction du vent\n * Vitesse du vent\n * Précipitation',
             child: Column(
               children: [
                 Icon(Icons.location_on, color: Colors.green.shade900, size: 40),

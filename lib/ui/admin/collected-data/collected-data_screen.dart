@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gaindesat_ddp_client/models/mission_data.dart';
@@ -265,9 +264,6 @@ Future<void> _exportMissionDataToExcel() async {
                                           onTap: () => _selectStartDate(context),
                                           onSaved: (String? value) {
                                             startDate = _selectedStartDate.toString();
-                                            if (kDebugMode) {
-                                              print('Selected Date: $_selectedStartDate');
-                                            }
                                           },
                                         )
                                       ),
@@ -307,9 +303,6 @@ Future<void> _exportMissionDataToExcel() async {
                                           onTap: () => _selectEndDate(context),
                                           onSaved: (value) {
                                             endDate = _selectedEndDate.toString();
-                                            if (kDebugMode) {
-                                              print('Selected Date: $_selectedEndDate');
-                                            }
                                           },
                                         ),
                                       ),
@@ -473,7 +466,7 @@ class MissionDataSource extends DataGridSource {
   MissionDataSource({required List<MissionData> missionData}) {
     missionDataGridRows = missionData
         .map<DataGridRow>((item) => DataGridRow(cells: [
-      DataGridCell<String>(columnName: "Capteur", value: item.sensorCode),
+          DataGridCell<String>(columnName: "Capteur", value: item.sensorCode),
           DataGridCell<String>(columnName: "Paramètre", value: item.parameter),
           DataGridCell<String>(columnName: "Valeur", value: item.value.toString()),
           DataGridCell<String>(columnName: "Unité", value: item.unit),
@@ -489,7 +482,7 @@ class MissionDataSource extends DataGridSource {
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
-      color: Colors.white70,
+      color: row.getCells().first.value == "Unknown" ? Colors.white : Colors.white,
         cells: row.getCells().map<Widget>((dataGridCell) {
           return Container(
               alignment: Alignment.center,

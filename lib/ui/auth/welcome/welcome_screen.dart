@@ -67,13 +67,13 @@ class WelcomeScreen extends StatelessWidget {
                       repeatForever: true,
                       animatedTexts: [
                         TypewriterAnimatedText(
-                          'Gestion Automatique d\'Informations et de Données Environnementales par Satellite',
+                          'Gestion Automatisée d\'Informations et de Données Environnementales par Satellite',
                           textStyle: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w100,
                           ),
                           curve: Curves.easeIn,
-                          speed: const Duration(milliseconds: 200)
+                          speed: const Duration(milliseconds: 100)
                         ),
                       ],
                     ),
@@ -202,7 +202,7 @@ class WelcomeScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
+                       /* Padding(
                           padding: const EdgeInsets.only(
                               left: 50,
                               top: 50,
@@ -220,7 +220,7 @@ class WelcomeScreen extends StatelessWidget {
                               alignment: Alignment.center,
                             ),
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                   ),

@@ -332,33 +332,7 @@ class _AdminHomeState extends State<AdminHomeScreen> {
               : Colors.teal.shade900,
           centerTitle: true,
         ),
-        body: Center(
-          child: GridView.extent(
-            maxCrossAxisExtent: 500,
-            padding: const EdgeInsets.all(30),
-            mainAxisSpacing: 4,
-            crossAxisSpacing: 4,
-            children: [
-              Container(
-                color: Colors.teal.shade900,
-              ),
-              Container(
-                color: Colors.teal.shade900,
-              ),
-              Container(
-                color: Colors.teal.shade900,
-              ),
-              Container(
-                color: Colors.teal.shade900,
-              ),
-              Container(
-                color: Colors.teal.shade900,
-              ),
-              Container(
-                color: Colors.teal.shade900,
-              )
-            ],
-          )
+        body: const Center(
         ),
       ),
     );
